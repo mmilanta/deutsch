@@ -66,10 +66,11 @@ def load_exercises(path: Path, *, allow_empty: bool = False) -> list[Exercise]:
     return exercises
 
 
-def append_guess(path: Path, exercise: Exercise, guess: str, session_id: str, attempt: int, threshold: int = 1) -> str:
+def append_guess(path: Path, exercise: Exercise, guess: str, session_id: str, attempt: int, threshold: int = 1,
+                 *, presentation_id: str | None = None) -> str:
     result, distance = evaluate(guess, exercise.infinitive, threshold)
     record = {
-        "schema_version": 1,
+        "schema_version": 2 if presentation_id is not None else 1,
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "session_id": session_id,
         "word_id": exercise.word_id,
@@ -81,6 +82,8 @@ def append_guess(path: Path, exercise: Exercise, guess: str, session_id: str, at
         "threshold": threshold,
         "attempt": attempt,
     }
+    if presentation_id is not None:
+        record["presentation_id"] = presentation_id
     if exercise.meaning is not None:
         record["meaning"] = exercise.meaning
     path.parent.mkdir(parents=True, exist_ok=True)

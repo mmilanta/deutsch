@@ -32,6 +32,7 @@ def test_guess_reveal_and_logging(tmp_path):
     assert app.correct == 1
     assert app.guesses == 2
     assert output.count("Io vado a casa.") == 2  # Previous prompt stays in scrollback.
+    assert f"infinito: gehen\n{'-' * 80}\nIo vado a casa." in output
     records = [json.loads(line) for line in (tmp_path / "guesses.jsonl").read_text().splitlines()]
     assert [record["result"] for record in records] == ["almost_there", "correct"]
     assert records[0]["guess"] == "  gehn  "
@@ -43,8 +44,8 @@ def test_guess_reveal_and_logging(tmp_path):
 def test_reveal_and_quit_are_not_guesses(tmp_path):
     app, output = run_app(tmp_path, ["", "/q"])
     assert "Ich gehe nach Hause." in output
-    assert "─" * 80 in output
-    assert output.index("Ich gehe nach Hause.") < output.index("─" * 80) < output.rindex("Io vado a casa.")
+    separator = "-" * 80
+    assert f"infinito: gehen\n{separator}\nIo vado a casa." in output
     assert app.guesses == 0
     assert not (tmp_path / "guesses.jsonl").exists()
 

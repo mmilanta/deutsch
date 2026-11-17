@@ -5,6 +5,9 @@ description = "Italian-to-German vocabulary practice in your terminal"
 requires-python = ">=3.11"
 dependencies = ["rich>=13,<16", "openai>=2,<3", "python-dotenv>=1,<2", "pydantic>=2,<3"]
 
+[project.optional-dependencies]
+frequency = ["wordfreq>=3.1,<4"]
+
 [project.scripts]
 deutsch = "deutsch.cli:main"
 

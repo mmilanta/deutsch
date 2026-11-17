@@ -12,7 +12,7 @@ The project root is `../../..` relative to this skill directory. Resolve it to a
 - `../../../data/vocabulary.json`: canonical list of words, stable IDs, optional required meanings, and lexical review notes.
 - `../../../data/exercises.json`: imported exercise pairs, linked by `word_id`. Several sentences may share a word; each `sentence_id` is globally unique and immutable.
 - `../../../data/CONTENT.md`: provenance, existing coverage notes, and unresolved source issues.
-- `../../../data/guesses.jsonl`: user history. Never edit, regenerate, delete, or upload it.
+- `../../../data/guesses.jsonl`: user history. Never edit, regenerate, or delete it. Upload/sync only with explicit user permission; the user has requested versioning project logs in this private repository, not unrestricted sharing.
 
 `verbs.csv` is only the historical seed, not the place to add new words. Never rebuild the canonical list from it: doing so would lose later additions and meaning declarations.
 
