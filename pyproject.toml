@@ -1,0 +1,19 @@
+[project]
+name = "deutsch"
+version = "0.1.0"
+description = "Italian-to-German vocabulary practice in your terminal"
+requires-python = ">=3.11"
+dependencies = ["rich>=13,<16", "openai>=2,<3", "python-dotenv>=1,<2", "pydantic>=2,<3"]
+
+[project.scripts]
+deutsch = "deutsch.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
