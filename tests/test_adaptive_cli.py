@@ -128,6 +128,24 @@ def test_play_forwards_custom_alternative_review_log(files, monkeypatch):
     assert not path.exists()  # Opening practice alone must not create review flags.
 
 
+def test_web_forwards_cli_settings_without_running_terminal_ui(files, monkeypatch):
+    captured = []
+
+    def serve(config, **kwargs):
+        captured.append((config, kwargs))
+
+    monkeypatch.setattr("deutsch.web.serve", serve)
+    path = files["log"].parent / "web-review.jsonl"
+    monkeypatch.setattr(sys, "argv", ["deutsch", "web", *arguments(files), "--mode", "adaptive", "--threshold", "0",
+                                      "--port", "0", "--open", "--cooldown", "7", "--alternative-log", str(path)])
+    main()
+    config, settings = captured[0]
+    assert config.default_mode == "adaptive" and config.threshold == 0 and config.cooldown == 7
+    assert config.log_path == files["log"] and config.alternative_log == path
+    assert settings == {"port": 0, "open_browser": True}
+    assert not files["log"].exists() and not files["events"].exists() and not path.exists()
+
+
 def test_no_subcommand_preserves_random_default(files, monkeypatch):
     captured = []
 
@@ -179,6 +197,8 @@ def test_missing_frequency_file_suggests_explicit_build(files, monkeypatch, caps
     ("recommend", ["--new-ratio", "1.1"]), ("recommend", ["--new-ratio", "nan"]),
     ("recommend", ["--cooldown", "-1"]), ("recommend", ["--new-window", "0"]),
     ("play", ["--explain"]), ("play", ["--threshold", "-1"]),
+    ("web", ["--port", "-1"]), ("web", ["--port", "65536"]),
+    ("web", ["--threshold", "-1"]), ("web", ["--explain"]),
 ])
 def test_invalid_options_fail_before_writing(files, monkeypatch, command, flags):
     monkeypatch.setattr(sys, "argv", ["deutsch", command, *arguments(files), *flags])

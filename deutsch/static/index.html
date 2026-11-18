@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deutsch</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <nav class="bar" aria-label="Sessione">
+      <h1 lang="de">Deutsch</h1>
+      <div class="modes" role="group" aria-label="Sezioni">
+        <button type="button" data-mode="random" aria-pressed="true">Casuale</button>
+        <button type="button" data-mode="adaptive" aria-pressed="false">Adattivo</button>
+        <button type="button" id="stats-tab" aria-pressed="false">Stats</button>
+      </div>
+    </nav>
+    <div id="error" class="notice error" role="alert" hidden></div>
+    <div id="notice" class="notice info" role="status" hidden></div>
+    <div id="warnings" class="notice warning" role="status" hidden></div>
+    <section id="exercise" aria-labelledby="prompt">
+      <span class="rail" id="exercise-number" aria-hidden="true"></span>
+      <div class="main">
+      <p class="prompt" id="prompt" lang="it">Caricamento…</p>
+      <p id="explanation" class="explanation" hidden></p>
+      <div id="attempts" class="attempts" aria-live="polite"></div>
+      <form id="answer-form" autocomplete="off">
+        <input id="answer" name="answer" type="text" lang="de" aria-label="L’infinito tedesco" placeholder="Infinito tedesco" maxlength="500" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="go" disabled>
+        <button type="submit" id="submit-answer" hidden disabled>Verifica</button>
+      </form>
+      </div>
+    </section>
+    <section id="session-end" hidden>
+      <div class="main">
+        <p class="prompt">Sessione terminata.</p>
+        <p class="explanation">Le risposte sono salvate.</p>
+        <button type="button" class="text-button" id="restart">Nuova sessione →</button>
+      </div>
+    </section>
+    <div id="trail" aria-label="Cronologia"></div>
+    <section id="stats" aria-label="Statistiche" hidden></section>
+    <noscript>Questa interfaccia richiede JavaScript. Usa <code>uv run deutsch</code> nel terminale.</noscript>
+  </main>
+</body>
+</html>

@@ -65,13 +65,17 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Deutsch · German vocabulary for Italian speakers")
     sub = parser.add_subparsers(dest="command")
     play = sub.add_parser("play", help="Inline vocabulary practice (default; random mode)")
-    _practice_files(play)
-    _scheduler_options(play)
-    play.add_argument("--mode", choices=["random", "adaptive"], default="random")
-    play.add_argument("--threshold", type=int, default=1, help="Almost-there edit distance (default: 1)")
-    play.add_argument("--explain", action="store_true", help="Explain adaptive choices without revealing the answer")
-    play.add_argument("--seed", type=int, help="Reproducible adaptive selection")
-    play.add_argument("--alternative-log", type=Path, help="Private review flags (default: next to --log, <stem>.alternatives.jsonl)")
+    web = sub.add_parser("web", help="Open the simple localhost browser UI")
+    for practice in (play, web):
+        _practice_files(practice)
+        _scheduler_options(practice)
+        practice.add_argument("--mode", choices=["random", "adaptive"], default="random")
+        practice.add_argument("--threshold", type=int, default=1, help="Almost-there edit distance (default: 1)")
+        practice.add_argument("--explain", action="store_true", help="Explain adaptive choices without revealing the answer")
+        practice.add_argument("--seed", type=int, help="Reproducible adaptive selection")
+        practice.add_argument("--alternative-log", type=Path, help="Private review flags (default: next to --log, <stem>.alternatives.jsonl)")
+    web.add_argument("--port", type=int, default=8765, help="Local port (default: 8765; 0 picks a free port)")
+    web.add_argument("--open", action="store_true", help="Open the local page in your browser")
     recommend = sub.add_parser("recommend", help="Inspect adaptive recommendations offline (no writes)")
     _practice_files(recommend)
     _scheduler_options(recommend)
@@ -140,14 +144,25 @@ def main() -> None:
                 parser.error("--events and --log must use different paths")
             if not 0 <= args.new_ratio <= 1 or args.cooldown < 0 or args.new_window < 1:
                 parser.error("--new-ratio must be between 0 and 1, --cooldown nonnegative, --new-window positive")
-            if args.command == "play" and args.threshold < 0:
+            if args.command in {"play", "web"} and args.threshold < 0:
                 parser.error("--threshold must be nonnegative")
-            if args.command == "play" and args.explain and args.mode != "adaptive":
+            if args.command in {"play", "web"} and args.explain and args.mode != "adaptive":
                 parser.error("--explain requires --mode adaptive")
             if args.command == "recommend" and (args.limit < 1 or args.simulate < 0):
                 parser.error("--limit must be positive and --simulate nonnegative")
+            if args.command == "web" and not 0 <= args.port <= 65535:
+                parser.error("--port must be between 0 and 65535")
             exercises, entries = _load_practice(args.data, args.vocabulary)
             options = dict(new_ratio=args.new_ratio, cooldown=args.cooldown, new_window=args.new_window)
+            if args.command == "web":
+                from deutsch.web import WebConfig, serve
+                frequencies = load_frequencies(args.frequencies) if args.frequencies.exists() else None
+                config = WebConfig(exercises, entries, args.log, frequencies=frequencies,
+                                   events_path=args.events, alternative_log=args.alternative_log,
+                                   default_mode=args.mode, threshold=args.threshold, seed=args.seed,
+                                   explain=args.explain, **options)
+                serve(config, port=args.port, open_browser=args.open)
+                return
             if args.command == "recommend" or args.mode == "adaptive":
                 from deutsch.scheduler import AdaptiveDeck, offline_report
                 exercises, frequencies, history, warnings, excluded = _adaptive_inputs(args, exercises, entries)

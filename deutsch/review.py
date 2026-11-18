@@ -13,13 +13,16 @@ def alternative_log_for(guess_log: Path) -> Path:
 
 
 def append_alternative_flag(path: Path, exercise: Exercise, session_id: str,
-                            presentation_id: str) -> None:
+                            presentation_id: str, synonym_guess: str | None = None,
+                            withdrawn: bool = False) -> None:
     # Store the previous prompt's context and stable history link, not the
     # current prompt or any invented alternative. Actual guesses remain in
     # the separate private guess log, linked by presentation_id.
     record = {
         "schema_version": 1,
-        "event": "alternative_requested",
+        # The log is append-only: removing a flag appends a withdrawal that
+        # names the same presentation and guess; a reviewer honours the latest.
+        "event": "alternative_withdrawn" if withdrawn else "alternative_requested",
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "session_id": session_id,
         "presentation_id": presentation_id,
@@ -33,6 +36,9 @@ def append_alternative_flag(path: Path, exercise: Exercise, session_id: str,
     }
     if exercise.meaning is not None:
         record["meaning"] = exercise.meaning
+    if synonym_guess is not None:
+        # The exact raw guess the user considers a valid alternative.
+        record["synonym_guess"] = synonym_guess
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as file:
         file.write(json.dumps(record, ensure_ascii=False) + "\n")

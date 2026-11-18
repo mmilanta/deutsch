@@ -52,6 +52,9 @@ class Observation:
     first_result: str | None = None
     gave_up: bool = False
     legacy: bool = False
+    completed: bool = False
+    attempts: int = 0
+    correct_attempts: int = 0
 
     @property
     def score(self) -> float | None:
@@ -148,9 +151,13 @@ def load_history(guesses: Path, events: Path | None = None) -> History:
                 if not isinstance(identifier, str) or not identifier:
                     raise ValueError("invalid presentation ID")
             group = get_group(record, identifier, timestamp, legacy=legacy)
+            group.attempts += 1
+            group.correct_attempts += record["result"] == "correct"
             # If attempt 1 is missing, a later success is not proof of recall.
             if attempt == 1 and group.first_result is None:
                 group.first_result = record["result"]
+            if record["result"] == "correct":
+                group.completed = True
         except (ValueError, KeyError, TypeError, AttributeError) as error:
             history.warnings.append(f"{guesses}:{number}: ignored invalid guess ({error})")
 
@@ -174,6 +181,12 @@ def load_history(guesses: Path, events: Path | None = None) -> History:
                     raise ValueError("duplicate terminal event")
                 terminated.add(identifier)
                 group.gave_up = event == "gave_up"
+                group.completed = event == "completed"
+                attempts = record.get("attempts", 0)
+                if type(attempts) is int and attempts >= 0:
+                    group.attempts = max(group.attempts, attempts)
+                if group.completed:
+                    group.correct_attempts = max(group.correct_attempts, 1)
                 if group.first_result is None:
                     group.first_result = first
         except (ValueError, KeyError, TypeError, AttributeError) as error:

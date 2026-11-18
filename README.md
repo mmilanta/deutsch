@@ -1,6 +1,6 @@
 # Deutsch
 
-Minimal, inline terminal practice for Italian speakers learning German verbs. Read an Italian sentence, then recall the German **infinitive**. Just a prompt, bold words, and a little color—no full-screen UI, browser, account, or backend. Previous exercises stay in your terminal scrollback.
+Minimal vocabulary practice for Italian speakers learning German verbs, in an **inline terminal or a local browser UI**. Read an Italian sentence, then recall the German **infinitive**. No account or cloud backend. Previous exercises stay visible as you practise.
 
 ## Run
 
@@ -13,7 +13,29 @@ uv run deutsch
 
 The cached exercises in `data/exercises.json` work offline. Generation is the only step that calls OpenAI.
 
-### Controls
+### Local browser UI
+
+```sh
+uv run deutsch web --open
+# Start in adaptive mode:
+uv run deutsch web --mode adaptive --open
+```
+
+Open **http://127.0.0.1:8765** if you omit `--open`. Use `--port 8766` if that port is busy. The server only binds to `127.0.0.1`; it is not exposed to your network. Stop it with **Ctrl+C** in the terminal.
+
+The page uses a sparse visual style: bold lettering, a cream background, black rules, and red accents. All HTML, CSS, JavaScript, and the icon are bundled locally—no CDN, remote fonts, frontend build step, or new runtime dependencies.
+
+- The **Casuale / Adattivo** buttons select the same random/adaptive decks as the CLI. Switching mode starts a new session while keeping saved learning history.
+- Type an infinitive and press **Enter**. Empty Enter reveals the answer. Wrong/near-miss answers allow retries; correct answers reveal the translation and move on.
+- Completed exercises remain below the active prompt, newest first, with highlighted sentence targets, guessed or revealed infinitives, and popularity numbers.
+- **Stats** starts with distinct words correctly guessed in the selected period (including successful retries) and the total canonical vocabulary size. It shows every vocabulary word as a horizontal bar stacked by wrong, almost correct, and correct first attempts. Reveals count as wrong; retries do not add observations, and unattempted prompts are unscored. Choose all time or a rolling 365-day, 30-day, or 24-hour window, and switch between shared absolute counts and percentages normalized to 100% for each nonempty bar. The period and scale controls sit above the large guessed/total word and correct/total attempt counters. Attempt totals include retries and exclude reveals; words default to descending attempts, with alphabetical ties. Click a word to sort alphabetically, a bar to sort by descending attempts, or a popularity value to sort by descending popularity (missing estimates last). The selected order persists across period and scale changes. Each row shows stored Zipf popularity (`—` if unavailable; `*` for a provisional fallback). Hover a row to show counts within its bar segments, or whole percentages in percentage mode; its tooltip also includes the total attempt count. Empty bars stay visible. Statistics read local history without changing it.
+- Click a wrong guess on the latest completed/revealed **sentence** to flag it as a possible synonym for that sentence. Click its flag to withdraw it. Flags are not scored guesses and do not approve synonyms automatically. The `/alt` and `/alternative` commands belong to the terminal UI.
+- `/q` ends the session. **Nuova sessione** starts again. Refreshing the page resumes the current session while the server is running; server restarts clear the browser session, not saved history. Closing a tab alone does not create a failure; stopping the server records remaining active prompts as abandoned.
+- Exact raw guesses, first-attempt scoring, `ß`/`ss` handling, presentation events, and review flags use the same core functions and log files as the CLI. The browser never receives the German answer before a reveal/correct answer.
+
+The same `--data`, `--vocabulary`, `--frequencies`, `--log`, `--events`, `--alternative-log`, `--threshold`, scheduler options, and adaptive `--explain`/`--seed` settings are available on `web`. Browser actions stay on localhost; the app makes no model calls or automatic Git pushes.
+
+### Terminal controls
 
 - Type the German infinitive at `> ` and press **Enter** to submit.
 - Press **Enter on an empty line** to give up and reveal the full German sentence.
@@ -147,7 +169,7 @@ The original [source ranking](https://gist.github.com/wanderingstan/7eaaf0e22461
 
 After answering or revealing an exercise, use `/alternative` (or `/alt`) at the next prompt if you think the **previous** Italian sentence also permits another German word. A blue confirmation indicates that it was saved for review. Using the command again for the same presentation does not duplicate the flag. If there is no previous exercise in this session, it tells you and changes nothing.
 
-Flags append to **`data/guesses.alternatives.jsonl`**, included in the private repository's log-versioning policy. Each record stores the previous sentence pair, canonical target, stable word/sentence IDs, and its presentation ID, so a later reviewer can find the corresponding guesses in the separate guess log. With a custom `--log PATH`, the default is `<stem>.alternatives.jsonl` beside it; override it with `play --alternative-log PATH`. Guess, event, and review logs must use distinct paths.
+Flags append to **`data/guesses.alternatives.jsonl`**, included in the private repository's log-versioning policy. Each record stores the previous sentence pair, canonical target, stable word/sentence IDs, and its presentation ID, so a later reviewer can find the corresponding guesses in the separate guess log. With a custom `--log PATH`, the default is `<stem>.alternatives.jsonl` beside it; override it with `play --alternative-log PATH`. Guess, event, and review logs must use distinct paths. In the browser UI, pressing a flag again withdraws it: the log stays append-only, so this adds an `alternative_withdrawn` record for the same presentation and guess rather than deleting the request.
 
 An alternative translation belongs to a **specific sentence (`sentence_id`)**, not the word globally. A valid alternative for one meaning/context must not be copied to other sentences using the same verb. Future review approvals must stay sentence-specific.
 
@@ -172,6 +194,8 @@ Existing schema-v1 guess logs need no migration or rewrite. Adaptive mode conser
 
 ```sh
 uv run pytest -q
+# Frontend loading/request-order tests (requires Node.js):
+node --test tests/*.test.mjs
 ```
 
 Tests cover answer normalization, edit distance, raw JSONL and presentation logging, legacy retry grouping, vocabulary/sense coverage, catalog validation, import atomicity, exercise variants, shuffled rounds, frequency extraction/provenance/fallbacks, adaptive weighting/cooldowns/new-word quotas, read-only offline reports, mocked API generation/resume validation, and inline terminal interactions (including reveal, retries, failed writes, plain output, and clean exits).
