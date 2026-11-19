@@ -1,0 +1,149 @@
+word_id	italian	german	sentence_id	meaning	accepted_infinitives
+verb-302	La candela **si è spenta**.	Die Kerze ist **ausgegangen**.	verb-302-02	spegnersi	erlöschen
+verb-302	**Parto** dal presupposto che tu abbia ragione.	Ich **gehe** davon aus, dass du recht hast.	verb-302-03	partire da un presupposto	annehmen;unterstellen
+verb-302	Ci **finisce** la farina proprio oggi.	Uns **geht** ausgerechnet heute das Mehl aus.	verb-302-04	esaurirsi	zur Neige gehen
+verb-304	Il ritardo **irrita** tutti.	Die Verspätung **regt** alle auf.	verb-304-02	provocare irritazione	ärgern;nerven;verärgern
+verb-305	Non **oso** chiedergli spiegazioni.	Ich **traue** mich nicht, ihn um eine Erklärung zu bitten.	verb-305-02	osare	sich trauen;wagen
+verb-305	La sindaca **celebra il matrimonio** della coppia.	Die Bürgermeisterin **traut** das Paar.	verb-305-03	celebrare un matrimonio	verheiraten
+verb-306	Come **è venuta** la torta?	Wie ist der Kuchen **geraten**?	verb-306-02	riuscire, detto di un risultato	gelingen;werden
+verb-307	Il giudice lo **ha dichiarato** colpevole.	Das Gericht hat ihn für schuldig **befunden**.	verb-307-02	giudicare o dichiarare formalmente	erklären
+verb-308	Le due versioni **differiscono** solo nel prezzo.	Die beiden Versionen **unterscheiden** sich nur im Preis.	verb-308-02	differire	sich unterscheiden;abweichen
+verb-311	Questo tè **sa** di menta.	Dieser Kräutertee **schmeckt** nach Minze.	verb-311-02	avere un certo sapore	""
+verb-312	Il medico deve **partire** dalle esigenze dei pazienti.	Der Arzt muss die Patienten dort **abholen**, wo sie stehen.	verb-312-02	coinvolgere partendo dalla situazione di qualcuno	""
+verb-313	Il fabbro deve **staccare** a colpi di martello il pezzo arrugginito.	Der Schmied muss das rostige Stück **abhauen**.	verb-313-02	staccare a colpi	abschlagen
+verb-315	Le chiavi sono **saltate fuori** ieri.	Die Schlüssel sind gestern **aufgetaucht**.	verb-315-02	ricomparire	wieder auftauchen
+verb-317	I residenti **insistono** perché si intervenga subito.	Die Anwohner **dringen** auf sofortiges Handeln.	verb-317-02	insistere perché si agisca	drängen;bestehen
+verb-320	Il telefono **squilla** da un minuto.	Das Telefon **klingelt** seit einer Minute.	verb-320-02	squillare	läuten
+verb-321	Queste scarpe mi **stringono** le dita dei piedi.	Diese Schuhe **drücken** an den Zehen.	verb-321-02	stringere o fare pressione	""
+verb-321	La nonna **abbraccia** suo nipote.	Die Großmutter **drückt** ihren Enkel.	verb-321-03	abbracciare	umarmen
+verb-321	L'umidità **abbassa** il valore dell'immobile.	Die Feuchtigkeit **drückt** den Wert der Immobilie.	verb-321-04	ridurre un valore	senken;mindern
+verb-322	Uno **sta** a due come due a quattro.	Eins **verhält** sich zu zwei wie zwei zu vier.	verb-322-02	stare in un rapporto matematico	sich verhalten
+verb-324	Dopo la corsa mi **bruciano** gli occhi.	Nach dem Lauf **brennen** mir die Augen.	verb-324-02	dare una sensazione di bruciore	""
+verb-324	Nel corridoio **è accesa** ancora una luce.	Im Flur **brennt** noch ein Licht.	verb-324-03	essere acceso, detto di una luce	leuchten
+verb-324	In questo forno si possono **cuocere** i mattoni.	In diesem Ofen kann man Ziegel **brennen**.	verb-324-04	cuocere materiali ad alta temperatura	""
+verb-325	I cittadini **si ribellano** contro l'ingiustizia.	Die Bürger **stehen** gegen das Unrecht auf.	verb-325-02	ribellarsi	sich erheben;aufbegehren
+verb-326	«Fa freddo qui», **osserva** Luca.	„Hier ist es kalt“, **bemerkt** Luca.	verb-326-02	osservare a parole	anmerken;sagen
+verb-331	Al tramonto **appare** la prima stella.	Bei Sonnenuntergang **erscheint** der erste Stern.	verb-331-02	diventare visibile	auftauchen
+verb-331	La proposta mi **sembra** ragionevole.	Der Vorschlag **erscheint** mir vernünftig.	verb-331-03	sembrare	scheinen;wirken
+verb-333	L'acqua **bolle** già.	Das Wasser **kocht** schon.	verb-333-02	bollire	sieden
+verb-334	**Stimo** il costo in circa cento euro.	Ich **schätze** die Kosten auf rund hundert Euro.	verb-334-02	stimare una quantità	veranschlagen
+verb-335	Lo sconto **attira** molti clienti.	Der Rabatt **zieht** viele Kunden an.	verb-335-02	attirare	anlocken;locken
+verb-335	I prezzi **salgono** di nuovo.	Die Preise **ziehen** wieder an.	verb-335-03	aumentare	steigen
+verb-335	Devo **stringere** questa vite.	Ich muss diese Schraube **anziehen**.	verb-335-04	serrare	festziehen
+verb-337	Da ieri un escursionista **risulta disperso**.	Seit gestern wird ein Wanderer **vermisst**.	verb-337-02	risultare disperso	""
+verb-338	La squadra **mantiene** il primo posto.	Die Mannschaft **behauptet** ihren ersten Platz.	verb-338-02	mantenere una posizione	halten;verteidigen
+verb-340	Questi dati non **dicono** nulla sulle cause.	Diese Daten **sagen** nichts über die Ursachen aus.	verb-340-02	rivelare informazioni	sagen;verraten
+verb-345	Il tempo ci ha **dato ragione**.	Die Zeit hat uns **bestätigt**.	verb-345-02	confermare la validità di un giudizio	recht geben
+verb-353	Quel ponte **è considerato** molto sicuro.	Die Brücke **gilt** als sehr sicher.	verb-353-02	essere considerato	""
+verb-353	Il mio ringraziamento **va** a tutti i volontari.	Mein Dank **gilt** allen Freiwilligen.	verb-353-03	essere rivolto a qualcuno	""
+verb-353	Ora **bisogna** agire in fretta.	Jetzt **gilt** es, schnell zu handeln.	verb-353-04	essere necessario	""
+verb-354	La società **controlla** il mercato locale.	Das Unternehmen **kontrolliert** den örtlichen Markt.	verb-354-02	esercitare il controllo	beherrschen;dominieren
+verb-355	Il cuore mi **batte** forte.	Mein Herz **klopft** heftig.	verb-355-02	battere, detto del cuore	schlagen;pochen
+verb-356	Puoi **portare** i miei saluti a tua madre?	Kannst du deiner Mutter Grüße **bestellen**?	verb-356-02	trasmettere saluti	ausrichten;übermitteln
+verb-356	Il contadino **coltiva** il campo in primavera.	Der Bauer **bestellt** im Frühjahr das Feld.	verb-356-03	coltivare il terreno	bearbeiten;bewirtschaften
+verb-357	Anna **accompagna** il coro al pianoforte.	Anna **begleitet** den Chor am Klavier.	verb-357-02	accompagnare musicalmente	""
+verb-359	Per questa decisione **mi baso** sui dati disponibili.	Bei dieser Entscheidung **richte** ich mich nach den verfügbaren Daten.	verb-359-02	regolarsi in base a qualcosa	sich richten;orientieren;sich orientieren
+verb-359	Il meccanico può **raddrizzare** il cerchione.	Der Mechaniker kann die Felge **richten**.	verb-359-03	raddrizzare	geradebiegen
+verb-360	**Fai attenzione**, il pavimento è bagnato!	**Pass** auf, der Boden ist nass!	verb-360-02	fare attenzione	""
+verb-361	Mi sono **scottato** un dito.	Ich habe mir den Finger **verbrannt**.	verb-361-02	scottarsi	sich verbrennen
+verb-364	Con quello stipendio riesce appena a **vivere**.	Von diesem Gehalt kann er kaum **existieren**.	verb-364-02	riuscire a mantenersi	leben;auskommen
+verb-368	L'aereo **decolla** alle sette.	Das Flugzeug **startet** um sieben Uhr.	verb-368-02	decollare	abheben
+verb-368	Puoi **avviare** il motore?	Kannst du den Motor **starten**?	verb-368-03	mettere in moto	anlassen;anmachen
+verb-371	I due gruppi **si contendono** il terreno.	Die beiden Gruppen **streiten** um das Grundstück.	verb-371-02	contendersi qualcosa	kämpfen
+verb-372	L'appartamento **soddisfa** tutti i nostri requisiti.	Die Wohnung **erfüllt** alle unsere Anforderungen.	verb-372-02	soddisfare requisiti	entsprechen
+verb-373	Il bambino ha **sviluppato** un'allergia.	Das Kind hat eine Allergie **entwickelt**.	verb-373-02	manifestare gradualmente	""
+verb-373	Vorrei **sviluppare** queste foto.	Ich möchte diese Fotos **entwickeln**.	verb-373-03	sviluppare fotografie	""
+verb-377	Mi sono **spaventata** per il boato.	Ich bin bei dem Knall **erschrocken**.	verb-377-02	spaventarsi	sich erschrecken
+verb-378	Mi **pizzicano** gli occhi per il fumo.	Vom Rauch **stechen** mir die Augen.	verb-378-02	pizzicare, dare dolore pungente	brennen
+verb-378	Con quella carta puoi **prendere** la briscola.	Mit dieser Karte kannst du den Trumpf **stechen**.	verb-378-03	battere una carta avversaria	schlagen
+verb-379	Il clown **intrattiene** i bambini.	Der Clown **unterhält** die Kinder.	verb-379-02	intrattenere	amüsieren
+verb-379	Con quel salario **mantiene** tre figli.	Mit dem Gehalt **unterhält** sie drei Kinder.	verb-379-03	mantenere economicamente	ernähren;versorgen
+verb-380	Il rame **conduce** bene il calore.	Kupfer **leitet** Wärme gut.	verb-380-02	condurre calore o elettricità	""
+verb-380	Il canale **convoglia** l'acqua verso il lago.	Der Kanal **leitet** das Wasser zum See.	verb-380-03	convogliare	führen
+verb-381	Il bambino **allunga la mano** verso il biscotto.	Das Kind **greift** nach dem Keks.	verb-381-02	cercare di afferrare	""
+verb-381	Le nuove misure **fanno effetto** già da oggi.	Die neuen Maßnahmen **greifen** schon heute.	verb-381-03	avere effetto	wirken
+verb-382	La guardia **vigila** sul rispetto delle regole.	Der Wachmann **wacht** über die Einhaltung der Regeln.	verb-382-02	vigilare su qualcosa	aufpassen
+verb-383	La sua storia mi ha **toccata** profondamente.	Ihre Geschichte hat mich tief **berührt**.	verb-383-02	commuovere	bewegen;rühren;ergreifen
+verb-385	Puoi **provare** a riaprire la finestra?	Kannst du **probieren**, das Fenster wieder zu öffnen?	verb-385-02	tentare	versuchen
+verb-386	L'edera **si avvolge** intorno al tronco.	Der Efeu **windet** sich um den Stamm.	verb-386-02	avvolgersi	sich winden;ranken
+verb-389	Sa **trattare** con i clienti difficili.	Sie kann mit schwierigen Kunden **umgehen**.	verb-389-02	saper trattare qualcuno	""
+verb-389	In paese **circola** una voce.	Im Dorf **geht** ein Gerücht um.	verb-389-03	circolare, detto di una voce	kursieren
+verb-394	Il barcaiolo ci può **traghettare** sull'altra riva.	Der Fährmann kann uns ans andere Ufer **übersetzen**.	verb-394-02	traghettare	""
+verb-398	Il motore **fornisce** abbastanza potenza.	Der Motor **liefert** genug Leistung.	verb-398-02	fornire un risultato o una prestazione	""
+verb-401	Dobbiamo **metterci in fila** all'ingresso.	Wir müssen uns am Eingang **anstellen**.	verb-401-02	mettersi in fila	sich anstellen
+verb-401	Che cosa hai **combinato** stavolta?	Was hast du diesmal **angestellt**?	verb-401-03	combinare qualcosa	machen;ausfressen
+verb-404	Alla prossima stazione dobbiamo **cambiare** treno.	Am nächsten Bahnhof müssen wir den Zug **wechseln**.	verb-404-02	cambiare mezzo	umsteigen
+verb-404	Vorrei **cambiare** cento franchi in euro.	Ich möchte hundert Franken in Euro **wechseln**.	verb-404-03	cambiare valuta	tauschen;umtauschen
+verb-405	La pioggia **continua** da tre giorni.	Der Regen **hält** seit drei Tagen an.	verb-405-02	perdurare	andauern
+verb-406	La biologa **esamina** attentamente questi campioni.	Die Biologin **studiert** diese Proben aufmerksam.	verb-406-02	studiare attentamente	untersuchen;prüfen
+verb-407	Il suo gesto **testimonia** grande coraggio.	Seine Geste **zeugt** von großem Mut.	verb-407-02	essere prova di qualcosa	""
+verb-408	Ma **sei matto**? È troppo pericoloso!	**Spinnst** du? Das ist viel zu gefährlich!	verb-408-02	comportarsi in modo assurdo	verrückt sein
+verb-408	Mia nonna sa **filare** la lana.	Meine Großmutter kann Wolle **spinnen**.	verb-408-03	filare fibre tessili	""
+verb-411	Il bambino **si muove** appena nel sonno.	Das Kind **regt** sich im Schlaf kaum.	verb-411-02	muoversi lievemente	sich regen;sich bewegen;bewegen
+verb-412	Non riesco a **credere** a questa notizia.	Ich kann diese Nachricht nicht **fassen**.	verb-412-02	riuscire a capacitarsi	glauben;begreifen
+verb-412	La sala **contiene** duecento persone.	Der Saal **fasst** zweihundert Personen.	verb-412-03	avere una certa capienza	""
+verb-412	Il consiglio **prende** una decisione oggi.	Der Rat **fasst** heute einen Beschluss.	verb-412-04	adottare una decisione	treffen
+verb-413	Il legno **galleggia** sull'acqua.	Das Holz **schwimmt** auf dem Wasser.	verb-413-02	galleggiare	treiben
+verb-415	Dobbiamo **affrontare** subito il problema.	Wir müssen das Problem sofort **angehen**.	verb-415-02	affrontare un problema	anpacken;in Angriff nehmen
+verb-415	La luce **si accende** da sola.	Das Licht **geht** von selbst an.	verb-415-03	accendersi	""
+verb-416	Il vento **strappa** le foglie dai rami.	Der Wind **reißt** die Blätter von den Ästen.	verb-416-02	strappare con forza	""
+verb-421	Dobbiamo **far fronte** al problema con calma.	Wir müssen dem Problem mit Ruhe **begegnen**.	verb-421-02	far fronte a qualcosa	""
+verb-422	I ciclisti devono **invertire la marcia** davanti al ponte.	Die Radfahrer müssen vor der Brücke **kehren**.	verb-422-02	invertire la direzione	umkehren;wenden
+verb-423	L'ufficio può **immatricolare** la moto oggi.	Die Behörde kann das Motorrad heute **zulassen**.	verb-423-02	immatricolare	anmelden
+verb-425	Vorrei **stipulare** un'assicurazione.	Ich möchte eine Versicherung **abschließen**.	verb-425-02	stipulare un contratto	""
+verb-425	Marta ha **concluso** gli studi in giugno.	Marta hat ihr Studium im Juni **abgeschlossen**.	verb-425-03	portare a termine	beenden
+verb-428	Ho **acquisito** esperienza in cucina.	Ich habe in der Küche Erfahrung **gesammelt**.	verb-428-02	accumulare esperienza	erwerben
+verb-429	La ditta vuole **concentrare** la produzione in un unico stabilimento.	Die Firma will die Produktion in einem einzigen Werk **konzentrieren**.	verb-429-02	riunire in un solo punto	bündeln
+verb-430	**Stimo** molto la mia collega.	Ich **achte** meine Kollegin sehr.	verb-430-02	rispettare o stimare	schätzen;respektieren
+verb-431	L'arbitra **fischia** per un fallo.	Die Schiedsrichterin **pfeift** wegen eines Fouls.	verb-431-02	segnalare con un fischio	""
+verb-431	Il vento **fischia** tra le fessure.	Der Wind **pfeift** durch die Ritzen.	verb-431-03	produrre un sibilo	heulen
+verb-433	Domani possiamo **ispezionare** il sentiero con un tecnico.	Morgen können wir den Weg mit einem Techniker **begehen**.	verb-433-02	ispezionare percorrendo	besichtigen
+verb-433	Oggi **celebriamo** il centenario della scuola.	Heute **begehen** wir das hundertjährige Bestehen der Schule.	verb-433-03	celebrare una ricorrenza	feiern
+verb-434	Dopo colazione dobbiamo **metterci in cammino**.	Nach dem Frühstück müssen wir uns **aufmachen**.	verb-434-02	mettersi in viaggio	sich aufmachen;aufbrechen;losgehen
+verb-436	La ferita è **guarita** bene.	Die Wunde ist gut **geheilt**.	verb-436-02	rimarginarsi	verheilen
+verb-437	La squadra vuole **difendere** il titolo.	Die Mannschaft will ihren Titel **verteidigen**.	verb-437-02	cercare di conservare un titolo	""
+verb-439	Devo **mettere per iscritto** il risultato.	Ich muss das Ergebnis schriftlich **festhalten**.	verb-439-02	registrare per iscritto	notieren;aufschreiben;dokumentieren
+verb-439	Marta **rimane fedele** alla sua decisione.	Marta **hält** an ihrer Entscheidung fest.	verb-439-03	non cambiare decisione	""
+verb-440	Il filtro può **chiarificare** l'acqua.	Der Filter kann das Wasser **klären**.	verb-440-02	chiarificare un liquido	reinigen
+verb-442	Puoi **rivolgerti** alla responsabile.	Du kannst dich an die Leiterin **wenden**.	verb-442-02	rivolgersi a qualcuno	sich wenden
+verb-442	Non puoi **fare inversione** su questa strada.	Auf dieser Straße darfst du nicht **wenden**.	verb-442-03	invertire direzione	umkehren
+verb-444	La ruggine **corrode** il metallo.	Der Rost **frisst** sich ins Metall.	verb-444-02	corrodere	korrodieren;zerfressen
+verb-445	Devo **abituare** il cane al guinzaglio.	Ich muss den Hund an die Leine **gewöhnen**.	verb-445-02	far prendere un'abitudine	""
+verb-446	Vogliamo **innalzare** la qualità del servizio.	Wir wollen die Qualität des Dienstes **heben**.	verb-446-02	migliorare un livello	steigern;erhöhen;verbessern
+verb-451	Non conosco la risposta; devo **tirare a indovinare**.	Ich kenne die Antwort nicht; ich muss **raten**.	verb-451-02	indovinare	""
+verb-452	Negli ultimi mesi la pancia le **si arrotonda**.	In den letzten Monaten **rundet** sich ihr Bauch.	verb-452-02	assumere una forma arrotondata	sich runden
+verb-453	Puoi **immergere** il pennello nell'acqua?	Kannst du den Pinsel ins Wasser **tauchen**?	verb-453-02	immergere qualcosa	eintauchen;tunken
+verb-454	Bisogna **regolare** bene il termostato.	Man muss den Thermostat richtig **einstellen**.	verb-454-02	regolare un apparecchio	justieren
+verb-454	L'azienda vuole **interrompere** la produzione.	Das Unternehmen will die Produktion **einstellen**.	verb-454-03	cessare un'attività	stoppen;beenden
+verb-454	Dobbiamo **prepararci** a un inverno lungo.	Wir müssen uns auf einen langen Winter **einstellen**.	verb-454-04	prepararsi mentalmente	sich einstellen;vorbereiten;sich vorbereiten
+verb-455	La radio **trasmette** notizie ogni ora.	Der Radiosender **sendet** jede Stunde Nachrichten.	verb-455-02	trasmettere via radio	ausstrahlen
+verb-457	All'esame ho **fallito** completamente.	Bei der Prüfung habe ich völlig **versagt**.	verb-457-02	fallire una prova	scheitern
+verb-457	Gli **negarono** l'accesso alla sala.	Man **versagte** ihm den Zutritt zum Saal.	verb-457-03	negare, formale	verweigern;verwehren
+verb-458	La stampa **condanna** il gesto.	Die Presse **verurteilt** die Tat.	verb-458-02	condannare moralmente	missbilligen
+verb-460	Possiamo già **prevedere** come finirà.	Wir können schon **absehen**, wie es ausgeht.	verb-460-02	prevedere o intravedere	voraussehen;abschätzen
+verb-461	Vorrei **trasferirmi** entro settembre.	Ich möchte bis September **ausziehen**.	verb-461-02	lasciare la propria abitazione	umziehen
+verb-465	Il profumo **risveglia** vecchi ricordi.	Der Duft **weckt** alte Erinnerungen.	verb-465-02	evocare ricordi	wachrufen;hervorrufen
+verb-466	Il dolore è **passato** da solo.	Der Schmerz ist von selbst **vergangen**.	verb-466-02	cessare, svanire	verschwinden
+verb-466	Si è **reso colpevole** di un abuso di potere.	Er hat sich eines Machtmissbrauchs **vergangen**.	verb-466-03	commettere un illecito	sich vergehen
+verb-467	Mia madre **è originaria** della Sicilia.	Meine Mutter **stammt** aus Sizilien.	verb-467-02	essere originario	kommen;sein
+verb-471	Ha **tradito** il suo compagno.	Sie hat ihren Partner **betrogen**.	verb-471-02	tradire il partner	hintergehen;fremdgehen
+verb-473	Il medico può **dimetterti** domani.	Der Arzt kann dich morgen **entlassen**.	verb-473-02	dimettere dall'ospedale	""
+verb-475	Il cappotto ti **protegge** dal freddo.	Der Mantel **bewahrt** dich vor der Kälte.	verb-475-02	proteggere da qualcosa	schützen
+verb-476	Alla fine **aggiungo** il latte.	Zum Schluss **gebe** ich die Milch zu.	verb-476-02	aggiungere un ingrediente	hinzufügen;dazugeben
+verb-477	Il parlamento ha **rovesciato** il governo.	Das Parlament hat die Regierung **gestürzt**.	verb-477-02	rovesciare un governo	""
+verb-477	I bambini **si avventano** sui biscotti.	Die Kinder **stürzen** sich auf die Kekse.	verb-477-03	avventarsi	sich stürzen
+verb-479	La macchina **comprime** la carta in blocchi.	Die Maschine **presst** das Papier zu Blöcken.	verb-479-02	comprimere sotto pressione	verdichten;zusammenpressen
+verb-480	Ho dovuto **vomitare** dopo il viaggio.	Ich musste mich nach der Fahrt **übergeben**.	verb-480-02	vomitare	sich übergeben;erbrechen;brechen;kotzen
+verb-481	Mi sono **imbattuta** in una vecchia fotografia.	Ich bin auf ein altes Foto **gestoßen**.	verb-481-02	imbattersi in qualcosa	treffen
+verb-481	Luca mi ha **spinto** nell'acqua.	Luca hat mich ins Wasser **gestoßen**.	verb-481-03	spingere con un colpo	schubsen;schieben
+verb-483	Si **identifica** con il protagonista.	Sie **identifiziert** sich mit der Hauptfigur.	verb-483-02	riconoscersi in qualcuno	sich identifizieren
+verb-489	L'articolo **critica** la nuova legge.	Der Artikel **übt** Kritik am neuen Gesetz.	verb-489-02	esercitare, in una locuzione	kritisieren
+verb-490	I colleghi devono **concordare** una data.	Die Kollegen müssen einen Termin **ausmachen**.	verb-490-02	concordare	vereinbaren;abmachen;festlegen
+verb-490	Ti **dà fastidio** se apro la finestra?	**Macht** es dir etwas aus, wenn ich das Fenster öffne?	verb-490-03	dare fastidio	stören
+verb-490	Da qui riesco a **distinguere** la torre.	Von hier aus kann ich den Turm **ausmachen**.	verb-490-04	scorgere	erkennen;sehen
+verb-491	**Fa' in modo** di arrivare puntuale.	**Sieh** zu, dass du pünktlich ankommst.	verb-491-02	provvedere affinché	""
+verb-492	Ho **trovato** ingiusta la sua reazione.	Ich habe seine Reaktion als ungerecht **empfunden**.	verb-492-02	percepire o giudicare	finden
+verb-494	Vorrei **prendere in prestito** un libro.	Ich möchte mir ein Buch **leihen**.	verb-494-02	prendere in prestito	ausleihen;sich leihen
+verb-495	Abbiamo dovuto **accantonare** il nostro progetto.	Wir mussten unseren Plan **begraben**.	verb-495-02	abbandonare un progetto	aufgeben;verwerfen
+verb-500	Il film mi ha **commossa**.	Der Film hat mich **gerührt**.	verb-500-02	commuovere	berühren;bewegen
+verb-500	Da ore non **si muove**.	Seit Stunden **rührt** er sich nicht.	verb-500-03	muoversi	sich rühren;bewegen;sich bewegen

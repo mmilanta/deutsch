@@ -20,7 +20,7 @@ Adding a meaning label declares a new coverage requirement; it does not retroact
 UTF-8 tab-separated values. Recommended header:
 
 ```text
-word_id	italian	german	sentence_id	meaning
+word_id	italian	german	sentence_id	meaning	accepted_infinitives
 ```
 
 Columns:
@@ -30,6 +30,7 @@ Columns:
 - `german`: complete German translation with exactly one `**highlighted target**`.
 - `sentence_id` (optional): globally unique stable ID; defaults to `word_id + '-01'`. Always provide it when adding another sense or variant.
 - `meaning` (optional): Italian sense label. If the word declares required `meanings`, use an exact label from that list. A blank cell means no label.
+- `accepted_infinitives` (optional): semicolon-separated German alternative answers for this exact sentence, such as `geben;herüberreichen`. Do not list the canonical infinitive again, or alternatives which only work for another sense or prompt.
 - `frame` (optional): `full` by default. `can`, `want`, and `need` expand explicitly authored verb phrases into matching modal sentences; they do not generate or translate content. Prefer full, natural sentence pairs for new work.
 
 Literal tab/newline characters within a sentence must be correctly CSV-quoted; it is simpler to avoid them. Markers are stripped on import and the exact target substrings are stored separately.
@@ -46,6 +47,7 @@ A flat JSON array, preserving compatibility with the current application:
 - `italian`, `italian_target`: plain sentence and exact highlighted substring.
 - `german`, `german_target`: plain sentence and exact highlighted substring.
 - `meaning` (optional): the illustrated sense.
+- `accepted_infinitives` (optional): array of curated German alternatives. They count as correct on exact normalized match for this sentence ID only, and are shown only after completion or reveal.
 
 Several entries can share `word_id`, but not `sentence_id`. The app visits each word once per shuffled round and rotates through its variants. It reveals the meaning label only after the guess/reveal, not as a hint.
 

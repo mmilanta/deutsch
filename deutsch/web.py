@@ -274,6 +274,8 @@ class BrowserSession:
             popularity=frequency.zipf if frequency is not None and frequency.method != "missing" else None,
             outcome=event, flagged=False,
         )
+        if self.current.accepted_infinitives:
+            completed["accepted_infinitives"] = list(self.current.accepted_infinitives)
         self.previous = (self.current, self.presentation_id)
         self.trail.append(completed)
         self.current, self.presentation_id = None, None

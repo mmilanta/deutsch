@@ -78,6 +78,18 @@ def test_initial_prompt_does_not_expose_german_answer_meaning_or_frequency(tmp_p
     assert not s.config.log_path.exists()
 
 
+def test_accepted_infinitive_completes_prompt_without_leaking_beforehand(tmp_path):
+    exercise = sample().model_copy(update={"accepted_infinitives": ("laufen",)})
+    s = BrowserSession(config(tmp_path, exercises=[exercise]), "random")
+    assert "laufen" not in json.dumps(s.state())
+    state = submit(s, " LAUFEN ")["state"]
+    assert state["correct"] == 1
+    assert state["trail"][0]["infinitive"] == "gehen"
+    assert state["trail"][0]["accepted_infinitives"] == ["laufen"]
+    assert "laufen" not in json.dumps(state["current"])
+    assert load_history(s.config.log_path).presentations[0].score == 1
+
+
 @pytest.mark.parametrize("mode", ["random", "adaptive"])
 def test_near_miss_retry_and_reveal_match_cli_and_preserve_raw_guesses(tmp_path, mode):
     s = BrowserSession(config(tmp_path), mode)

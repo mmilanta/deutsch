@@ -10,10 +10,10 @@ The complete source list was read before the directly authored batches were writ
 - Ranks 711–1,000: 290 sentence pairs written directly by the coding assistant in `authored-exercises.tsv`.
 - Ranks 1,001–1,200, except 1,058 and 1,145: 198 sentence pairs written directly by the coding assistant in `authored-1001-1200.tsv`.
 - Ranks 1,201–2,100, except 1,288, 1,623, 1,684, 1,990, 2,000, and 2,006, plus the resolved entries 1,058 and 1,145: 896 further sentence pairs written directly by the coding assistant in `authored-1201-1500.tsv`, `authored-1501-1800.tsv`, and `authored-1801-2100.tsv`.
-- Total: **2,094 exercises covering 2,094 source entries**, with **803 source entries still missing imported exercises**.
+- The first 300 entries were reviewed for common meanings and ambiguous prompts. `authored-0001-0300-senses.tsv` adds 338 labelled examples; 215 of the first 300 verbs now have multiple examples. The deck has 450 prompts in this range with curated, sentence-specific alternative answers (on original prompts these are stored directly in `exercises.json`). Existing example text and IDs were preserved. The added meaning labels are coverage requirements for the new senses, not retroactive labels for the historical prompts. This is a teaching set, not a complete dictionary inventory.
+- The same review for ranks 301–1,000 adds 479 labelled examples across 365 verbs in `authored-0301-0500-senses.tsv`, `authored-0501-0700-senses.tsv`, and `authored-0701-1000-senses.tsv`. In this range, 954 prompts have reviewed alternative answers (591 original and 363 new). Original sentence text and IDs were preserved. The historical rank 411 rain prompt uses the form `regnet` with canonical `regen`; it now accepts `regnen` too. The new `regen` prompt illustrates `sich regen` (to stir or move slightly).
+- Total: **2,911 exercises covering 2,094 source entries**, with **803 source entries still missing imported exercises**.
 - Another 596 draft pairs for ranks 2,101–2,700 were written before the request to pause adding sentences. They remain under `drafts/`, require review, and have **not** been imported. The normal `data/authored*.tsv` glob does not include them.
-
-The multiple-meanings feature changes code only: no additional content was generated or imported for that feature. Existing production exercise and guess files were left unchanged. All current production words still have one sentence.
 
 Direct authorship here means content produced in the coding session, not a claim of human review. No OpenAI API calls were made to produce or import the directly authored batches. These sentences are structurally validated but would still benefit from linguistic review. Modal constructions are frequent because the learner supplies an infinitive; some sentences instead show conjugated forms.
 
@@ -41,9 +41,10 @@ Optional columns:
 
 - `sentence_id`: a stable, globally unique ID. Defaults to `verb-RANK-01`; use a different ID for each additional sentence of the same word.
 - `meaning`: an Italian label for the particular sense, shown only after revealing the answer.
+- `accepted_infinitives`: semicolon-separated German answers that also fit this exact Italian prompt. Do not repeat the canonical answer. Use a German base form (including a reflexive pronoun where appropriate). These answers score as correct; review flags do not automatically add to this list.
 - `frame`: defaults to `full` for complete sentences. `can`, `want`, and `need` expand explicitly authored verb phrases into matching short Italian/German modal sentences. These frames do not generate or translate content.
 
-Multiple sentences share a word ID and infinitive. Existing one-sentence rows remain valid. No additional variants have been added for the multiple-meanings feature.
+Multiple sentences share a word ID and infinitive. Existing one-sentence rows remain valid.
 
 ```sh
 uv run python scripts/import_authored.py data/authored*.tsv

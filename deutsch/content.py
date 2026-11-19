@@ -56,17 +56,23 @@ def import_authored(sources: list[Path], vocabulary: Path, output: Path) -> int:
                     suffix = "" if frame == "full" else "."
                     italian, italian_target = unmark(italian_prefix + italian_text + suffix)
                     german, german_target = unmark(german_prefix + german_text + suffix)
+                    alternatives = row.get("accepted_infinitives")
                     item = Exercise(
                         word_id=word_id,
                         sentence_id=row.get("sentence_id") or f"{word_id}-01",
                         infinitive=infinitives[word_id], italian=italian, italian_target=italian_target,
                         german=german, german_target=german_target,
                         meaning=row.get("meaning") or None,
+                        accepted_infinitives=tuple(x.strip() for x in alternatives.split(";")) if alternatives else None,
                     )
                     if item.word_id in word_infinitives and word_infinitives[item.word_id] != item.infinitive:
                         raise ValueError(f"Conflicting infinitives for word ID {item.word_id}")
                     if item.sentence_id in by_id:
-                        if item != by_id[item.sentence_id]:
+                        previous = by_id[item.sentence_id]
+                        if "accepted_infinitives" not in row:
+                            # Legacy source batches do not own alternatives curated later.
+                            item = item.model_copy(update={"accepted_infinitives": previous.accepted_infinitives})
+                        if item != previous:
                             raise ValueError(f"Refusing to replace an existing exercise: {item.sentence_id}")
                         continue
                     by_id[item.sentence_id] = item

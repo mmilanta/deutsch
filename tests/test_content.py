@@ -25,6 +25,30 @@ def test_import_and_repeat(tmp_path):
     assert import_authored([source], verbs, output) == 0
 
 
+def test_import_accepted_infinitives(tmp_path):
+    source, verbs, output = files(tmp_path)
+    source.write_text("word_id\titalian\tgerman\taccepted_infinitives\n"
+                      "verb-52\tChe cosa **significa**?\tWas **heißt** das?\tbedeuten; meinen\n")
+    assert import_authored([source], verbs, output) == 1
+    assert load_exercises(output)[0].accepted_infinitives == ("bedeuten", "meinen")
+    assert import_authored([source], verbs, output) == 0
+
+
+def test_legacy_reimport_preserves_later_curated_alternatives(tmp_path):
+    source, verbs, output = files(tmp_path)
+    import_authored([source], verbs, output)
+    exercises = json.loads(output.read_text())
+    exercises[0]["accepted_infinitives"] = ["sich nennen"]
+    output.write_text(json.dumps(exercises), encoding="utf-8")
+    before = output.read_bytes()
+    assert import_authored([source], verbs, output) == 0
+    assert output.read_bytes() == before
+    source.write_text(source.read_text().replace("Marco", "Luca"), encoding="utf-8")
+    with pytest.raises(ValueError, match="Refusing to replace"):
+        import_authored([source], verbs, output)
+    assert output.read_bytes() == before
+
+
 def test_import_is_atomic_on_bad_data(tmp_path):
     source, verbs, output = files(tmp_path)
     import_authored([source], verbs, output)

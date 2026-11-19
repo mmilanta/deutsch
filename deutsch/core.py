@@ -22,12 +22,19 @@ class Exercise(BaseModel):
     german: str
     german_target: str = Field(min_length=1)
     meaning: str | None = Field(default=None, min_length=1)
+    accepted_infinitives: tuple[str, ...] | None = Field(default=None, min_length=1)
 
     @model_validator(mode="after")
-    def validate_targets(self) -> Exercise:
+    def validate_content(self) -> Exercise:
         for sentence, target in [(self.italian, self.italian_target), (self.german, self.german_target)]:
             if sentence.count(target) != 1:
                 raise ValueError(f"Target {target!r} must occur exactly once in {sentence!r}")
+        seen = {normalize(self.infinitive)}
+        for alternative in self.accepted_infinitives or ():
+            key = normalize(alternative)
+            if not key or alternative != alternative.strip() or key in seen:
+                raise ValueError(f"Invalid or duplicate accepted infinitive: {alternative!r}")
+            seen.add(key)
         return self
 
 
@@ -68,7 +75,9 @@ def load_exercises(path: Path, *, allow_empty: bool = False) -> list[Exercise]:
 
 def append_guess(path: Path, exercise: Exercise, guess: str, session_id: str, attempt: int, threshold: int = 1,
                  *, presentation_id: str | None = None) -> str:
-    result, distance = evaluate(guess, exercise.infinitive, threshold)
+    normalized = normalize(guess)
+    matched = next((verb for verb in exercise.accepted_infinitives or () if normalize(verb) == normalized), None)
+    result, distance = ("correct", 0) if matched is not None else evaluate(guess, exercise.infinitive, threshold)
     record = {
         "schema_version": 2 if presentation_id is not None else 1,
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -82,6 +91,8 @@ def append_guess(path: Path, exercise: Exercise, guess: str, session_id: str, at
         "threshold": threshold,
         "attempt": attempt,
     }
+    if matched is not None:
+        record["matched_infinitive"] = matched
     if presentation_id is not None:
         record["presentation_id"] = presentation_id
     if exercise.meaning is not None:

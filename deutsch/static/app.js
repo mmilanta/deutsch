@@ -46,7 +46,7 @@ function attemptsView(attempts) {
 
 // A completed sentence: one row per wrong guess, then the solution, green
 // if it was guessed and red if it was revealed. Pressing a wrong guess of
-// the latest sentence flags it as a valid synonym for that sentence only;
+// the latest sentence flags it as a possible synonym for that sentence only;
 // pressing the flag withdraws it.
 function historyView(previous, flaggable) {
   const fragment = document.createDocumentFragment();
@@ -84,6 +84,9 @@ function historyView(previous, flaggable) {
     solution.append(popularity);
   }
   fragment.append(solution);
+  if (previous.accepted_infinitives?.length) {
+    fragment.append(element("p", "attempt", `anche: ${previous.accepted_infinitives.join(", ")}`));
+  }
   return fragment;
 }
 

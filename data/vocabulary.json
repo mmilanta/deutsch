@@ -1,11 +1,17 @@
 [
   {
     "word_id": "verb-1",
-    "infinitive": "sein"
+    "infinitive": "sein",
+    "meanings": [
+      "ausiliare del passato"
+    ]
   },
   {
     "word_id": "verb-2",
-    "infinitive": "haben"
+    "infinitive": "haben",
+    "meanings": [
+      "ausiliare del passato"
+    ]
   },
   {
     "word_id": "verb-3",
@@ -13,47 +19,88 @@
   },
   {
     "word_id": "verb-4",
-    "infinitive": "werden"
+    "infinitive": "werden",
+    "meanings": [
+      "ausiliare del passivo",
+      "ausiliare del futuro"
+    ]
   },
   {
     "word_id": "verb-5",
-    "infinitive": "können"
+    "infinitive": "können",
+    "meanings": [
+      "saper fare qualcosa",
+      "possibilità"
+    ]
   },
   {
     "word_id": "verb-6",
-    "infinitive": "meinen"
+    "infinitive": "meinen",
+    "meanings": [
+      "esprimere un'opinione"
+    ]
   },
   {
     "word_id": "verb-7",
-    "infinitive": "wollen"
+    "infinitive": "wollen",
+    "meanings": [
+      "affermazione riferita con riserva"
+    ]
   },
   {
     "word_id": "verb-8",
-    "infinitive": "gehen"
+    "infinitive": "gehen",
+    "meanings": [
+      "funzionare",
+      "stare, riferito alla salute",
+      "durare",
+      "trattare un argomento"
+    ]
   },
   {
     "word_id": "verb-9",
-    "infinitive": "sagen"
+    "infinitive": "sagen",
+    "meanings": [
+      "fornire informazioni"
+    ]
   },
   {
     "word_id": "verb-10",
-    "infinitive": "sehen"
+    "infinitive": "sehen",
+    "meanings": [
+      "incontrarsi",
+      "capire, rendersi conto"
+    ]
   },
   {
     "word_id": "verb-11",
-    "infinitive": "machen"
+    "infinitive": "machen",
+    "meanings": [
+      "causare uno stato"
+    ]
   },
   {
     "word_id": "verb-12",
-    "infinitive": "tun"
+    "infinitive": "tun",
+    "meanings": [
+      "fare male",
+      "fingere"
+    ]
   },
   {
     "word_id": "verb-13",
-    "infinitive": "kommen"
+    "infinitive": "kommen",
+    "meanings": [
+      "provenire",
+      "chiedere la causa"
+    ]
   },
   {
     "word_id": "verb-14",
-    "infinitive": "geben"
+    "infinitive": "geben",
+    "meanings": [
+      "esistenza o presenza"
+    ]
   },
   {
     "word_id": "verb-15",
@@ -61,103 +108,194 @@
   },
   {
     "word_id": "verb-16",
-    "infinitive": "sollen"
+    "infinitive": "sollen",
+    "meanings": [
+      "informazione riportata e non confermata",
+      "chiedere istruzioni"
+    ]
   },
   {
     "word_id": "verb-17",
-    "infinitive": "denken"
+    "infinitive": "denken",
+    "meanings": [
+      "credere, supporre"
+    ]
   },
   {
     "word_id": "verb-18",
-    "infinitive": "hören"
+    "infinitive": "hören",
+    "meanings": [
+      "percepire un suono",
+      "obbedire"
+    ]
   },
   {
     "word_id": "verb-19",
-    "infinitive": "finden"
+    "infinitive": "finden",
+    "meanings": [
+      "ritrovare qualcosa"
+    ]
   },
   {
     "word_id": "verb-20",
-    "infinitive": "glauben"
+    "infinitive": "glauben",
+    "meanings": [
+      "credere a una persona",
+      "avere fede"
+    ]
   },
   {
     "word_id": "verb-21",
-    "infinitive": "leben"
+    "infinitive": "leben",
+    "meanings": [
+      "essere in vita",
+      "mantenersi con qualcosa"
+    ]
   },
   {
     "word_id": "verb-22",
-    "infinitive": "mögen"
+    "infinitive": "mögen",
+    "meanings": [
+      "esprimere un desiderio cortese",
+      "ammettere una possibilità"
+    ]
   },
   {
     "word_id": "verb-23",
-    "infinitive": "nehmen"
+    "infinitive": "nehmen",
+    "meanings": [
+      "assumere un medicinale",
+      "scegliere o usare un ingrediente"
+    ]
   },
   {
     "word_id": "verb-24",
-    "infinitive": "müssen"
+    "infinitive": "müssen",
+    "meanings": [
+      "deduzione quasi certa"
+    ]
   },
   {
     "word_id": "verb-25",
-    "infinitive": "lassen"
+    "infinitive": "lassen",
+    "meanings": [
+      "permettere",
+      "far fare qualcosa a qualcuno",
+      "possibilità di fare qualcosa"
+    ]
   },
   {
     "word_id": "verb-26",
-    "infinitive": "warten"
+    "infinitive": "warten",
+    "meanings": [
+      "fare manutenzione"
+    ]
   },
   {
     "word_id": "verb-27",
-    "infinitive": "verstehen"
+    "infinitive": "verstehen",
+    "meanings": [
+      "intendersene",
+      "andare d'accordo"
+    ]
   },
   {
     "word_id": "verb-28",
-    "infinitive": "bringen"
+    "infinitive": "bringen",
+    "meanings": [
+      "accompagnare qualcuno",
+      "provocare una reazione"
+    ]
   },
   {
     "word_id": "verb-29",
-    "infinitive": "sichern"
+    "infinitive": "sichern",
+    "meanings": [
+      "fare un backup"
+    ]
   },
   {
     "word_id": "verb-30",
-    "infinitive": "fragen"
+    "infinitive": "fragen",
+    "meanings": [
+      "domandarsi"
+    ]
   },
   {
     "word_id": "verb-31",
-    "infinitive": "kennen"
+    "infinitive": "kennen",
+    "meanings": [
+      "conoscere per esperienza"
+    ]
   },
   {
     "word_id": "verb-32",
-    "infinitive": "helfen"
+    "infinitive": "helfen",
+    "meanings": [
+      "essere un rimedio"
+    ]
   },
   {
     "word_id": "verb-33",
-    "infinitive": "reden"
+    "infinitive": "reden",
+    "meanings": [
+      "rompere il silenzio"
+    ]
   },
   {
     "word_id": "verb-34",
-    "infinitive": "stehen"
+    "infinitive": "stehen",
+    "meanings": [
+      "essere scritto o indicato",
+      "donare, detto di un colore",
+      "essere fermo"
+    ]
   },
   {
     "word_id": "verb-35",
-    "infinitive": "bleiben"
+    "infinitive": "bleiben",
+    "meanings": [
+      "rimanere come disponibilità"
+    ]
   },
   {
     "word_id": "verb-36",
-    "infinitive": "brauchen"
+    "infinitive": "brauchen",
+    "meanings": [
+      "non essere necessario"
+    ]
   },
   {
     "word_id": "verb-37",
-    "infinitive": "sprechen"
+    "infinitive": "sprechen",
+    "meanings": [
+      "tenere un discorso"
+    ]
   },
   {
     "word_id": "verb-38",
-    "infinitive": "passieren"
+    "infinitive": "passieren",
+    "meanings": [
+      "oltrepassare",
+      "passare al setaccio"
+    ]
   },
   {
     "word_id": "verb-39",
-    "infinitive": "dürfen"
+    "infinitive": "dürfen",
+    "meanings": [
+      "probabilità"
+    ]
   },
   {
     "word_id": "verb-40",
-    "infinitive": "halten"
+    "infinitive": "halten",
+    "meanings": [
+      "reggere",
+      "ritenere qualcuno qualcosa",
+      "conservarsi",
+      "tenere un discorso"
+    ]
   },
   {
     "word_id": "verb-41",
@@ -169,15 +307,26 @@
   },
   {
     "word_id": "verb-43",
-    "infinitive": "fahren"
+    "infinitive": "fahren",
+    "meanings": [
+      "guidare un veicolo",
+      "circolare, essere in servizio"
+    ]
   },
   {
     "word_id": "verb-44",
-    "infinitive": "bekommen"
+    "infinitive": "bekommen",
+    "meanings": [
+      "cominciare a provare una sensazione",
+      "fare bene o male alla salute"
+    ]
   },
   {
     "word_id": "verb-45",
-    "infinitive": "arbeiten"
+    "infinitive": "arbeiten",
+    "meanings": [
+      "deformarsi con l'umidità"
+    ]
   },
   {
     "word_id": "verb-46",
@@ -185,7 +334,10 @@
   },
   {
     "word_id": "verb-47",
-    "infinitive": "versuchen"
+    "infinitive": "versuchen",
+    "meanings": [
+      "assaggiare"
+    ]
   },
   {
     "word_id": "verb-48",
@@ -201,23 +353,45 @@
   },
   {
     "word_id": "verb-51",
-    "infinitive": "laufen"
+    "infinitive": "laufen",
+    "meanings": [
+      "essere in funzione",
+      "scorrere",
+      "essere in vigore fino a una data"
+    ]
   },
   {
     "word_id": "verb-52",
-    "infinitive": "heißen"
+    "infinitive": "heißen",
+    "meanings": [
+      "significare",
+      "si dice"
+    ]
   },
   {
     "word_id": "verb-53",
-    "infinitive": "spielen"
+    "infinitive": "spielen",
+    "meanings": [
+      "suonare uno strumento",
+      "interpretare un ruolo",
+      "essere ambientato"
+    ]
   },
   {
     "word_id": "verb-54",
-    "infinitive": "stimmen"
+    "infinitive": "stimmen",
+    "meanings": [
+      "indurre uno stato d'animo",
+      "accordare uno strumento"
+    ]
   },
   {
     "word_id": "verb-55",
-    "infinitive": "verlieren"
+    "infinitive": "verlieren",
+    "meanings": [
+      "essere sconfitti",
+      "perdere peso"
+    ]
   },
   {
     "word_id": "verb-56",
@@ -229,35 +403,62 @@
   },
   {
     "word_id": "verb-58",
-    "infinitive": "suchen"
+    "infinitive": "suchen",
+    "meanings": [
+      "cercare personale"
+    ]
   },
   {
     "word_id": "verb-59",
-    "infinitive": "fühlen"
+    "infinitive": "fühlen",
+    "meanings": [
+      "percepire fisicamente"
+    ]
   },
   {
     "word_id": "verb-60",
-    "infinitive": "holen"
+    "infinitive": "holen",
+    "meanings": [
+      "conquistare un trofeo"
+    ]
   },
   {
     "word_id": "verb-61",
-    "infinitive": "treffen"
+    "infinitive": "treffen",
+    "meanings": [
+      "colpire un bersaglio",
+      "prendere una decisione"
+    ]
   },
   {
     "word_id": "verb-62",
-    "infinitive": "schaffen"
+    "infinitive": "schaffen",
+    "meanings": [
+      "creare",
+      "trasportare"
+    ]
   },
   {
     "word_id": "verb-63",
-    "infinitive": "liegen"
+    "infinitive": "liegen",
+    "meanings": [
+      "essere situato",
+      "dipendere, essere dovuto"
+    ]
   },
   {
     "word_id": "verb-64",
-    "infinitive": "zeigen"
+    "infinitive": "zeigen",
+    "meanings": [
+      "dimostrare come si fa"
+    ]
   },
   {
     "word_id": "verb-65",
-    "infinitive": "erinnern"
+    "infinitive": "erinnern",
+    "meanings": [
+      "ricordarsi"
+    ]
   },
   {
     "word_id": "verb-66",
@@ -269,7 +470,10 @@
   },
   {
     "word_id": "verb-68",
-    "infinitive": "entschuldigen"
+    "infinitive": "entschuldigen",
+    "meanings": [
+      "perdonare, scusare"
+    ]
   },
   {
     "word_id": "verb-69",
@@ -277,7 +481,11 @@
   },
   {
     "word_id": "verb-70",
-    "infinitive": "fallen"
+    "infinitive": "fallen",
+    "meanings": [
+      "diminuire",
+      "cadere in una data"
+    ]
   },
   {
     "word_id": "verb-71",
@@ -285,7 +493,10 @@
   },
   {
     "word_id": "verb-72",
-    "infinitive": "vergessen"
+    "infinitive": "vergessen",
+    "meanings": [
+      "perdere la cognizione del tempo"
+    ]
   },
   {
     "word_id": "verb-73",
@@ -293,7 +504,10 @@
   },
   {
     "word_id": "verb-74",
-    "infinitive": "nennen"
+    "infinitive": "nennen",
+    "meanings": [
+      "citare o indicare"
+    ]
   },
   {
     "word_id": "verb-75",
@@ -305,15 +519,28 @@
   },
   {
     "word_id": "verb-77",
-    "infinitive": "stellen"
+    "infinitive": "stellen",
+    "meanings": [
+      "porre una domanda",
+      "costituirsi",
+      "impostare"
+    ]
   },
   {
     "word_id": "verb-78",
-    "infinitive": "ziehen"
+    "infinitive": "ziehen",
+    "meanings": [
+      "trasferirsi",
+      "esserci uno spiffero",
+      "lasciare in infusione"
+    ]
   },
   {
     "word_id": "verb-79",
-    "infinitive": "kriegen"
+    "infinitive": "kriegen",
+    "meanings": [
+      "cominciare a provare una sensazione"
+    ]
   },
   {
     "word_id": "verb-80",
@@ -329,31 +556,53 @@
   },
   {
     "word_id": "verb-83",
-    "infinitive": "schreiben"
+    "infinitive": "schreiben",
+    "meanings": [
+      "sostenere una prova scritta"
+    ]
   },
   {
     "word_id": "verb-84",
-    "infinitive": "bereiten"
+    "infinitive": "bereiten",
+    "meanings": [
+      "preparare un pasto"
+    ]
   },
   {
     "word_id": "verb-85",
-    "infinitive": "setzen"
+    "infinitive": "setzen",
+    "meanings": [
+      "fissare un limite",
+      "puntare su qualcosa"
+    ]
   },
   {
     "word_id": "verb-86",
-    "infinitive": "bedeuten"
+    "infinitive": "bedeuten",
+    "meanings": [
+      "avere importanza"
+    ]
   },
   {
     "word_id": "verb-87",
-    "infinitive": "rufen"
+    "infinitive": "rufen",
+    "meanings": [
+      "chiamare qualcuno in aiuto"
+    ]
   },
   {
     "word_id": "verb-88",
-    "infinitive": "lesen"
+    "infinitive": "lesen",
+    "meanings": [
+      "raccogliere l'uva"
+    ]
   },
   {
     "word_id": "verb-89",
-    "infinitive": "lernen"
+    "infinitive": "lernen",
+    "meanings": [
+      "studiare per una prova"
+    ]
   },
   {
     "word_id": "verb-90",
@@ -361,39 +610,72 @@
   },
   {
     "word_id": "verb-91",
-    "infinitive": "sorgen"
+    "infinitive": "sorgen",
+    "meanings": [
+      "preoccuparsi",
+      "provvedere affinché accada qualcosa"
+    ]
   },
   {
     "word_id": "verb-92",
-    "infinitive": "sitzen"
+    "infinitive": "sitzen",
+    "meanings": [
+      "vestire bene, riferito alla misura",
+      "essere detenuto"
+    ]
   },
   {
     "word_id": "verb-93",
-    "infinitive": "tragen"
+    "infinitive": "tragen",
+    "meanings": [
+      "trasportare a mano",
+      "sostenere un peso",
+      "farsi carico di costi"
+    ]
   },
   {
     "word_id": "verb-94",
-    "infinitive": "scheinen"
+    "infinitive": "scheinen",
+    "meanings": [
+      "sembrare"
+    ]
   },
   {
     "word_id": "verb-95",
-    "infinitive": "verlassen"
+    "infinitive": "verlassen",
+    "meanings": [
+      "fare affidamento",
+      "lasciare il partner"
+    ]
   },
   {
     "word_id": "verb-96",
-    "infinitive": "ruhen"
+    "infinitive": "ruhen",
+    "meanings": [
+      "essere sospeso"
+    ]
   },
   {
     "word_id": "verb-97",
-    "infinitive": "kümmern"
+    "infinitive": "kümmern",
+    "meanings": [
+      "importare a qualcuno"
+    ]
   },
   {
     "word_id": "verb-98",
-    "infinitive": "versprechen"
+    "infinitive": "versprechen",
+    "meanings": [
+      "fare un lapsus"
+    ]
   },
   {
     "word_id": "verb-99",
-    "infinitive": "reichen"
+    "infinitive": "reichen",
+    "meanings": [
+      "bastare",
+      "estendersi fino a un punto"
+    ]
   },
   {
     "word_id": "verb-100",
@@ -401,11 +683,18 @@
   },
   {
     "word_id": "verb-101",
-    "infinitive": "bestimmen"
+    "infinitive": "bestimmen",
+    "meanings": [
+      "identificare scientificamente",
+      "stabilire, fissare"
+    ]
   },
   {
     "word_id": "verb-102",
-    "infinitive": "langen"
+    "infinitive": "langen",
+    "meanings": [
+      "arrivare con la mano"
+    ]
   },
   {
     "word_id": "verb-103",
@@ -417,11 +706,17 @@
   },
   {
     "word_id": "verb-105",
-    "infinitive": "fangen"
+    "infinitive": "fangen",
+    "meanings": [
+      "afferrare al volo"
+    ]
   },
   {
     "word_id": "verb-106",
-    "infinitive": "kaufen"
+    "infinitive": "kaufen",
+    "meanings": [
+      "corrompere con denaro"
+    ]
   },
   {
     "word_id": "verb-107",
@@ -433,15 +728,25 @@
   },
   {
     "word_id": "verb-109",
-    "infinitive": "erwarten"
+    "infinitive": "erwarten",
+    "meanings": [
+      "essere in attesa di un figlio"
+    ]
   },
   {
     "word_id": "verb-110",
-    "infinitive": "folgen"
+    "infinitive": "folgen",
+    "meanings": [
+      "venire dopo",
+      "attenersi a un consiglio"
+    ]
   },
   {
     "word_id": "verb-111",
-    "infinitive": "schauen"
+    "infinitive": "schauen",
+    "meanings": [
+      "dirigere lo sguardo"
+    ]
   },
   {
     "word_id": "verb-112",
@@ -453,7 +758,12 @@
   },
   {
     "word_id": "verb-114",
-    "infinitive": "schlagen"
+    "infinitive": "schlagen",
+    "meanings": [
+      "picchiare",
+      "sconfiggere",
+      "suonare l'ora"
+    ]
   },
   {
     "word_id": "verb-115",
@@ -461,15 +771,26 @@
   },
   {
     "word_id": "verb-116",
-    "infinitive": "bezahlen"
+    "infinitive": "bezahlen",
+    "meanings": [
+      "retribuire"
+    ]
   },
   {
     "word_id": "verb-117",
-    "infinitive": "stecken"
+    "infinitive": "stecken",
+    "meanings": [
+      "essere infilato",
+      "investire"
+    ]
   },
   {
     "word_id": "verb-118",
-    "infinitive": "gewinnen"
+    "infinitive": "gewinnen",
+    "meanings": [
+      "guadagnare tempo",
+      "estrarre"
+    ]
   },
   {
     "word_id": "verb-119",
@@ -477,7 +798,10 @@
   },
   {
     "word_id": "verb-120",
-    "infinitive": "klingen"
+    "infinitive": "klingen",
+    "meanings": [
+      "dare un'impressione"
+    ]
   },
   {
     "word_id": "verb-121",
@@ -485,7 +809,10 @@
   },
   {
     "word_id": "verb-122",
-    "infinitive": "ändern"
+    "infinitive": "ändern",
+    "meanings": [
+      "cambiare, intransitivo"
+    ]
   },
   {
     "word_id": "verb-123",
@@ -493,15 +820,25 @@
   },
   {
     "word_id": "verb-124",
-    "infinitive": "schicken"
+    "infinitive": "schicken",
+    "meanings": [
+      "mandare qualcuno in un luogo"
+    ]
   },
   {
     "word_id": "verb-125",
-    "infinitive": "erklären"
+    "infinitive": "erklären",
+    "meanings": [
+      "dichiarare"
+    ]
   },
   {
     "word_id": "verb-126",
-    "infinitive": "legen"
+    "infinitive": "legen",
+    "meanings": [
+      "deporre un uovo",
+      "posare cavi"
+    ]
   },
   {
     "word_id": "verb-127",
@@ -509,11 +846,17 @@
   },
   {
     "word_id": "verb-128",
-    "infinitive": "aufhören"
+    "infinitive": "aufhören",
+    "meanings": [
+      "cessare, detto di un evento"
+    ]
   },
   {
     "word_id": "verb-129",
-    "infinitive": "anfangen"
+    "infinitive": "anfangen",
+    "meanings": [
+      "fare uso di qualcosa"
+    ]
   },
   {
     "word_id": "verb-130",
@@ -521,11 +864,17 @@
   },
   {
     "word_id": "verb-131",
-    "infinitive": "verdienen"
+    "infinitive": "verdienen",
+    "meanings": [
+      "meritare"
+    ]
   },
   {
     "word_id": "verb-132",
-    "infinitive": "freuen"
+    "infinitive": "freuen",
+    "meanings": [
+      "non vedere l'ora"
+    ]
   },
   {
     "word_id": "verb-133",
@@ -533,7 +882,10 @@
   },
   {
     "word_id": "verb-134",
-    "infinitive": "fliegen"
+    "infinitive": "fliegen",
+    "meanings": [
+      "essere proiettato in aria"
+    ]
   },
   {
     "word_id": "verb-135",
@@ -541,19 +893,32 @@
   },
   {
     "word_id": "verb-136",
-    "infinitive": "gedenken"
+    "infinitive": "gedenken",
+    "meanings": [
+      "avere intenzione, formale"
+    ]
   },
   {
     "word_id": "verb-137",
-    "infinitive": "funktionieren"
+    "infinitive": "funktionieren",
+    "meanings": [
+      "dare il risultato sperato"
+    ]
   },
   {
     "word_id": "verb-138",
-    "infinitive": "verkaufen"
+    "infinitive": "verkaufen",
+    "meanings": [
+      "far passare qualcosa per altro"
+    ]
   },
   {
     "word_id": "verb-139",
-    "infinitive": "schießen"
+    "infinitive": "schießen",
+    "meanings": [
+      "sparare",
+      "salire bruscamente"
+    ]
   },
   {
     "word_id": "verb-140",
@@ -561,15 +926,24 @@
   },
   {
     "word_id": "verb-141",
-    "infinitive": "kämpfen"
+    "infinitive": "kämpfen",
+    "meanings": [
+      "lottare in senso figurato"
+    ]
   },
   {
     "word_id": "verb-142",
-    "infinitive": "wünschen"
+    "infinitive": "wünschen",
+    "meanings": [
+      "desiderare per sé"
+    ]
   },
   {
     "word_id": "verb-143",
-    "infinitive": "werfen"
+    "infinitive": "werfen",
+    "meanings": [
+      "proiettare un'ombra"
+    ]
   },
   {
     "word_id": "verb-144",
@@ -577,23 +951,43 @@
   },
   {
     "word_id": "verb-145",
-    "infinitive": "führen"
+    "infinitive": "führen",
+    "meanings": [
+      "dirigere, gestire",
+      "guidare qualcuno",
+      "essere in vantaggio",
+      "tenere un diario"
+    ]
   },
   {
     "word_id": "verb-146",
-    "infinitive": "öffnen"
+    "infinitive": "öffnen",
+    "meanings": [
+      "aprire al pubblico"
+    ]
   },
   {
     "word_id": "verb-147",
-    "infinitive": "interessieren"
+    "infinitive": "interessieren",
+    "meanings": [
+      "interessarsi attivamente"
+    ]
   },
   {
     "word_id": "verb-148",
-    "infinitive": "brechen"
+    "infinitive": "brechen",
+    "meanings": [
+      "infrangere un impegno",
+      "vomitare"
+    ]
   },
   {
     "word_id": "verb-149",
-    "infinitive": "verletzen"
+    "infinitive": "verletzen",
+    "meanings": [
+      "offendere o ferire emotivamente",
+      "violare un diritto o un obbligo"
+    ]
   },
   {
     "word_id": "verb-150",
@@ -605,7 +999,10 @@
   },
   {
     "word_id": "verb-152",
-    "infinitive": "erledigen"
+    "infinitive": "erledigen",
+    "meanings": [
+      "sbrigare commissioni"
+    ]
   },
   {
     "word_id": "verb-153",
@@ -613,11 +1010,18 @@
   },
   {
     "word_id": "verb-154",
-    "infinitive": "erfahren"
+    "infinitive": "erfahren",
+    "meanings": [
+      "subire un cambiamento"
+    ]
   },
   {
     "word_id": "verb-155",
-    "infinitive": "vorstellen"
+    "infinitive": "vorstellen",
+    "meanings": [
+      "immaginare",
+      "presentare al pubblico"
+    ]
   },
   {
     "word_id": "verb-156",
@@ -625,11 +1029,17 @@
   },
   {
     "word_id": "verb-157",
-    "infinitive": "klappen"
+    "infinitive": "klappen",
+    "meanings": [
+      "piegare su una cerniera"
+    ]
   },
   {
     "word_id": "verb-158",
-    "infinitive": "entscheiden"
+    "infinitive": "entscheiden",
+    "meanings": [
+      "determinare l'esito"
+    ]
   },
   {
     "word_id": "verb-159",
@@ -637,15 +1047,26 @@
   },
   {
     "word_id": "verb-160",
-    "infinitive": "zahlen"
+    "infinitive": "zahlen",
+    "meanings": [
+      "subire le conseguenze"
+    ]
   },
   {
     "word_id": "verb-161",
-    "infinitive": "schließen"
+    "infinitive": "schließen",
+    "meanings": [
+      "concludere un accordo",
+      "dedurre",
+      "chiudere al pubblico"
+    ]
   },
   {
     "word_id": "verb-162",
-    "infinitive": "bewegen"
+    "infinitive": "bewegen",
+    "meanings": [
+      "commuovere"
+    ]
   },
   {
     "word_id": "verb-163",
@@ -657,35 +1078,64 @@
   },
   {
     "word_id": "verb-165",
-    "infinitive": "ansehen"
+    "infinitive": "ansehen",
+    "meanings": [
+      "capire dall'aspetto",
+      "considerare qualcuno come qualcosa"
+    ]
   },
   {
     "word_id": "verb-166",
-    "infinitive": "behalten"
+    "infinitive": "behalten",
+    "meanings": [
+      "conservare uno stato",
+      "ricordare o tenere a mente"
+    ]
   },
   {
     "word_id": "verb-167",
-    "infinitive": "besorgen"
+    "infinitive": "besorgen",
+    "meanings": [
+      "occuparsi di un compito"
+    ]
   },
   {
     "word_id": "verb-168",
-    "infinitive": "erkennen"
+    "infinitive": "erkennen",
+    "meanings": [
+      "rendersi conto"
+    ]
   },
   {
     "word_id": "verb-169",
-    "infinitive": "hängen"
+    "infinitive": "hängen",
+    "meanings": [
+      "essere appeso",
+      "essere affezionato"
+    ]
   },
   {
     "word_id": "verb-170",
-    "infinitive": "fehlen"
+    "infinitive": "fehlen",
+    "meanings": [
+      "essere assente"
+    ]
   },
   {
     "word_id": "verb-171",
-    "infinitive": "gehören"
+    "infinitive": "gehören",
+    "meanings": [
+      "avere il proprio posto",
+      "far parte"
+    ]
   },
   {
     "word_id": "verb-172",
-    "infinitive": "melden"
+    "infinitive": "melden",
+    "meanings": [
+      "alzare la mano per prendere la parola",
+      "mettersi in contatto"
+    ]
   },
   {
     "word_id": "verb-173",
@@ -693,7 +1143,11 @@
   },
   {
     "word_id": "verb-174",
-    "infinitive": "drehen"
+    "infinitive": "drehen",
+    "meanings": [
+      "girare un film",
+      "vertere su qualcosa"
+    ]
   },
   {
     "word_id": "verb-175",
@@ -701,11 +1155,20 @@
   },
   {
     "word_id": "verb-176",
-    "infinitive": "laden"
+    "infinitive": "laden",
+    "meanings": [
+      "caricare la batteria",
+      "caricarsi, informatica",
+      "invitare, formale"
+    ]
   },
   {
     "word_id": "verb-177",
-    "infinitive": "erreichen"
+    "infinitive": "erreichen",
+    "meanings": [
+      "riuscire a contattare",
+      "conseguire un obiettivo"
+    ]
   },
   {
     "word_id": "verb-178",
@@ -713,31 +1176,54 @@
   },
   {
     "word_id": "verb-179",
-    "infinitive": "triefen"
+    "infinitive": "triefen",
+    "meanings": [
+      "trasudare in senso figurato"
+    ]
   },
   {
     "word_id": "verb-180",
-    "infinitive": "fällen"
+    "infinitive": "fällen",
+    "meanings": [
+      "emettere un verdetto"
+    ]
   },
   {
     "word_id": "verb-181",
-    "infinitive": "angreifen"
+    "infinitive": "angreifen",
+    "meanings": [
+      "intaccare un materiale"
+    ]
   },
   {
     "word_id": "verb-182",
-    "infinitive": "kosten"
+    "infinitive": "kosten",
+    "meanings": [
+      "assaggiare",
+      "richiedere tempo o fatica"
+    ]
   },
   {
     "word_id": "verb-183",
-    "infinitive": "stören"
+    "infinitive": "stören",
+    "meanings": [
+      "interferire con un'attività"
+    ]
   },
   {
     "word_id": "verb-184",
-    "infinitive": "bauen"
+    "infinitive": "bauen",
+    "meanings": [
+      "fare affidamento"
+    ]
   },
   {
     "word_id": "verb-185",
-    "infinitive": "übernehmen"
+    "infinitive": "übernehmen",
+    "meanings": [
+      "subentrare nella gestione",
+      "farsi carico delle spese"
+    ]
   },
   {
     "word_id": "verb-186",
@@ -757,7 +1243,10 @@
   },
   {
     "word_id": "verb-190",
-    "infinitive": "beruhigen"
+    "infinitive": "beruhigen",
+    "meanings": [
+      "rassicurare"
+    ]
   },
   {
     "word_id": "verb-191",
@@ -765,7 +1254,11 @@
   },
   {
     "word_id": "verb-192",
-    "infinitive": "stillen"
+    "infinitive": "stillen",
+    "meanings": [
+      "placare la sete",
+      "arrestare un'emorragia"
+    ]
   },
   {
     "word_id": "verb-193",
@@ -773,11 +1266,17 @@
   },
   {
     "word_id": "verb-194",
-    "infinitive": "schwören"
+    "infinitive": "schwören",
+    "meanings": [
+      "fidarsi ciecamente di qualcosa"
+    ]
   },
   {
     "word_id": "verb-195",
-    "infinitive": "fürchten"
+    "infinitive": "fürchten",
+    "meanings": [
+      "temere che qualcosa sia vero"
+    ]
   },
   {
     "word_id": "verb-196",
@@ -785,7 +1284,11 @@
   },
   {
     "word_id": "verb-197",
-    "infinitive": "steigen"
+    "infinitive": "steigen",
+    "meanings": [
+      "salire fisicamente",
+      "salire su un mezzo"
+    ]
   },
   {
     "word_id": "verb-198",
@@ -793,7 +1296,11 @@
   },
   {
     "word_id": "verb-199",
-    "infinitive": "erwischen"
+    "infinitive": "erwischen",
+    "meanings": [
+      "riucire a prendere un mezzo",
+      "cogliere sul fatto"
+    ]
   },
   {
     "word_id": "verb-200",
@@ -801,11 +1308,18 @@
   },
   {
     "word_id": "verb-201",
-    "infinitive": "merken"
+    "infinitive": "merken",
+    "meanings": [
+      "memorizzare"
+    ]
   },
   {
     "word_id": "verb-202",
-    "infinitive": "verlangen"
+    "infinitive": "verlangen",
+    "meanings": [
+      "chiedere un prezzo",
+      "richiedere"
+    ]
   },
   {
     "word_id": "verb-203",
@@ -813,27 +1327,46 @@
   },
   {
     "word_id": "verb-204",
-    "infinitive": "entfernen"
+    "infinitive": "entfernen",
+    "meanings": [
+      "allontanarsi"
+    ]
   },
   {
     "word_id": "verb-205",
-    "infinitive": "mitnehmen"
+    "infinitive": "mitnehmen",
+    "meanings": [
+      "dare un passaggio",
+      "turbare o scuotere"
+    ]
   },
   {
     "word_id": "verb-206",
-    "infinitive": "überleben"
+    "infinitive": "überleben",
+    "meanings": [
+      "vivere più a lungo di qualcuno"
+    ]
   },
   {
     "word_id": "verb-207",
-    "infinitive": "regeln"
+    "infinitive": "regeln",
+    "meanings": [
+      "regolare automaticamente"
+    ]
   },
   {
     "word_id": "verb-208",
-    "infinitive": "sieben"
+    "infinitive": "sieben",
+    "meanings": [
+      "selezionare, in senso figurato"
+    ]
   },
   {
     "word_id": "verb-209",
-    "infinitive": "schreien"
+    "infinitive": "schreien",
+    "meanings": [
+      "piangere forte, detto di un neonato"
+    ]
   },
   {
     "word_id": "verb-210",
@@ -841,11 +1374,17 @@
   },
   {
     "word_id": "verb-211",
-    "infinitive": "aufhalten"
+    "infinitive": "aufhalten",
+    "meanings": [
+      "trattenersi o trovarsi in un luogo"
+    ]
   },
   {
     "word_id": "verb-212",
-    "infinitive": "irren"
+    "infinitive": "irren",
+    "meanings": [
+      "vagare senza meta"
+    ]
   },
   {
     "word_id": "verb-213",
@@ -861,7 +1400,11 @@
   },
   {
     "word_id": "verb-216",
-    "infinitive": "erhalten"
+    "infinitive": "erhalten",
+    "meanings": [
+      "preservare",
+      "provvedere al sostentamento"
+    ]
   },
   {
     "word_id": "verb-217",
@@ -869,31 +1412,55 @@
   },
   {
     "word_id": "verb-218",
-    "infinitive": "besuchen"
+    "infinitive": "besuchen",
+    "meanings": [
+      "frequentare una scuola"
+    ]
   },
   {
     "word_id": "verb-219",
-    "infinitive": "dienen"
+    "infinitive": "dienen",
+    "meanings": [
+      "prestare servizio"
+    ]
   },
   {
     "word_id": "verb-220",
-    "infinitive": "verfolgen"
+    "infinitive": "verfolgen",
+    "meanings": [
+      "seguire con attenzione",
+      "perseguitare"
+    ]
   },
   {
     "word_id": "verb-221",
-    "infinitive": "wundern"
+    "infinitive": "wundern",
+    "meanings": [
+      "provocare stupore"
+    ]
   },
   {
     "word_id": "verb-222",
-    "infinitive": "weisen"
+    "infinitive": "weisen",
+    "meanings": [
+      "mandare via, formale"
+    ]
   },
   {
     "word_id": "verb-223",
-    "infinitive": "verraten"
+    "infinitive": "verraten",
+    "meanings": [
+      "tradire una persona",
+      "rivelare involontariamente"
+    ]
   },
   {
     "word_id": "verb-224",
-    "infinitive": "zählen"
+    "infinitive": "zählen",
+    "meanings": [
+      "avere importanza",
+      "annoverare"
+    ]
   },
   {
     "word_id": "verb-225",
@@ -901,7 +1468,11 @@
   },
   {
     "word_id": "verb-226",
-    "infinitive": "riechen"
+    "infinitive": "riechen",
+    "meanings": [
+      "percepire un odore",
+      "emanare un odore sgradevole"
+    ]
   },
   {
     "word_id": "verb-227",
@@ -909,11 +1480,21 @@
   },
   {
     "word_id": "verb-228",
-    "infinitive": "bestehen"
+    "infinitive": "bestehen",
+    "meanings": [
+      "superare una prova",
+      "insistere",
+      "esistere"
+    ]
   },
   {
     "word_id": "verb-229",
-    "infinitive": "treten"
+    "infinitive": "treten",
+    "meanings": [
+      "calpestare involontariamente",
+      "calciare",
+      "entrare in vigore"
+    ]
   },
   {
     "word_id": "verb-230",
@@ -929,11 +1510,17 @@
   },
   {
     "word_id": "verb-233",
-    "infinitive": "schulden"
+    "infinitive": "schulden",
+    "meanings": [
+      "essere tenuto a dare una spiegazione"
+    ]
   },
   {
     "word_id": "verb-234",
-    "infinitive": "besitzen"
+    "infinitive": "besitzen",
+    "meanings": [
+      "avere una qualità"
+    ]
   },
   {
     "word_id": "verb-235",
@@ -945,31 +1532,57 @@
   },
   {
     "word_id": "verb-237",
-    "infinitive": "behandeln"
+    "infinitive": "behandeln",
+    "meanings": [
+      "trattare un argomento",
+      "comportarsi verso qualcuno"
+    ]
   },
   {
     "word_id": "verb-238",
-    "infinitive": "spüren"
+    "infinitive": "spüren",
+    "meanings": [
+      "percepire intuitivamente"
+    ]
   },
   {
     "word_id": "verb-239",
-    "infinitive": "handeln"
+    "infinitive": "handeln",
+    "meanings": [
+      "agire",
+      "commerciare",
+      "trattarsi"
+    ]
   },
   {
     "word_id": "verb-240",
-    "infinitive": "teilen"
+    "infinitive": "teilen",
+    "meanings": [
+      "dividere in matematica",
+      "condividere un'opinione",
+      "usare insieme qualcosa"
+    ]
   },
   {
     "word_id": "verb-241",
-    "infinitive": "bieten"
+    "infinitive": "bieten",
+    "meanings": [
+      "fare un'offerta di prezzo"
+    ]
   },
   {
     "word_id": "verb-242",
-    "infinitive": "überraschen"
+    "infinitive": "überraschen",
+    "meanings": [
+      "cogliere alla sprovvista"
+    ]
   },
   {
     "word_id": "verb-243",
-    "infinitive": "leiden"
+    "infinitive": "leiden",
+    "meanings": [
+      "risultare danneggiato"
+    ]
   },
   {
     "word_id": "verb-244",
@@ -981,15 +1594,25 @@
   },
   {
     "word_id": "verb-246",
-    "infinitive": "wählen"
+    "infinitive": "wählen",
+    "meanings": [
+      "comporre un numero",
+      "scegliere tra opzioni"
+    ]
   },
   {
     "word_id": "verb-247",
-    "infinitive": "überlegen"
+    "infinitive": "überlegen",
+    "meanings": [
+      "prendere in considerazione"
+    ]
   },
   {
     "word_id": "verb-248",
-    "infinitive": "rücken"
+    "infinitive": "rücken",
+    "meanings": [
+      "spostare di poco"
+    ]
   },
   {
     "word_id": "verb-249",
@@ -997,23 +1620,40 @@
   },
   {
     "word_id": "verb-250",
-    "infinitive": "jagen"
+    "infinitive": "jagen",
+    "meanings": [
+      "andare a caccia",
+      "mandare via bruscamente"
+    ]
   },
   {
     "word_id": "verb-251",
-    "infinitive": "bekennen"
+    "infinitive": "bekennen",
+    "meanings": [
+      "professare una fede"
+    ]
   },
   {
     "word_id": "verb-252",
-    "infinitive": "annehmen"
+    "infinitive": "annehmen",
+    "meanings": [
+      "supporre",
+      "assumere una caratteristica"
+    ]
   },
   {
     "word_id": "verb-253",
-    "infinitive": "herkommen"
+    "infinitive": "herkommen",
+    "meanings": [
+      "avere origine"
+    ]
   },
   {
     "word_id": "verb-254",
-    "infinitive": "schnappen"
+    "infinitive": "schnappen",
+    "meanings": [
+      "prendere una boccata d'aria"
+    ]
   },
   {
     "word_id": "verb-255",
@@ -1025,7 +1665,11 @@
   },
   {
     "word_id": "verb-257",
-    "infinitive": "beschäftigen"
+    "infinitive": "beschäftigen",
+    "meanings": [
+      "occupare il pensiero",
+      "tenersi occupato"
+    ]
   },
   {
     "word_id": "verb-258",
@@ -1033,11 +1677,20 @@
   },
   {
     "word_id": "verb-259",
-    "infinitive": "lösen"
+    "infinitive": "lösen",
+    "meanings": [
+      "sciogliersi in un liquido",
+      "sciogliere o allentare un nodo",
+      "acquistare un biglietto"
+    ]
   },
   {
     "word_id": "verb-260",
-    "infinitive": "schneiden"
+    "infinitive": "schneiden",
+    "meanings": [
+      "procurarsi un taglio",
+      "montare un video"
+    ]
   },
   {
     "word_id": "verb-261",
@@ -1045,11 +1698,18 @@
   },
   {
     "word_id": "verb-262",
-    "infinitive": "nutzen"
+    "infinitive": "nutzen",
+    "meanings": [
+      "essere utile o efficace"
+    ]
   },
   {
     "word_id": "verb-263",
-    "infinitive": "wirken"
+    "infinitive": "wirken",
+    "meanings": [
+      "dare l'impressione",
+      "svolgere un'attività in un luogo"
+    ]
   },
   {
     "word_id": "verb-264",
@@ -1057,11 +1717,17 @@
   },
   {
     "word_id": "verb-265",
-    "infinitive": "beobachten"
+    "infinitive": "beobachten",
+    "meanings": [
+      "monitorare"
+    ]
   },
   {
     "word_id": "verb-266",
-    "infinitive": "feiern"
+    "infinitive": "feiern",
+    "meanings": [
+      "acclamare qualcuno"
+    ]
   },
   {
     "word_id": "verb-267",
@@ -1069,11 +1735,18 @@
   },
   {
     "word_id": "verb-268",
-    "infinitive": "aufgeben"
+    "infinitive": "aufgeben",
+    "meanings": [
+      "consegnare per la spedizione",
+      "assegnare un compito"
+    ]
   },
   {
     "word_id": "verb-269",
-    "infinitive": "gebären"
+    "infinitive": "gebären",
+    "meanings": [
+      "generare in senso figurato"
+    ]
   },
   {
     "word_id": "verb-270",
@@ -1081,11 +1754,19 @@
   },
   {
     "word_id": "verb-271",
-    "infinitive": "leisten"
+    "infinitive": "leisten",
+    "meanings": [
+      "prestare aiuto",
+      "erogare potenza",
+      "opporre resistenza"
+    ]
   },
   {
     "word_id": "verb-272",
-    "infinitive": "einladen"
+    "infinitive": "einladen",
+    "meanings": [
+      "caricare su un mezzo"
+    ]
   },
   {
     "word_id": "verb-273",
@@ -1093,31 +1774,54 @@
   },
   {
     "word_id": "verb-274",
-    "infinitive": "springen"
+    "infinitive": "springen",
+    "meanings": [
+      "creparsi",
+      "salire di colpo"
+    ]
   },
   {
     "word_id": "verb-275",
-    "infinitive": "landen"
+    "infinitive": "landen",
+    "meanings": [
+      "finire in un posto"
+    ]
   },
   {
     "word_id": "verb-276",
-    "infinitive": "träumen"
+    "infinitive": "träumen",
+    "meanings": [
+      "aspirare a qualcosa"
+    ]
   },
   {
     "word_id": "verb-277",
-    "infinitive": "gebrauchen"
+    "infinitive": "gebrauchen",
+    "meanings": [
+      "poter usare, avere bisogno"
+    ]
   },
   {
     "word_id": "verb-278",
-    "infinitive": "feuern"
+    "infinitive": "feuern",
+    "meanings": [
+      "sparare"
+    ]
   },
   {
     "word_id": "verb-279",
-    "infinitive": "schenken"
+    "infinitive": "schenken",
+    "meanings": [
+      "dare credito, locuzione"
+    ]
   },
   {
     "word_id": "verb-280",
-    "infinitive": "trennen"
+    "infinitive": "trennen",
+    "meanings": [
+      "lasciare il proprio partner",
+      "fare da confine"
+    ]
   },
   {
     "word_id": "verb-281",
@@ -1125,7 +1829,13 @@
   },
   {
     "word_id": "verb-282",
-    "infinitive": "treiben"
+    "infinitive": "treiben",
+    "meanings": [
+      "spingere un gruppo di animali",
+      "fare o combinare qualcosa",
+      "galleggiare",
+      "praticare sport"
+    ]
   },
   {
     "word_id": "verb-283",
@@ -1133,31 +1843,58 @@
   },
   {
     "word_id": "verb-284",
-    "infinitive": "aufnehmen"
+    "infinitive": "aufnehmen",
+    "meanings": [
+      "ammettere o accogliere",
+      "assorbire",
+      "avviare un contatto",
+      "riprendere un'attività"
+    ]
   },
   {
     "word_id": "verb-285",
-    "infinitive": "entdecken"
+    "infinitive": "entdecken",
+    "meanings": [
+      "notare qualcosa"
+    ]
   },
   {
     "word_id": "verb-286",
-    "infinitive": "wüten"
+    "infinitive": "wüten",
+    "meanings": [
+      "andare su tutte le furie"
+    ]
   },
   {
     "word_id": "verb-287",
-    "infinitive": "ergeben"
+    "infinitive": "ergeben",
+    "meanings": [
+      "arrendersi",
+      "emergere dal contesto"
+    ]
   },
   {
     "word_id": "verb-288",
-    "infinitive": "wachsen"
+    "infinitive": "wachsen",
+    "meanings": [
+      "aumentare",
+      "applicare cera"
+    ]
   },
   {
     "word_id": "verb-289",
-    "infinitive": "mitbringen"
+    "infinitive": "mitbringen",
+    "meanings": [
+      "possedere e apportare una qualità"
+    ]
   },
   {
     "word_id": "verb-290",
-    "infinitive": "ankommen"
+    "infinitive": "ankommen",
+    "meanings": [
+      "dipendere da qualcosa",
+      "essere accolto favorevolmente"
+    ]
   },
   {
     "word_id": "verb-291",
@@ -1165,27 +1902,51 @@
   },
   {
     "word_id": "verb-292",
-    "infinitive": "genießen"
+    "infinitive": "genießen",
+    "meanings": [
+      "beneficiare di qualcosa"
+    ]
   },
   {
     "word_id": "verb-293",
-    "infinitive": "passen"
+    "infinitive": "passen",
+    "meanings": [
+      "essere della misura giusta",
+      "essere comodo come orario",
+      "abbinarsi",
+      "passare la palla"
+    ]
   },
   {
     "word_id": "verb-294",
-    "infinitive": "rauchen"
+    "infinitive": "rauchen",
+    "meanings": [
+      "emettere fumo"
+    ]
   },
   {
     "word_id": "verb-295",
-    "infinitive": "packen"
+    "infinitive": "packen",
+    "meanings": [
+      "afferrare con decisione",
+      "coinvolgere intensamente",
+      "farcela, colloquiale"
+    ]
   },
   {
     "word_id": "verb-296",
-    "infinitive": "verbinden"
+    "infinitive": "verbinden",
+    "meanings": [
+      "collegare",
+      "associare"
+    ]
   },
   {
     "word_id": "verb-297",
-    "infinitive": "erleben"
+    "infinitive": "erleben",
+    "meanings": [
+      "vivere direttamente un evento"
+    ]
   },
   {
     "word_id": "verb-298",
@@ -1193,11 +1954,18 @@
   },
   {
     "word_id": "verb-299",
-    "infinitive": "vergeben"
+    "infinitive": "vergeben",
+    "meanings": [
+      "assegnare un incarico",
+      "sprecare un'occasione"
+    ]
   },
   {
     "word_id": "verb-300",
-    "infinitive": "vorbereiten"
+    "infinitive": "vorbereiten",
+    "meanings": [
+      "prepararsi a qualcosa"
+    ]
   },
   {
     "word_id": "verb-301",
@@ -1205,7 +1973,12 @@
   },
   {
     "word_id": "verb-302",
-    "infinitive": "ausgehen"
+    "infinitive": "ausgehen",
+    "meanings": [
+      "spegnersi",
+      "partire da un presupposto",
+      "esaurirsi"
+    ]
   },
   {
     "word_id": "verb-303",
@@ -1213,23 +1986,39 @@
   },
   {
     "word_id": "verb-304",
-    "infinitive": "aufregen"
+    "infinitive": "aufregen",
+    "meanings": [
+      "provocare irritazione"
+    ]
   },
   {
     "word_id": "verb-305",
-    "infinitive": "trauen"
+    "infinitive": "trauen",
+    "meanings": [
+      "osare",
+      "celebrare un matrimonio"
+    ]
   },
   {
     "word_id": "verb-306",
-    "infinitive": "geraten"
+    "infinitive": "geraten",
+    "meanings": [
+      "riuscire, detto di un risultato"
+    ]
   },
   {
     "word_id": "verb-307",
-    "infinitive": "befinden"
+    "infinitive": "befinden",
+    "meanings": [
+      "giudicare o dichiarare formalmente"
+    ]
   },
   {
     "word_id": "verb-308",
-    "infinitive": "unterscheiden"
+    "infinitive": "unterscheiden",
+    "meanings": [
+      "differire"
+    ]
   },
   {
     "word_id": "verb-309",
@@ -1241,15 +2030,24 @@
   },
   {
     "word_id": "verb-311",
-    "infinitive": "schmecken"
+    "infinitive": "schmecken",
+    "meanings": [
+      "avere un certo sapore"
+    ]
   },
   {
     "word_id": "verb-312",
-    "infinitive": "abholen"
+    "infinitive": "abholen",
+    "meanings": [
+      "coinvolgere partendo dalla situazione di qualcuno"
+    ]
   },
   {
     "word_id": "verb-313",
-    "infinitive": "abhauen"
+    "infinitive": "abhauen",
+    "meanings": [
+      "staccare a colpi"
+    ]
   },
   {
     "word_id": "verb-314",
@@ -1257,7 +2055,10 @@
   },
   {
     "word_id": "verb-315",
-    "infinitive": "auftauchen"
+    "infinitive": "auftauchen",
+    "meanings": [
+      "ricomparire"
+    ]
   },
   {
     "word_id": "verb-316",
@@ -1265,7 +2066,10 @@
   },
   {
     "word_id": "verb-317",
-    "infinitive": "dringen"
+    "infinitive": "dringen",
+    "meanings": [
+      "insistere perché si agisca"
+    ]
   },
   {
     "word_id": "verb-318",
@@ -1277,15 +2081,26 @@
   },
   {
     "word_id": "verb-320",
-    "infinitive": "klingeln"
+    "infinitive": "klingeln",
+    "meanings": [
+      "squillare"
+    ]
   },
   {
     "word_id": "verb-321",
-    "infinitive": "drücken"
+    "infinitive": "drücken",
+    "meanings": [
+      "stringere o fare pressione",
+      "abbracciare",
+      "ridurre un valore"
+    ]
   },
   {
     "word_id": "verb-322",
-    "infinitive": "verhalten"
+    "infinitive": "verhalten",
+    "meanings": [
+      "stare in un rapporto matematico"
+    ]
   },
   {
     "word_id": "verb-323",
@@ -1293,15 +2108,26 @@
   },
   {
     "word_id": "verb-324",
-    "infinitive": "brennen"
+    "infinitive": "brennen",
+    "meanings": [
+      "dare una sensazione di bruciore",
+      "essere acceso, detto di una luce",
+      "cuocere materiali ad alta temperatura"
+    ]
   },
   {
     "word_id": "verb-325",
-    "infinitive": "aufstehen"
+    "infinitive": "aufstehen",
+    "meanings": [
+      "ribellarsi"
+    ]
   },
   {
     "word_id": "verb-326",
-    "infinitive": "bemerken"
+    "infinitive": "bemerken",
+    "meanings": [
+      "osservare a parole"
+    ]
   },
   {
     "word_id": "verb-327",
@@ -1321,7 +2147,11 @@
   },
   {
     "word_id": "verb-331",
-    "infinitive": "erscheinen"
+    "infinitive": "erscheinen",
+    "meanings": [
+      "diventare visibile",
+      "sembrare"
+    ]
   },
   {
     "word_id": "verb-332",
@@ -1329,15 +2159,26 @@
   },
   {
     "word_id": "verb-333",
-    "infinitive": "kochen"
+    "infinitive": "kochen",
+    "meanings": [
+      "bollire"
+    ]
   },
   {
     "word_id": "verb-334",
-    "infinitive": "schätzen"
+    "infinitive": "schätzen",
+    "meanings": [
+      "stimare una quantità"
+    ]
   },
   {
     "word_id": "verb-335",
-    "infinitive": "anziehen"
+    "infinitive": "anziehen",
+    "meanings": [
+      "attirare",
+      "aumentare",
+      "serrare"
+    ]
   },
   {
     "word_id": "verb-336",
@@ -1345,11 +2186,17 @@
   },
   {
     "word_id": "verb-337",
-    "infinitive": "vermissen"
+    "infinitive": "vermissen",
+    "meanings": [
+      "risultare disperso"
+    ]
   },
   {
     "word_id": "verb-338",
-    "infinitive": "behaupten"
+    "infinitive": "behaupten",
+    "meanings": [
+      "mantenere una posizione"
+    ]
   },
   {
     "word_id": "verb-339",
@@ -1357,7 +2204,10 @@
   },
   {
     "word_id": "verb-340",
-    "infinitive": "aussagen"
+    "infinitive": "aussagen",
+    "meanings": [
+      "rivelare informazioni"
+    ]
   },
   {
     "word_id": "verb-341",
@@ -1377,7 +2227,10 @@
   },
   {
     "word_id": "verb-345",
-    "infinitive": "bestätigen"
+    "infinitive": "bestätigen",
+    "meanings": [
+      "confermare la validità di un giudizio"
+    ]
   },
   {
     "word_id": "verb-346",
@@ -1409,23 +2262,41 @@
   },
   {
     "word_id": "verb-353",
-    "infinitive": "gelten"
+    "infinitive": "gelten",
+    "meanings": [
+      "essere considerato",
+      "essere rivolto a qualcuno",
+      "essere necessario"
+    ]
   },
   {
     "word_id": "verb-354",
-    "infinitive": "kontrollieren"
+    "infinitive": "kontrollieren",
+    "meanings": [
+      "esercitare il controllo"
+    ]
   },
   {
     "word_id": "verb-355",
-    "infinitive": "klopfen"
+    "infinitive": "klopfen",
+    "meanings": [
+      "battere, detto del cuore"
+    ]
   },
   {
     "word_id": "verb-356",
-    "infinitive": "bestellen"
+    "infinitive": "bestellen",
+    "meanings": [
+      "trasmettere saluti",
+      "coltivare il terreno"
+    ]
   },
   {
     "word_id": "verb-357",
-    "infinitive": "begleiten"
+    "infinitive": "begleiten",
+    "meanings": [
+      "accompagnare musicalmente"
+    ]
   },
   {
     "word_id": "verb-358",
@@ -1433,15 +2304,25 @@
   },
   {
     "word_id": "verb-359",
-    "infinitive": "richten"
+    "infinitive": "richten",
+    "meanings": [
+      "regolarsi in base a qualcosa",
+      "raddrizzare"
+    ]
   },
   {
     "word_id": "verb-360",
-    "infinitive": "aufpassen"
+    "infinitive": "aufpassen",
+    "meanings": [
+      "fare attenzione"
+    ]
   },
   {
     "word_id": "verb-361",
-    "infinitive": "verbrennen"
+    "infinitive": "verbrennen",
+    "meanings": [
+      "scottarsi"
+    ]
   },
   {
     "word_id": "verb-362",
@@ -1453,7 +2334,10 @@
   },
   {
     "word_id": "verb-364",
-    "infinitive": "existieren"
+    "infinitive": "existieren",
+    "meanings": [
+      "riuscire a mantenersi"
+    ]
   },
   {
     "word_id": "verb-365",
@@ -1469,7 +2353,11 @@
   },
   {
     "word_id": "verb-368",
-    "infinitive": "starten"
+    "infinitive": "starten",
+    "meanings": [
+      "decollare",
+      "mettere in moto"
+    ]
   },
   {
     "word_id": "verb-369",
@@ -1481,15 +2369,25 @@
   },
   {
     "word_id": "verb-371",
-    "infinitive": "streiten"
+    "infinitive": "streiten",
+    "meanings": [
+      "contendersi qualcosa"
+    ]
   },
   {
     "word_id": "verb-372",
-    "infinitive": "erfüllen"
+    "infinitive": "erfüllen",
+    "meanings": [
+      "soddisfare requisiti"
+    ]
   },
   {
     "word_id": "verb-373",
-    "infinitive": "entwickeln"
+    "infinitive": "entwickeln",
+    "meanings": [
+      "manifestare gradualmente",
+      "sviluppare fotografie"
+    ]
   },
   {
     "word_id": "verb-374",
@@ -1505,31 +2403,56 @@
   },
   {
     "word_id": "verb-377",
-    "infinitive": "erschrecken"
+    "infinitive": "erschrecken",
+    "meanings": [
+      "spaventarsi"
+    ]
   },
   {
     "word_id": "verb-378",
-    "infinitive": "stechen"
+    "infinitive": "stechen",
+    "meanings": [
+      "pizzicare, dare dolore pungente",
+      "battere una carta avversaria"
+    ]
   },
   {
     "word_id": "verb-379",
-    "infinitive": "unterhalten"
+    "infinitive": "unterhalten",
+    "meanings": [
+      "intrattenere",
+      "mantenere economicamente"
+    ]
   },
   {
     "word_id": "verb-380",
-    "infinitive": "leiten"
+    "infinitive": "leiten",
+    "meanings": [
+      "condurre calore o elettricità",
+      "convogliare"
+    ]
   },
   {
     "word_id": "verb-381",
-    "infinitive": "greifen"
+    "infinitive": "greifen",
+    "meanings": [
+      "cercare di afferrare",
+      "avere effetto"
+    ]
   },
   {
     "word_id": "verb-382",
-    "infinitive": "wachen"
+    "infinitive": "wachen",
+    "meanings": [
+      "vigilare su qualcosa"
+    ]
   },
   {
     "word_id": "verb-383",
-    "infinitive": "berühren"
+    "infinitive": "berühren",
+    "meanings": [
+      "commuovere"
+    ]
   },
   {
     "word_id": "verb-384",
@@ -1537,11 +2460,17 @@
   },
   {
     "word_id": "verb-385",
-    "infinitive": "probieren"
+    "infinitive": "probieren",
+    "meanings": [
+      "tentare"
+    ]
   },
   {
     "word_id": "verb-386",
-    "infinitive": "winden"
+    "infinitive": "winden",
+    "meanings": [
+      "avvolgersi"
+    ]
   },
   {
     "word_id": "verb-387",
@@ -1553,7 +2482,11 @@
   },
   {
     "word_id": "verb-389",
-    "infinitive": "umgehen"
+    "infinitive": "umgehen",
+    "meanings": [
+      "saper trattare qualcuno",
+      "circolare, detto di una voce"
+    ]
   },
   {
     "word_id": "verb-390",
@@ -1573,7 +2506,10 @@
   },
   {
     "word_id": "verb-394",
-    "infinitive": "übersetzen"
+    "infinitive": "übersetzen",
+    "meanings": [
+      "traghettare"
+    ]
   },
   {
     "word_id": "verb-395",
@@ -1589,7 +2525,10 @@
   },
   {
     "word_id": "verb-398",
-    "infinitive": "liefern"
+    "infinitive": "liefern",
+    "meanings": [
+      "fornire un risultato o una prestazione"
+    ]
   },
   {
     "word_id": "verb-399",
@@ -1601,7 +2540,11 @@
   },
   {
     "word_id": "verb-401",
-    "infinitive": "anstellen"
+    "infinitive": "anstellen",
+    "meanings": [
+      "mettersi in fila",
+      "combinare qualcosa"
+    ]
   },
   {
     "word_id": "verb-402",
@@ -1613,23 +2556,40 @@
   },
   {
     "word_id": "verb-404",
-    "infinitive": "wechseln"
+    "infinitive": "wechseln",
+    "meanings": [
+      "cambiare mezzo",
+      "cambiare valuta"
+    ]
   },
   {
     "word_id": "verb-405",
-    "infinitive": "anhalten"
+    "infinitive": "anhalten",
+    "meanings": [
+      "perdurare"
+    ]
   },
   {
     "word_id": "verb-406",
-    "infinitive": "studieren"
+    "infinitive": "studieren",
+    "meanings": [
+      "studiare attentamente"
+    ]
   },
   {
     "word_id": "verb-407",
-    "infinitive": "zeugen"
+    "infinitive": "zeugen",
+    "meanings": [
+      "essere prova di qualcosa"
+    ]
   },
   {
     "word_id": "verb-408",
-    "infinitive": "spinnen"
+    "infinitive": "spinnen",
+    "meanings": [
+      "comportarsi in modo assurdo",
+      "filare fibre tessili"
+    ]
   },
   {
     "word_id": "verb-409",
@@ -1641,15 +2601,26 @@
   },
   {
     "word_id": "verb-411",
-    "infinitive": "regen"
+    "infinitive": "regen",
+    "meanings": [
+      "muoversi lievemente"
+    ]
   },
   {
     "word_id": "verb-412",
-    "infinitive": "fassen"
+    "infinitive": "fassen",
+    "meanings": [
+      "riuscire a capacitarsi",
+      "avere una certa capienza",
+      "adottare una decisione"
+    ]
   },
   {
     "word_id": "verb-413",
-    "infinitive": "schwimmen"
+    "infinitive": "schwimmen",
+    "meanings": [
+      "galleggiare"
+    ]
   },
   {
     "word_id": "verb-414",
@@ -1657,11 +2628,18 @@
   },
   {
     "word_id": "verb-415",
-    "infinitive": "angehen"
+    "infinitive": "angehen",
+    "meanings": [
+      "affrontare un problema",
+      "accendersi"
+    ]
   },
   {
     "word_id": "verb-416",
-    "infinitive": "reißen"
+    "infinitive": "reißen",
+    "meanings": [
+      "strappare con forza"
+    ]
   },
   {
     "word_id": "verb-417",
@@ -1681,15 +2659,24 @@
   },
   {
     "word_id": "verb-421",
-    "infinitive": "begegnen"
+    "infinitive": "begegnen",
+    "meanings": [
+      "far fronte a qualcosa"
+    ]
   },
   {
     "word_id": "verb-422",
-    "infinitive": "kehren"
+    "infinitive": "kehren",
+    "meanings": [
+      "invertire la direzione"
+    ]
   },
   {
     "word_id": "verb-423",
-    "infinitive": "zulassen"
+    "infinitive": "zulassen",
+    "meanings": [
+      "immatricolare"
+    ]
   },
   {
     "word_id": "verb-424",
@@ -1697,7 +2684,11 @@
   },
   {
     "word_id": "verb-425",
-    "infinitive": "abschließen"
+    "infinitive": "abschließen",
+    "meanings": [
+      "stipulare un contratto",
+      "portare a termine"
+    ]
   },
   {
     "word_id": "verb-426",
@@ -1709,19 +2700,32 @@
   },
   {
     "word_id": "verb-428",
-    "infinitive": "sammeln"
+    "infinitive": "sammeln",
+    "meanings": [
+      "accumulare esperienza"
+    ]
   },
   {
     "word_id": "verb-429",
-    "infinitive": "konzentrieren"
+    "infinitive": "konzentrieren",
+    "meanings": [
+      "riunire in un solo punto"
+    ]
   },
   {
     "word_id": "verb-430",
-    "infinitive": "achten"
+    "infinitive": "achten",
+    "meanings": [
+      "rispettare o stimare"
+    ]
   },
   {
     "word_id": "verb-431",
-    "infinitive": "pfeifen"
+    "infinitive": "pfeifen",
+    "meanings": [
+      "segnalare con un fischio",
+      "produrre un sibilo"
+    ]
   },
   {
     "word_id": "verb-432",
@@ -1729,11 +2733,18 @@
   },
   {
     "word_id": "verb-433",
-    "infinitive": "begehen"
+    "infinitive": "begehen",
+    "meanings": [
+      "ispezionare percorrendo",
+      "celebrare una ricorrenza"
+    ]
   },
   {
     "word_id": "verb-434",
-    "infinitive": "aufmachen"
+    "infinitive": "aufmachen",
+    "meanings": [
+      "mettersi in viaggio"
+    ]
   },
   {
     "word_id": "verb-435",
@@ -1741,11 +2752,17 @@
   },
   {
     "word_id": "verb-436",
-    "infinitive": "heilen"
+    "infinitive": "heilen",
+    "meanings": [
+      "rimarginarsi"
+    ]
   },
   {
     "word_id": "verb-437",
-    "infinitive": "verteidigen"
+    "infinitive": "verteidigen",
+    "meanings": [
+      "cercare di conservare un titolo"
+    ]
   },
   {
     "word_id": "verb-438",
@@ -1753,11 +2770,18 @@
   },
   {
     "word_id": "verb-439",
-    "infinitive": "festhalten"
+    "infinitive": "festhalten",
+    "meanings": [
+      "registrare per iscritto",
+      "non cambiare decisione"
+    ]
   },
   {
     "word_id": "verb-440",
-    "infinitive": "klären"
+    "infinitive": "klären",
+    "meanings": [
+      "chiarificare un liquido"
+    ]
   },
   {
     "word_id": "verb-441",
@@ -1765,7 +2789,11 @@
   },
   {
     "word_id": "verb-442",
-    "infinitive": "wenden"
+    "infinitive": "wenden",
+    "meanings": [
+      "rivolgersi a qualcuno",
+      "invertire direzione"
+    ]
   },
   {
     "word_id": "verb-443",
@@ -1773,15 +2801,24 @@
   },
   {
     "word_id": "verb-444",
-    "infinitive": "fressen"
+    "infinitive": "fressen",
+    "meanings": [
+      "corrodere"
+    ]
   },
   {
     "word_id": "verb-445",
-    "infinitive": "gewöhnen"
+    "infinitive": "gewöhnen",
+    "meanings": [
+      "far prendere un'abitudine"
+    ]
   },
   {
     "word_id": "verb-446",
-    "infinitive": "heben"
+    "infinitive": "heben",
+    "meanings": [
+      "migliorare un livello"
+    ]
   },
   {
     "word_id": "verb-447",
@@ -1801,23 +2838,40 @@
   },
   {
     "word_id": "verb-451",
-    "infinitive": "raten"
+    "infinitive": "raten",
+    "meanings": [
+      "indovinare"
+    ]
   },
   {
     "word_id": "verb-452",
-    "infinitive": "runden"
+    "infinitive": "runden",
+    "meanings": [
+      "assumere una forma arrotondata"
+    ]
   },
   {
     "word_id": "verb-453",
-    "infinitive": "tauchen"
+    "infinitive": "tauchen",
+    "meanings": [
+      "immergere qualcosa"
+    ]
   },
   {
     "word_id": "verb-454",
-    "infinitive": "einstellen"
+    "infinitive": "einstellen",
+    "meanings": [
+      "regolare un apparecchio",
+      "cessare un'attività",
+      "prepararsi mentalmente"
+    ]
   },
   {
     "word_id": "verb-455",
-    "infinitive": "senden"
+    "infinitive": "senden",
+    "meanings": [
+      "trasmettere via radio"
+    ]
   },
   {
     "word_id": "verb-456",
@@ -1825,11 +2879,18 @@
   },
   {
     "word_id": "verb-457",
-    "infinitive": "versagen"
+    "infinitive": "versagen",
+    "meanings": [
+      "fallire una prova",
+      "negare, formale"
+    ]
   },
   {
     "word_id": "verb-458",
-    "infinitive": "verurteilen"
+    "infinitive": "verurteilen",
+    "meanings": [
+      "condannare moralmente"
+    ]
   },
   {
     "word_id": "verb-459",
@@ -1837,11 +2898,17 @@
   },
   {
     "word_id": "verb-460",
-    "infinitive": "absehen"
+    "infinitive": "absehen",
+    "meanings": [
+      "prevedere o intravedere"
+    ]
   },
   {
     "word_id": "verb-461",
-    "infinitive": "ausziehen"
+    "infinitive": "ausziehen",
+    "meanings": [
+      "lasciare la propria abitazione"
+    ]
   },
   {
     "word_id": "verb-462",
@@ -1857,15 +2924,25 @@
   },
   {
     "word_id": "verb-465",
-    "infinitive": "wecken"
+    "infinitive": "wecken",
+    "meanings": [
+      "evocare ricordi"
+    ]
   },
   {
     "word_id": "verb-466",
-    "infinitive": "vergehen"
+    "infinitive": "vergehen",
+    "meanings": [
+      "cessare, svanire",
+      "commettere un illecito"
+    ]
   },
   {
     "word_id": "verb-467",
-    "infinitive": "stammen"
+    "infinitive": "stammen",
+    "meanings": [
+      "essere originario"
+    ]
   },
   {
     "word_id": "verb-468",
@@ -1881,7 +2958,10 @@
   },
   {
     "word_id": "verb-471",
-    "infinitive": "betrügen"
+    "infinitive": "betrügen",
+    "meanings": [
+      "tradire il partner"
+    ]
   },
   {
     "word_id": "verb-472",
@@ -1889,7 +2969,10 @@
   },
   {
     "word_id": "verb-473",
-    "infinitive": "entlassen"
+    "infinitive": "entlassen",
+    "meanings": [
+      "dimettere dall'ospedale"
+    ]
   },
   {
     "word_id": "verb-474",
@@ -1897,15 +2980,25 @@
   },
   {
     "word_id": "verb-475",
-    "infinitive": "bewahren"
+    "infinitive": "bewahren",
+    "meanings": [
+      "proteggere da qualcosa"
+    ]
   },
   {
     "word_id": "verb-476",
-    "infinitive": "zugeben"
+    "infinitive": "zugeben",
+    "meanings": [
+      "aggiungere un ingrediente"
+    ]
   },
   {
     "word_id": "verb-477",
-    "infinitive": "stürzen"
+    "infinitive": "stürzen",
+    "meanings": [
+      "rovesciare un governo",
+      "avventarsi"
+    ]
   },
   {
     "word_id": "verb-478",
@@ -1913,15 +3006,25 @@
   },
   {
     "word_id": "verb-479",
-    "infinitive": "pressen"
+    "infinitive": "pressen",
+    "meanings": [
+      "comprimere sotto pressione"
+    ]
   },
   {
     "word_id": "verb-480",
-    "infinitive": "übergeben"
+    "infinitive": "übergeben",
+    "meanings": [
+      "vomitare"
+    ]
   },
   {
     "word_id": "verb-481",
-    "infinitive": "stoßen"
+    "infinitive": "stoßen",
+    "meanings": [
+      "imbattersi in qualcosa",
+      "spingere con un colpo"
+    ]
   },
   {
     "word_id": "verb-482",
@@ -1929,7 +3032,10 @@
   },
   {
     "word_id": "verb-483",
-    "infinitive": "identifizieren"
+    "infinitive": "identifizieren",
+    "meanings": [
+      "riconoscersi in qualcuno"
+    ]
   },
   {
     "word_id": "verb-484",
@@ -1953,19 +3059,33 @@
   },
   {
     "word_id": "verb-489",
-    "infinitive": "üben"
+    "infinitive": "üben",
+    "meanings": [
+      "esercitare, in una locuzione"
+    ]
   },
   {
     "word_id": "verb-490",
-    "infinitive": "ausmachen"
+    "infinitive": "ausmachen",
+    "meanings": [
+      "concordare",
+      "dare fastidio",
+      "scorgere"
+    ]
   },
   {
     "word_id": "verb-491",
-    "infinitive": "zusehen"
+    "infinitive": "zusehen",
+    "meanings": [
+      "provvedere affinché"
+    ]
   },
   {
     "word_id": "verb-492",
-    "infinitive": "empfinden"
+    "infinitive": "empfinden",
+    "meanings": [
+      "percepire o giudicare"
+    ]
   },
   {
     "word_id": "verb-493",
@@ -1973,11 +3093,17 @@
   },
   {
     "word_id": "verb-494",
-    "infinitive": "leihen"
+    "infinitive": "leihen",
+    "meanings": [
+      "prendere in prestito"
+    ]
   },
   {
     "word_id": "verb-495",
-    "infinitive": "begraben"
+    "infinitive": "begraben",
+    "meanings": [
+      "abbandonare un progetto"
+    ]
   },
   {
     "word_id": "verb-496",
@@ -1997,11 +3123,18 @@
   },
   {
     "word_id": "verb-500",
-    "infinitive": "rühren"
+    "infinitive": "rühren",
+    "meanings": [
+      "commuovere",
+      "muoversi"
+    ]
   },
   {
     "word_id": "verb-501",
-    "infinitive": "opfern"
+    "infinitive": "opfern",
+    "meanings": [
+      "offrire in sacrificio"
+    ]
   },
   {
     "word_id": "verb-502",
@@ -2009,7 +3142,10 @@
   },
   {
     "word_id": "verb-503",
-    "infinitive": "gründen"
+    "infinitive": "gründen",
+    "meanings": [
+      "basarsi su dati"
+    ]
   },
   {
     "word_id": "verb-504",
@@ -2017,7 +3153,10 @@
   },
   {
     "word_id": "verb-505",
-    "infinitive": "trainieren"
+    "infinitive": "trainieren",
+    "meanings": [
+      "fare da allenatore"
+    ]
   },
   {
     "word_id": "verb-506",
@@ -2025,19 +3164,33 @@
   },
   {
     "word_id": "verb-507",
-    "infinitive": "betrachten"
+    "infinitive": "betrachten",
+    "meanings": [
+      "considerare"
+    ]
   },
   {
     "word_id": "verb-508",
-    "infinitive": "stinken"
+    "infinitive": "stinken",
+    "meanings": [
+      "destare sospetti"
+    ]
   },
   {
     "word_id": "verb-509",
-    "infinitive": "sparen"
+    "infinitive": "sparen",
+    "meanings": [
+      "risparmiare tempo",
+      "evitare qualcosa di inutile"
+    ]
   },
   {
     "word_id": "verb-510",
-    "infinitive": "einfallen"
+    "infinitive": "einfallen",
+    "meanings": [
+      "crollare",
+      "entrare in massa"
+    ]
   },
   {
     "word_id": "verb-511",
@@ -2057,11 +3210,17 @@
   },
   {
     "word_id": "verb-515",
-    "infinitive": "versichern"
+    "infinitive": "versichern",
+    "meanings": [
+      "stipulare un'assicurazione"
+    ]
   },
   {
     "word_id": "verb-516",
-    "infinitive": "prüfen"
+    "infinitive": "prüfen",
+    "meanings": [
+      "sottoporre a un esame"
+    ]
   },
   {
     "word_id": "verb-517",
@@ -2077,7 +3236,12 @@
   },
   {
     "word_id": "verb-520",
-    "infinitive": "einsetzen"
+    "infinitive": "einsetzen",
+    "meanings": [
+      "inserire",
+      "impegnarsi per una causa",
+      "cominciare, detto di un fenomeno"
+    ]
   },
   {
     "word_id": "verb-521",
@@ -2085,7 +3249,10 @@
   },
   {
     "word_id": "verb-522",
-    "infinitive": "anbieten"
+    "infinitive": "anbieten",
+    "meanings": [
+      "proporsi per un compito"
+    ]
   },
   {
     "word_id": "verb-523",
@@ -2093,7 +3260,11 @@
   },
   {
     "word_id": "verb-524",
-    "infinitive": "verpassen"
+    "infinitive": "verpassen",
+    "meanings": [
+      "non riuscire ad assistere",
+      "dotare di qualcosa, colloquiale"
+    ]
   },
   {
     "word_id": "verb-525",
@@ -2105,19 +3276,33 @@
   },
   {
     "word_id": "verb-527",
-    "infinitive": "spuren"
+    "infinitive": "spuren",
+    "meanings": [
+      "obbedire, colloquiale"
+    ]
   },
   {
     "word_id": "verb-528",
-    "infinitive": "fordern"
+    "infinitive": "fordern",
+    "meanings": [
+      "richiedere impegno"
+    ]
   },
   {
     "word_id": "verb-529",
-    "infinitive": "abgeben"
+    "infinitive": "abgeben",
+    "meanings": [
+      "emettere",
+      "rilasciare una dichiarazione"
+    ]
   },
   {
     "word_id": "verb-530",
-    "infinitive": "aufbauen"
+    "infinitive": "aufbauen",
+    "meanings": [
+      "incoraggiare",
+      "costruire qualcosa di astratto"
+    ]
   },
   {
     "word_id": "verb-531",
@@ -2125,11 +3310,19 @@
   },
   {
     "word_id": "verb-532",
-    "infinitive": "stärken"
+    "infinitive": "stärken",
+    "meanings": [
+      "rifocillarsi"
+    ]
   },
   {
     "word_id": "verb-533",
-    "infinitive": "abnehmen"
+    "infinitive": "abnehmen",
+    "meanings": [
+      "togliere qualcosa",
+      "credere a qualcuno",
+      "diminuire"
+    ]
   },
   {
     "word_id": "verb-534",
@@ -2141,11 +3334,18 @@
   },
   {
     "word_id": "verb-536",
-    "infinitive": "auftreten"
+    "infinitive": "auftreten",
+    "meanings": [
+      "esibirsi in pubblico",
+      "mostrarsi in un certo modo"
+    ]
   },
   {
     "word_id": "verb-537",
-    "infinitive": "empfangen"
+    "infinitive": "empfangen",
+    "meanings": [
+      "ricevere un segnale"
+    ]
   },
   {
     "word_id": "verb-538",
@@ -2153,7 +3353,11 @@
   },
   {
     "word_id": "verb-539",
-    "infinitive": "löschen"
+    "infinitive": "löschen",
+    "meanings": [
+      "eliminare un file",
+      "placare la sete"
+    ]
   },
   {
     "word_id": "verb-540",
@@ -2165,15 +3369,24 @@
   },
   {
     "word_id": "verb-542",
-    "infinitive": "anzeigen"
+    "infinitive": "anzeigen",
+    "meanings": [
+      "denunciare"
+    ]
   },
   {
     "word_id": "verb-543",
-    "infinitive": "schieben"
+    "infinitive": "schieben",
+    "meanings": [
+      "attribuire la colpa"
+    ]
   },
   {
     "word_id": "verb-544",
-    "infinitive": "heulen"
+    "infinitive": "heulen",
+    "meanings": [
+      "emettere un ululato o un lamento"
+    ]
   },
   {
     "word_id": "verb-545",
@@ -2181,7 +3394,10 @@
   },
   {
     "word_id": "verb-546",
-    "infinitive": "erfreuen"
+    "infinitive": "erfreuen",
+    "meanings": [
+      "godere di qualcosa"
+    ]
   },
   {
     "word_id": "verb-547",
@@ -2193,27 +3409,46 @@
   },
   {
     "word_id": "verb-549",
-    "infinitive": "beschreiben"
+    "infinitive": "beschreiben",
+    "meanings": [
+      "tracciare un percorso"
+    ]
   },
   {
     "word_id": "verb-550",
-    "infinitive": "scheiden"
+    "infinitive": "scheiden",
+    "meanings": [
+      "divorziare"
+    ]
   },
   {
     "word_id": "verb-551",
-    "infinitive": "anhören"
+    "infinitive": "anhören",
+    "meanings": [
+      "dare una certa impressione"
+    ]
   },
   {
     "word_id": "verb-552",
-    "infinitive": "bilden"
+    "infinitive": "bilden",
+    "meanings": [
+      "formarsi",
+      "istruire"
+    ]
   },
   {
     "word_id": "verb-553",
-    "infinitive": "täuschen"
+    "infinitive": "täuschen",
+    "meanings": [
+      "sbagliarsi"
+    ]
   },
   {
     "word_id": "verb-554",
-    "infinitive": "drohen"
+    "infinitive": "drohen",
+    "meanings": [
+      "rischiare, detto di un pericolo imminente"
+    ]
   },
   {
     "word_id": "verb-555",
@@ -2225,7 +3460,10 @@
   },
   {
     "word_id": "verb-557",
-    "infinitive": "verabschieden"
+    "infinitive": "verabschieden",
+    "meanings": [
+      "approvare formalmente"
+    ]
   },
   {
     "word_id": "verb-558",
@@ -2237,11 +3475,18 @@
   },
   {
     "word_id": "verb-560",
-    "infinitive": "bedenken"
+    "infinitive": "bedenken",
+    "meanings": [
+      "includere tra i beneficiari"
+    ]
   },
   {
     "word_id": "verb-561",
-    "infinitive": "erheben"
+    "infinitive": "erheben",
+    "meanings": [
+      "alzare, detto della voce",
+      "sollevare un'obiezione"
+    ]
   },
   {
     "word_id": "verb-562",
@@ -2253,7 +3498,11 @@
   },
   {
     "word_id": "verb-564",
-    "infinitive": "ausgeben"
+    "infinitive": "ausgeben",
+    "meanings": [
+      "offrire una consumazione",
+      "fingersi"
+    ]
   },
   {
     "word_id": "verb-565",
@@ -2269,7 +3518,10 @@
   },
   {
     "word_id": "verb-568",
-    "infinitive": "sperren"
+    "infinitive": "sperren",
+    "meanings": [
+      "disabilitare l'accesso"
+    ]
   },
   {
     "word_id": "verb-569",
@@ -2289,7 +3541,11 @@
   },
   {
     "word_id": "verb-573",
-    "infinitive": "rechnen"
+    "infinitive": "rechnen",
+    "meanings": [
+      "aspettarsi qualcosa",
+      "essere economicamente conveniente"
+    ]
   },
   {
     "word_id": "verb-574",
@@ -2297,7 +3553,10 @@
   },
   {
     "word_id": "verb-575",
-    "infinitive": "anfassen"
+    "infinitive": "anfassen",
+    "meanings": [
+      "affrontare un compito"
+    ]
   },
   {
     "word_id": "verb-576",
@@ -2305,11 +3564,17 @@
   },
   {
     "word_id": "verb-577",
-    "infinitive": "auffallen"
+    "infinitive": "auffallen",
+    "meanings": [
+      "accorgersi"
+    ]
   },
   {
     "word_id": "verb-578",
-    "infinitive": "amüsieren"
+    "infinitive": "amüsieren",
+    "meanings": [
+      "far divertire"
+    ]
   },
   {
     "word_id": "verb-579",
@@ -2321,7 +3586,11 @@
   },
   {
     "word_id": "verb-581",
-    "infinitive": "kündigen"
+    "infinitive": "kündigen",
+    "meanings": [
+      "dimettersi",
+      "licenziare"
+    ]
   },
   {
     "word_id": "verb-582",
@@ -2333,23 +3602,39 @@
   },
   {
     "word_id": "verb-584",
-    "infinitive": "aussteigen"
+    "infinitive": "aussteigen",
+    "meanings": [
+      "abbandonare un'attività"
+    ]
   },
   {
     "word_id": "verb-585",
-    "infinitive": "begrüßen"
+    "infinitive": "begrüßen",
+    "meanings": [
+      "accogliere favorevolmente"
+    ]
   },
   {
     "word_id": "verb-586",
-    "infinitive": "versetzen"
+    "infinitive": "versetzen",
+    "meanings": [
+      "provocare uno stato emotivo",
+      "dare in pegno"
+    ]
   },
   {
     "word_id": "verb-587",
-    "infinitive": "schmeißen"
+    "infinitive": "schmeißen",
+    "meanings": [
+      "espellere, colloquiale"
+    ]
   },
   {
     "word_id": "verb-588",
-    "infinitive": "explodieren"
+    "infinitive": "explodieren",
+    "meanings": [
+      "aumentare bruscamente"
+    ]
   },
   {
     "word_id": "verb-589",
@@ -2357,7 +3642,10 @@
   },
   {
     "word_id": "verb-590",
-    "infinitive": "umdrehen"
+    "infinitive": "umdrehen",
+    "meanings": [
+      "voltarsi"
+    ]
   },
   {
     "word_id": "verb-591",
@@ -2365,7 +3653,10 @@
   },
   {
     "word_id": "verb-592",
-    "infinitive": "beißen"
+    "infinitive": "beißen",
+    "meanings": [
+      "pungere, detto del freddo"
+    ]
   },
   {
     "word_id": "verb-593",
@@ -2373,7 +3664,10 @@
   },
   {
     "word_id": "verb-594",
-    "infinitive": "erhöhen"
+    "infinitive": "erhöhen",
+    "meanings": [
+      "rendere fisicamente più alto"
+    ]
   },
   {
     "word_id": "verb-595",
@@ -2393,15 +3687,27 @@
   },
   {
     "word_id": "verb-599",
-    "infinitive": "eingehen"
+    "infinitive": "eingehen",
+    "meanings": [
+      "restringersi",
+      "prendere in considerazione una risposta",
+      "assumersi un rischio"
+    ]
   },
   {
     "word_id": "verb-600",
-    "infinitive": "decken"
+    "infinitive": "decken",
+    "meanings": [
+      "coprire finanziariamente",
+      "coprire un tetto"
+    ]
   },
   {
     "word_id": "verb-601",
-    "infinitive": "fesseln"
+    "infinitive": "fesseln",
+    "meanings": [
+      "catturare l'attenzione"
+    ]
   },
   {
     "word_id": "verb-602",
@@ -2417,15 +3723,24 @@
   },
   {
     "word_id": "verb-605",
-    "infinitive": "verteilen"
+    "infinitive": "verteilen",
+    "meanings": [
+      "ripartirsi"
+    ]
   },
   {
     "word_id": "verb-606",
-    "infinitive": "ausdrücken"
+    "infinitive": "ausdrücken",
+    "meanings": [
+      "spegnere schiacciando"
+    ]
   },
   {
     "word_id": "verb-607",
-    "infinitive": "beschließen"
+    "infinitive": "beschließen",
+    "meanings": [
+      "concludere formalmente"
+    ]
   },
   {
     "word_id": "verb-608",
@@ -2433,19 +3748,33 @@
   },
   {
     "word_id": "verb-609",
-    "infinitive": "ersetzen"
+    "infinitive": "ersetzen",
+    "meanings": [
+      "rimborsare o risarcire"
+    ]
   },
   {
     "word_id": "verb-610",
-    "infinitive": "verderben"
+    "infinitive": "verderben",
+    "meanings": [
+      "andare a male",
+      "guastare qualcosa"
+    ]
   },
   {
     "word_id": "verb-611",
-    "infinitive": "eröffnen"
+    "infinitive": "eröffnen",
+    "meanings": [
+      "aprire un conto",
+      "comunicare una notizia importante"
+    ]
   },
   {
     "word_id": "verb-612",
-    "infinitive": "steuern"
+    "infinitive": "steuern",
+    "meanings": [
+      "regolare un sistema"
+    ]
   },
   {
     "word_id": "verb-613",
@@ -2461,7 +3790,11 @@
   },
   {
     "word_id": "verb-616",
-    "infinitive": "streichen"
+    "infinitive": "streichen",
+    "meanings": [
+      "verniciare",
+      "spalmare"
+    ]
   },
   {
     "word_id": "verb-617",
@@ -2469,11 +3802,17 @@
   },
   {
     "word_id": "verb-618",
-    "infinitive": "blasen"
+    "infinitive": "blasen",
+    "meanings": [
+      "soffiare in uno strumento"
+    ]
   },
   {
     "word_id": "verb-619",
-    "infinitive": "herstellen"
+    "infinitive": "herstellen",
+    "meanings": [
+      "stabilire un collegamento"
+    ]
   },
   {
     "word_id": "verb-620",
@@ -2481,7 +3820,10 @@
   },
   {
     "word_id": "verb-621",
-    "infinitive": "überwachen"
+    "infinitive": "überwachen",
+    "meanings": [
+      "monitorare un parametro"
+    ]
   },
   {
     "word_id": "verb-622",
@@ -2489,7 +3831,11 @@
   },
   {
     "word_id": "verb-623",
-    "infinitive": "auszeichnen"
+    "infinitive": "auszeichnen",
+    "meanings": [
+      "contraddistinguere",
+      "etichettare con il prezzo"
+    ]
   },
   {
     "word_id": "verb-624",
@@ -2497,19 +3843,31 @@
   },
   {
     "word_id": "verb-625",
-    "infinitive": "ausreden"
+    "infinitive": "ausreden",
+    "meanings": [
+      "finire di parlare"
+    ]
   },
   {
     "word_id": "verb-626",
-    "infinitive": "mitmachen"
+    "infinitive": "mitmachen",
+    "meanings": [
+      "sopportare o subire"
+    ]
   },
   {
     "word_id": "verb-627",
-    "infinitive": "loslassen"
+    "infinitive": "loslassen",
+    "meanings": [
+      "lasciare andare emotivamente"
+    ]
   },
   {
     "word_id": "verb-628",
-    "infinitive": "räumen"
+    "infinitive": "räumen",
+    "meanings": [
+      "liberare un passaggio"
+    ]
   },
   {
     "word_id": "verb-629",
@@ -2517,11 +3875,17 @@
   },
   {
     "word_id": "verb-630",
-    "infinitive": "nachsehen"
+    "infinitive": "nachsehen",
+    "meanings": [
+      "perdonare una mancanza"
+    ]
   },
   {
     "word_id": "verb-631",
-    "infinitive": "fließen"
+    "infinitive": "fließen",
+    "meanings": [
+      "essere destinato, detto di fondi"
+    ]
   },
   {
     "word_id": "verb-632",
@@ -2529,7 +3893,10 @@
   },
   {
     "word_id": "verb-633",
-    "infinitive": "herrschen"
+    "infinitive": "herrschen",
+    "meanings": [
+      "governare"
+    ]
   },
   {
     "word_id": "verb-634",
@@ -2537,7 +3904,10 @@
   },
   {
     "word_id": "verb-635",
-    "infinitive": "bluten"
+    "infinitive": "bluten",
+    "meanings": [
+      "soffrire, in senso figurato"
+    ]
   },
   {
     "word_id": "verb-636",
@@ -2545,11 +3915,19 @@
   },
   {
     "word_id": "verb-637",
-    "infinitive": "abschneiden"
+    "infinitive": "abschneiden",
+    "meanings": [
+      "ottenere un risultato",
+      "tagliare fuori"
+    ]
   },
   {
     "word_id": "verb-638",
-    "infinitive": "binden"
+    "infinitive": "binden",
+    "meanings": [
+      "vincolare a un impegno",
+      "legare o addensare"
+    ]
   },
   {
     "word_id": "verb-639",
@@ -2557,15 +3935,27 @@
   },
   {
     "word_id": "verb-640",
-    "infinitive": "anlegen"
+    "infinitive": "anlegen",
+    "meanings": [
+      "investire",
+      "attraccare",
+      "creare un archivio"
+    ]
   },
   {
     "word_id": "verb-641",
-    "infinitive": "grenzen"
+    "infinitive": "grenzen",
+    "meanings": [
+      "rasentare, in senso figurato"
+    ]
   },
   {
     "word_id": "verb-642",
-    "infinitive": "anschließen"
+    "infinitive": "anschließen",
+    "meanings": [
+      "unirsi a un gruppo",
+      "seguire immediatamente"
+    ]
   },
   {
     "word_id": "verb-643",
@@ -2573,7 +3963,10 @@
   },
   {
     "word_id": "verb-644",
-    "infinitive": "abhalten"
+    "infinitive": "abhalten",
+    "meanings": [
+      "tenere una riunione"
+    ]
   },
   {
     "word_id": "verb-645",
@@ -2585,7 +3978,10 @@
   },
   {
     "word_id": "verb-647",
-    "infinitive": "wehtun"
+    "infinitive": "wehtun",
+    "meanings": [
+      "ferire emotivamente"
+    ]
   },
   {
     "word_id": "verb-648",
@@ -2593,7 +3989,10 @@
   },
   {
     "word_id": "verb-649",
-    "infinitive": "begeistern"
+    "infinitive": "begeistern",
+    "meanings": [
+      "entusiasmarsi"
+    ]
   },
   {
     "word_id": "verb-650",
@@ -2613,15 +4012,25 @@
   },
   {
     "word_id": "verb-654",
-    "infinitive": "ergreifen"
+    "infinitive": "ergreifen",
+    "meanings": [
+      "cogliere un'occasione",
+      "commuovere"
+    ]
   },
   {
     "word_id": "verb-655",
-    "infinitive": "reizen"
+    "infinitive": "reizen",
+    "meanings": [
+      "attirare, incuriosire"
+    ]
   },
   {
     "word_id": "verb-656",
-    "infinitive": "weichen"
+    "infinitive": "weichen",
+    "meanings": [
+      "essere sostituito"
+    ]
   },
   {
     "word_id": "verb-657",
@@ -2637,11 +4046,17 @@
   },
   {
     "word_id": "verb-660",
-    "infinitive": "umziehen"
+    "infinitive": "umziehen",
+    "meanings": [
+      "cambiarsi d'abito"
+    ]
   },
   {
     "word_id": "verb-661",
-    "infinitive": "gestehen"
+    "infinitive": "gestehen",
+    "meanings": [
+      "dichiarare i propri sentimenti"
+    ]
   },
   {
     "word_id": "verb-662",
@@ -2657,7 +4072,11 @@
   },
   {
     "word_id": "verb-665",
-    "infinitive": "auslösen"
+    "infinitive": "auslösen",
+    "meanings": [
+      "suscitare una reazione",
+      "riscattare un oggetto"
+    ]
   },
   {
     "word_id": "verb-666",
@@ -2665,15 +4084,25 @@
   },
   {
     "word_id": "verb-667",
-    "infinitive": "beteiligen"
+    "infinitive": "beteiligen",
+    "meanings": [
+      "far partecipare a un beneficio"
+    ]
   },
   {
     "word_id": "verb-668",
-    "infinitive": "strecken"
+    "infinitive": "strecken",
+    "meanings": [
+      "diluire per aumentare la quantità"
+    ]
   },
   {
     "word_id": "verb-669",
-    "infinitive": "aussprechen"
+    "infinitive": "aussprechen",
+    "meanings": [
+      "esprimere formalmente",
+      "chiarirsi parlando"
+    ]
   },
   {
     "word_id": "verb-670",
@@ -2681,11 +4110,18 @@
   },
   {
     "word_id": "verb-671",
-    "infinitive": "vorgehen"
+    "infinitive": "vorgehen",
+    "meanings": [
+      "essere in anticipo",
+      "avere priorità"
+    ]
   },
   {
     "word_id": "verb-672",
-    "infinitive": "ausruhen"
+    "infinitive": "ausruhen",
+    "meanings": [
+      "adagiarsi sui successi"
+    ]
   },
   {
     "word_id": "verb-673",
@@ -2693,7 +4129,10 @@
   },
   {
     "word_id": "verb-674",
-    "infinitive": "abmachen"
+    "infinitive": "abmachen",
+    "meanings": [
+      "staccare qualcosa"
+    ]
   },
   {
     "word_id": "verb-675",
@@ -2705,19 +4144,32 @@
   },
   {
     "word_id": "verb-677",
-    "infinitive": "schleichen"
+    "infinitive": "schleichen",
+    "meanings": [
+      "procedere molto lentamente"
+    ]
   },
   {
     "word_id": "verb-678",
-    "infinitive": "bedienen"
+    "infinitive": "bedienen",
+    "meanings": [
+      "azionare o usare un apparecchio",
+      "servirsi da sé"
+    ]
   },
   {
     "word_id": "verb-679",
-    "infinitive": "spannen"
+    "infinitive": "spannen",
+    "meanings": [
+      "tirare, detto di un indumento"
+    ]
   },
   {
     "word_id": "verb-680",
-    "infinitive": "bergen"
+    "infinitive": "bergen",
+    "meanings": [
+      "racchiudere"
+    ]
   },
   {
     "word_id": "verb-681",
@@ -2725,11 +4177,17 @@
   },
   {
     "word_id": "verb-682",
-    "infinitive": "beherrschen"
+    "infinitive": "beherrschen",
+    "meanings": [
+      "dominare un'emozione"
+    ]
   },
   {
     "word_id": "verb-683",
-    "infinitive": "überfallen"
+    "infinitive": "überfallen",
+    "meanings": [
+      "assalire, detto di un sentimento"
+    ]
   },
   {
     "word_id": "verb-684",
@@ -2741,7 +4199,10 @@
   },
   {
     "word_id": "verb-686",
-    "infinitive": "verschaffen"
+    "infinitive": "verschaffen",
+    "meanings": [
+      "procurare una sensazione"
+    ]
   },
   {
     "word_id": "verb-687",
@@ -2753,7 +4214,10 @@
   },
   {
     "word_id": "verb-689",
-    "infinitive": "ablenken"
+    "infinitive": "ablenken",
+    "meanings": [
+      "deviare dalla direzione"
+    ]
   },
   {
     "word_id": "verb-690",
@@ -2765,7 +4229,12 @@
   },
   {
     "word_id": "verb-692",
-    "infinitive": "verlegen"
+    "infinitive": "verlegen",
+    "meanings": [
+      "non ricordare dove si è messo qualcosa",
+      "posare o installare",
+      "pubblicare come editore"
+    ]
   },
   {
     "word_id": "verb-693",
@@ -2773,11 +4242,17 @@
   },
   {
     "word_id": "verb-694",
-    "infinitive": "zeichnen"
+    "infinitive": "zeichnen",
+    "meanings": [
+      "sottoscrivere titoli"
+    ]
   },
   {
     "word_id": "verb-695",
-    "infinitive": "umlegen"
+    "infinitive": "umlegen",
+    "meanings": [
+      "ripartire un costo"
+    ]
   },
   {
     "word_id": "verb-696",
@@ -2789,19 +4264,31 @@
   },
   {
     "word_id": "verb-698",
-    "infinitive": "zerbrechen"
+    "infinitive": "zerbrechen",
+    "meanings": [
+      "andare in pezzi, in senso figurato"
+    ]
   },
   {
     "word_id": "verb-699",
-    "infinitive": "rollen"
+    "infinitive": "rollen",
+    "meanings": [
+      "arrotolare"
+    ]
   },
   {
     "word_id": "verb-700",
-    "infinitive": "spenden"
+    "infinitive": "spenden",
+    "meanings": [
+      "dare conforto"
+    ]
   },
   {
     "word_id": "verb-701",
-    "infinitive": "ärgern"
+    "infinitive": "ärgern",
+    "meanings": [
+      "provare irritazione"
+    ]
   },
   {
     "word_id": "verb-702",
@@ -2817,11 +4304,18 @@
   },
   {
     "word_id": "verb-705",
-    "infinitive": "aufheben"
+    "infinitive": "aufheben",
+    "meanings": [
+      "conservare",
+      "revocare"
+    ]
   },
   {
     "word_id": "verb-706",
-    "infinitive": "klagen"
+    "infinitive": "klagen",
+    "meanings": [
+      "intentare una causa"
+    ]
   },
   {
     "word_id": "verb-707",
@@ -2837,15 +4331,27 @@
   },
   {
     "word_id": "verb-710",
-    "infinitive": "arrangieren"
+    "infinitive": "arrangieren",
+    "meanings": [
+      "organizzare",
+      "trovare un compromesso"
+    ]
   },
   {
     "word_id": "verb-711",
-    "infinitive": "blicken"
+    "infinitive": "blicken",
+    "meanings": [
+      "avere vista su qualcosa"
+    ]
   },
   {
     "word_id": "verb-712",
-    "infinitive": "aussetzen"
+    "infinitive": "aussetzen",
+    "meanings": [
+      "sospendere temporaneamente",
+      "abbandonare un animale",
+      "funzionare a intermittenza"
+    ]
   },
   {
     "word_id": "verb-713",
@@ -2853,7 +4359,11 @@
   },
   {
     "word_id": "verb-714",
-    "infinitive": "verlaufen"
+    "infinitive": "verlaufen",
+    "meanings": [
+      "svolgersi",
+      "avere un certo tracciato"
+    ]
   },
   {
     "word_id": "verb-715",
@@ -2869,11 +4379,18 @@
   },
   {
     "word_id": "verb-718",
-    "infinitive": "vertreten"
+    "infinitive": "vertreten",
+    "meanings": [
+      "rappresentare qualcuno",
+      "sostenere una tesi"
+    ]
   },
   {
     "word_id": "verb-719",
-    "infinitive": "sinken"
+    "infinitive": "sinken",
+    "meanings": [
+      "affondare"
+    ]
   },
   {
     "word_id": "verb-720",
@@ -2881,11 +4398,17 @@
   },
   {
     "word_id": "verb-721",
-    "infinitive": "operieren"
+    "infinitive": "operieren",
+    "meanings": [
+      "svolgere un'attività in un territorio"
+    ]
   },
   {
     "word_id": "verb-722",
-    "infinitive": "erweisen"
+    "infinitive": "erweisen",
+    "meanings": [
+      "manifestare rispetto"
+    ]
   },
   {
     "word_id": "verb-723",
@@ -2897,11 +4420,18 @@
   },
   {
     "word_id": "verb-725",
-    "infinitive": "absagen"
+    "infinitive": "absagen",
+    "meanings": [
+      "declinare un invito"
+    ]
   },
   {
     "word_id": "verb-726",
-    "infinitive": "einziehen"
+    "infinitive": "einziehen",
+    "meanings": [
+      "riscuotere",
+      "retrarre"
+    ]
   },
   {
     "word_id": "verb-727",
@@ -2917,27 +4447,46 @@
   },
   {
     "word_id": "verb-730",
-    "infinitive": "einsteigen"
+    "infinitive": "einsteigen",
+    "meanings": [
+      "entrare in un'attività"
+    ]
   },
   {
     "word_id": "verb-731",
-    "infinitive": "unterrichten"
+    "infinitive": "unterrichten",
+    "meanings": [
+      "informare, formale"
+    ]
   },
   {
     "word_id": "verb-732",
-    "infinitive": "eintreten"
+    "infinitive": "eintreten",
+    "meanings": [
+      "verificarsi",
+      "impegnarsi per una causa"
+    ]
   },
   {
     "word_id": "verb-733",
-    "infinitive": "losgehen"
+    "infinitive": "losgehen",
+    "meanings": [
+      "cominciare"
+    ]
   },
   {
     "word_id": "verb-734",
-    "infinitive": "putzen"
+    "infinitive": "putzen",
+    "meanings": [
+      "intonacare"
+    ]
   },
   {
     "word_id": "verb-735",
-    "infinitive": "zielen"
+    "infinitive": "zielen",
+    "meanings": [
+      "mirare a un obiettivo"
+    ]
   },
   {
     "word_id": "verb-736",
@@ -2953,7 +4502,11 @@
   },
   {
     "word_id": "verb-739",
-    "infinitive": "einnehmen"
+    "infinitive": "einnehmen",
+    "meanings": [
+      "occupare spazio",
+      "incassare"
+    ]
   },
   {
     "word_id": "verb-740",
@@ -2961,11 +4514,17 @@
   },
   {
     "word_id": "verb-741",
-    "infinitive": "knallen"
+    "infinitive": "knallen",
+    "meanings": [
+      "urtare con un forte rumore"
+    ]
   },
   {
     "word_id": "verb-742",
-    "infinitive": "verschließen"
+    "infinitive": "verschließen",
+    "meanings": [
+      "chiudere ermeticamente o sigillare"
+    ]
   },
   {
     "word_id": "verb-743",
@@ -2973,15 +4532,25 @@
   },
   {
     "word_id": "verb-744",
-    "infinitive": "versorgen"
+    "infinitive": "versorgen",
+    "meanings": [
+      "prestare cure"
+    ]
   },
   {
     "word_id": "verb-745",
-    "infinitive": "sprengen"
+    "infinitive": "sprengen",
+    "meanings": [
+      "superare nettamente un limite"
+    ]
   },
   {
     "word_id": "verb-746",
-    "infinitive": "durchgehen"
+    "infinitive": "durchgehen",
+    "meanings": [
+      "imbizzarrirsi e scappare",
+      "essere accettato"
+    ]
   },
   {
     "word_id": "verb-747",
@@ -2989,11 +4558,18 @@
   },
   {
     "word_id": "verb-748",
-    "infinitive": "verbreiten"
+    "infinitive": "verbreiten",
+    "meanings": [
+      "diffondersi"
+    ]
   },
   {
     "word_id": "verb-749",
-    "infinitive": "abziehen"
+    "infinitive": "abziehen",
+    "meanings": [
+      "staccare tirando",
+      "allontanarsi"
+    ]
   },
   {
     "word_id": "verb-750",
@@ -3001,7 +4577,10 @@
   },
   {
     "word_id": "verb-751",
-    "infinitive": "verschieben"
+    "infinitive": "verschieben",
+    "meanings": [
+      "spostare fisicamente"
+    ]
   },
   {
     "word_id": "verb-752",
@@ -3013,7 +4592,10 @@
   },
   {
     "word_id": "verb-754",
-    "infinitive": "feststellen"
+    "infinitive": "feststellen",
+    "meanings": [
+      "bloccare meccanicamente"
+    ]
   },
   {
     "word_id": "verb-755",
@@ -3021,7 +4603,10 @@
   },
   {
     "word_id": "verb-756",
-    "infinitive": "zurückgehen"
+    "infinitive": "zurückgehen",
+    "meanings": [
+      "diminuire"
+    ]
   },
   {
     "word_id": "verb-757",
@@ -3033,7 +4618,10 @@
   },
   {
     "word_id": "verb-759",
-    "infinitive": "wehren"
+    "infinitive": "wehren",
+    "meanings": [
+      "opporsi"
+    ]
   },
   {
     "word_id": "verb-760",
@@ -3041,15 +4629,24 @@
   },
   {
     "word_id": "verb-761",
-    "infinitive": "verfahren"
+    "infinitive": "verfahren",
+    "meanings": [
+      "sbagliare strada in un veicolo"
+    ]
   },
   {
     "word_id": "verb-762",
-    "infinitive": "läuten"
+    "infinitive": "läuten",
+    "meanings": [
+      "suonare il campanello"
+    ]
   },
   {
     "word_id": "verb-763",
-    "infinitive": "brüllen"
+    "infinitive": "brüllen",
+    "meanings": [
+      "gridare"
+    ]
   },
   {
     "word_id": "verb-764",
@@ -3057,15 +4654,24 @@
   },
   {
     "word_id": "verb-765",
-    "infinitive": "beschweren"
+    "infinitive": "beschweren",
+    "meanings": [
+      "appesantire con un peso"
+    ]
   },
   {
     "word_id": "verb-766",
-    "infinitive": "zurückziehen"
+    "infinitive": "zurückziehen",
+    "meanings": [
+      "ritirarsi in un luogo"
+    ]
   },
   {
     "word_id": "verb-767",
-    "infinitive": "quälen"
+    "infinitive": "quälen",
+    "meanings": [
+      "muoversi con grande fatica"
+    ]
   },
   {
     "word_id": "verb-768",
@@ -3081,11 +4687,17 @@
   },
   {
     "word_id": "verb-771",
-    "infinitive": "duschen"
+    "infinitive": "duschen",
+    "meanings": [
+      "lavare sotto la doccia"
+    ]
   },
   {
     "word_id": "verb-772",
-    "infinitive": "ausschließen"
+    "infinitive": "ausschließen",
+    "meanings": [
+      "escludere una persona da un gruppo"
+    ]
   },
   {
     "word_id": "verb-773",
@@ -3093,15 +4705,24 @@
   },
   {
     "word_id": "verb-774",
-    "infinitive": "knacken"
+    "infinitive": "knacken",
+    "meanings": [
+      "scricchiolare"
+    ]
   },
   {
     "word_id": "verb-775",
-    "infinitive": "locken"
+    "infinitive": "locken",
+    "meanings": [
+      "invogliare"
+    ]
   },
   {
     "word_id": "verb-776",
-    "infinitive": "besetzen"
+    "infinitive": "besetzen",
+    "meanings": [
+      "assegnare un ruolo"
+    ]
   },
   {
     "word_id": "verb-777",
@@ -3109,15 +4730,25 @@
   },
   {
     "word_id": "verb-778",
-    "infinitive": "abfahren"
+    "infinitive": "abfahren",
+    "meanings": [
+      "andare matto per qualcosa"
+    ]
   },
   {
     "word_id": "verb-779",
-    "infinitive": "bezeichnen"
+    "infinitive": "bezeichnen",
+    "meanings": [
+      "contrassegnare"
+    ]
   },
   {
     "word_id": "verb-780",
-    "infinitive": "pflegen"
+    "infinitive": "pflegen",
+    "meanings": [
+      "assistere un malato",
+      "essere soliti fare qualcosa"
+    ]
   },
   {
     "word_id": "verb-781",
@@ -3137,7 +4768,10 @@
   },
   {
     "word_id": "verb-785",
-    "infinitive": "vertragen"
+    "infinitive": "vertragen",
+    "meanings": [
+      "andare d'accordo"
+    ]
   },
   {
     "word_id": "verb-786",
@@ -3145,15 +4779,25 @@
   },
   {
     "word_id": "verb-787",
-    "infinitive": "aushalten"
+    "infinitive": "aushalten",
+    "meanings": [
+      "reggere un peso"
+    ]
   },
   {
     "word_id": "verb-788",
-    "infinitive": "erholen"
+    "infinitive": "erholen",
+    "meanings": [
+      "riprendersi"
+    ]
   },
   {
     "word_id": "verb-789",
-    "infinitive": "einbrechen"
+    "infinitive": "einbrechen",
+    "meanings": [
+      "cedere strutturalmente",
+      "diminuire bruscamente"
+    ]
   },
   {
     "word_id": "verb-790",
@@ -3165,7 +4809,10 @@
   },
   {
     "word_id": "verb-792",
-    "infinitive": "platzen"
+    "infinitive": "platzen",
+    "meanings": [
+      "saltare, detto di un incontro"
+    ]
   },
   {
     "word_id": "verb-793",
@@ -3173,7 +4820,10 @@
   },
   {
     "word_id": "verb-794",
-    "infinitive": "enthalten"
+    "infinitive": "enthalten",
+    "meanings": [
+      "astenersi"
+    ]
   },
   {
     "word_id": "verb-795",
@@ -3181,19 +4831,31 @@
   },
   {
     "word_id": "verb-796",
-    "infinitive": "übersehen"
+    "infinitive": "übersehen",
+    "meanings": [
+      "vedere nel suo insieme"
+    ]
   },
   {
     "word_id": "verb-797",
-    "infinitive": "abbrechen"
+    "infinitive": "abbrechen",
+    "meanings": [
+      "staccarsi spezzandosi"
+    ]
   },
   {
     "word_id": "verb-798",
-    "infinitive": "hinlegen"
+    "infinitive": "hinlegen",
+    "meanings": [
+      "appoggiare qualcosa"
+    ]
   },
   {
     "word_id": "verb-799",
-    "infinitive": "erteilen"
+    "infinitive": "erteilen",
+    "meanings": [
+      "impartire lezioni"
+    ]
   },
   {
     "word_id": "verb-800",
@@ -3209,11 +4871,17 @@
   },
   {
     "word_id": "verb-803",
-    "infinitive": "wandern"
+    "infinitive": "wandern",
+    "meanings": [
+      "spostarsi gradualmente"
+    ]
   },
   {
     "word_id": "verb-804",
-    "infinitive": "begeben"
+    "infinitive": "begeben",
+    "meanings": [
+      "rinunciare, formale"
+    ]
   },
   {
     "word_id": "verb-805",
@@ -3221,7 +4889,10 @@
   },
   {
     "word_id": "verb-806",
-    "infinitive": "baden"
+    "infinitive": "baden",
+    "meanings": [
+      "lavare immergendo in acqua"
+    ]
   },
   {
     "word_id": "verb-807",
@@ -3237,11 +4908,17 @@
   },
   {
     "word_id": "verb-810",
-    "infinitive": "zustoßen"
+    "infinitive": "zustoßen",
+    "meanings": [
+      "chiudere spingendo con forza"
+    ]
   },
   {
     "word_id": "verb-811",
-    "infinitive": "umkehren"
+    "infinitive": "umkehren",
+    "meanings": [
+      "invertire l'ordine"
+    ]
   },
   {
     "word_id": "verb-812",
@@ -3249,19 +4926,31 @@
   },
   {
     "word_id": "verb-813",
-    "infinitive": "abschalten"
+    "infinitive": "abschalten",
+    "meanings": [
+      "staccare mentalmente"
+    ]
   },
   {
     "word_id": "verb-814",
-    "infinitive": "biegen"
+    "infinitive": "biegen",
+    "meanings": [
+      "svoltare"
+    ]
   },
   {
     "word_id": "verb-815",
-    "infinitive": "ermitteln"
+    "infinitive": "ermitteln",
+    "meanings": [
+      "svolgere indagini"
+    ]
   },
   {
     "word_id": "verb-816",
-    "infinitive": "engagieren"
+    "infinitive": "engagieren",
+    "meanings": [
+      "impegnarsi per una causa"
+    ]
   },
   {
     "word_id": "verb-817",
@@ -3269,11 +4958,17 @@
   },
   {
     "word_id": "verb-818",
-    "infinitive": "zugreifen"
+    "infinitive": "zugreifen",
+    "meanings": [
+      "prendere qualcosa che viene offerto"
+    ]
   },
   {
     "word_id": "verb-819",
-    "infinitive": "rasen"
+    "infinitive": "rasen",
+    "meanings": [
+      "battere molto velocemente"
+    ]
   },
   {
     "word_id": "verb-820",
@@ -3281,11 +4976,17 @@
   },
   {
     "word_id": "verb-821",
-    "infinitive": "bemühen"
+    "infinitive": "bemühen",
+    "meanings": [
+      "ricorrere a qualcuno, formale"
+    ]
   },
   {
     "word_id": "verb-822",
-    "infinitive": "versehen"
+    "infinitive": "versehen",
+    "meanings": [
+      "sbagliarsi inavvertitamente"
+    ]
   },
   {
     "word_id": "verb-823",
@@ -3293,7 +4994,11 @@
   },
   {
     "word_id": "verb-824",
-    "infinitive": "ausrichten"
+    "infinitive": "ausrichten",
+    "meanings": [
+      "organizzare e ospitare",
+      "orientare fisicamente"
+    ]
   },
   {
     "word_id": "verb-825",
@@ -3305,11 +5010,17 @@
   },
   {
     "word_id": "verb-827",
-    "infinitive": "auflegen"
+    "infinitive": "auflegen",
+    "meanings": [
+      "mettere musica"
+    ]
   },
   {
     "word_id": "verb-828",
-    "infinitive": "durchziehen"
+    "infinitive": "durchziehen",
+    "meanings": [
+      "pervadere da parte a parte"
+    ]
   },
   {
     "word_id": "verb-829",
@@ -3325,7 +5036,10 @@
   },
   {
     "word_id": "verb-832",
-    "infinitive": "vertreiben"
+    "infinitive": "vertreiben",
+    "meanings": [
+      "far passare il tempo"
+    ]
   },
   {
     "word_id": "verb-833",
@@ -3337,11 +5051,17 @@
   },
   {
     "word_id": "verb-835",
-    "infinitive": "anrichten"
+    "infinitive": "anrichten",
+    "meanings": [
+      "disporre il cibo sul piatto"
+    ]
   },
   {
     "word_id": "verb-836",
-    "infinitive": "buchen"
+    "infinitive": "buchen",
+    "meanings": [
+      "registrare contabilmente"
+    ]
   },
   {
     "word_id": "verb-837",
@@ -3373,7 +5093,11 @@
   },
   {
     "word_id": "verb-844",
-    "infinitive": "aufstellen"
+    "infinitive": "aufstellen",
+    "meanings": [
+      "schierare una squadra",
+      "formulare regole"
+    ]
   },
   {
     "word_id": "verb-845",
@@ -3385,7 +5109,10 @@
   },
   {
     "word_id": "verb-847",
-    "infinitive": "schlucken"
+    "infinitive": "schlucken",
+    "meanings": [
+      "consumare molto"
+    ]
   },
   {
     "word_id": "verb-848",
@@ -3397,15 +5124,26 @@
   },
   {
     "word_id": "verb-850",
-    "infinitive": "ansprechen"
+    "infinitive": "ansprechen",
+    "meanings": [
+      "affrontare un argomento",
+      "rispondere a una cura"
+    ]
   },
   {
     "word_id": "verb-851",
-    "infinitive": "abhängen"
+    "infinitive": "abhängen",
+    "meanings": [
+      "togliere qualcosa di appeso"
+    ]
   },
   {
     "word_id": "verb-852",
-    "infinitive": "vorkommen"
+    "infinitive": "vorkommen",
+    "meanings": [
+      "essere presente in natura",
+      "sembrare"
+    ]
   },
   {
     "word_id": "verb-853",
@@ -3417,7 +5155,10 @@
   },
   {
     "word_id": "verb-855",
-    "infinitive": "einschließen"
+    "infinitive": "einschließen",
+    "meanings": [
+      "includere"
+    ]
   },
   {
     "word_id": "verb-856",
@@ -3425,11 +5166,18 @@
   },
   {
     "word_id": "verb-857",
-    "infinitive": "anstrengen"
+    "infinitive": "anstrengen",
+    "meanings": [
+      "affaticare"
+    ]
   },
   {
     "word_id": "verb-858",
-    "infinitive": "ablaufen"
+    "infinitive": "ablaufen",
+    "meanings": [
+      "svolgersi",
+      "defluire"
+    ]
   },
   {
     "word_id": "verb-859",
@@ -3437,7 +5185,10 @@
   },
   {
     "word_id": "verb-860",
-    "infinitive": "erschöpfen"
+    "infinitive": "erschöpfen",
+    "meanings": [
+      "esaurire possibilità"
+    ]
   },
   {
     "word_id": "verb-861",
@@ -3449,15 +5200,26 @@
   },
   {
     "word_id": "verb-863",
-    "infinitive": "verwickeln"
+    "infinitive": "verwickeln",
+    "meanings": [
+      "aggrovigliarsi"
+    ]
   },
   {
     "word_id": "verb-864",
-    "infinitive": "aufbrechen"
+    "infinitive": "aufbrechen",
+    "meanings": [
+      "aprire con forza"
+    ]
   },
   {
     "word_id": "verb-865",
-    "infinitive": "ablegen"
+    "infinitive": "ablegen",
+    "meanings": [
+      "sostenere un esame",
+      "salpare",
+      "archiviare"
+    ]
   },
   {
     "word_id": "verb-866",
@@ -3469,15 +5231,25 @@
   },
   {
     "word_id": "verb-868",
-    "infinitive": "überfahren"
+    "infinitive": "überfahren",
+    "meanings": [
+      "passare col semaforo rosso"
+    ]
   },
   {
     "word_id": "verb-869",
-    "infinitive": "übertragen"
+    "infinitive": "übertragen",
+    "meanings": [
+      "trasmettere un evento",
+      "delegare una responsabilità"
+    ]
   },
   {
     "word_id": "verb-870",
-    "infinitive": "tropfen"
+    "infinitive": "tropfen",
+    "meanings": [
+      "lasciar cadere gocce"
+    ]
   },
   {
     "word_id": "verb-871",
@@ -3485,15 +5257,24 @@
   },
   {
     "word_id": "verb-872",
-    "infinitive": "blockieren"
+    "infinitive": "blockieren",
+    "meanings": [
+      "bloccarsi mentalmente"
+    ]
   },
   {
     "word_id": "verb-873",
-    "infinitive": "zurückrufen"
+    "infinitive": "zurückrufen",
+    "meanings": [
+      "richiamare un prodotto"
+    ]
   },
   {
     "word_id": "verb-874",
-    "infinitive": "münzen"
+    "infinitive": "münzen",
+    "meanings": [
+      "riferire a qualcuno, figurato"
+    ]
   },
   {
     "word_id": "verb-875",
@@ -3501,19 +5282,32 @@
   },
   {
     "word_id": "verb-876",
-    "infinitive": "verpflichten"
+    "infinitive": "verpflichten",
+    "meanings": [
+      "ingaggiare"
+    ]
   },
   {
     "word_id": "verb-877",
-    "infinitive": "wiegen"
+    "infinitive": "wiegen",
+    "meanings": [
+      "misurare il peso",
+      "cullare"
+    ]
   },
   {
     "word_id": "verb-878",
-    "infinitive": "angeln"
+    "infinitive": "angeln",
+    "meanings": [
+      "ripescare un oggetto"
+    ]
   },
   {
     "word_id": "verb-879",
-    "infinitive": "lenken"
+    "infinitive": "lenken",
+    "meanings": [
+      "indirizzare l'attenzione"
+    ]
   },
   {
     "word_id": "verb-880",
@@ -3537,7 +5331,10 @@
   },
   {
     "word_id": "verb-885",
-    "infinitive": "flüchten"
+    "infinitive": "flüchten",
+    "meanings": [
+      "rifugiarsi in senso figurato"
+    ]
   },
   {
     "word_id": "verb-886",
@@ -3553,11 +5350,17 @@
   },
   {
     "word_id": "verb-889",
-    "infinitive": "checken"
+    "infinitive": "checken",
+    "meanings": [
+      "capire, colloquiale"
+    ]
   },
   {
     "word_id": "verb-890",
-    "infinitive": "entgehen"
+    "infinitive": "entgehen",
+    "meanings": [
+      "sfuggire all'attenzione"
+    ]
   },
   {
     "word_id": "verb-891",
@@ -3565,7 +5368,12 @@
   },
   {
     "word_id": "verb-892",
-    "infinitive": "absetzen"
+    "infinitive": "absetzen",
+    "meanings": [
+      "interrompere l'assunzione",
+      "rimuovere da un incarico",
+      "vendere merci"
+    ]
   },
   {
     "word_id": "verb-893",
@@ -3581,27 +5389,45 @@
   },
   {
     "word_id": "verb-896",
-    "infinitive": "kriechen"
+    "infinitive": "kriechen",
+    "meanings": [
+      "strisciare"
+    ]
   },
   {
     "word_id": "verb-897",
-    "infinitive": "erobern"
+    "infinitive": "erobern",
+    "meanings": [
+      "conquistare il favore"
+    ]
   },
   {
     "word_id": "verb-898",
-    "infinitive": "befördern"
+    "infinitive": "befördern",
+    "meanings": [
+      "trasportare"
+    ]
   },
   {
     "word_id": "verb-899",
-    "infinitive": "messen"
+    "infinitive": "messen",
+    "meanings": [
+      "misurarsi in una gara"
+    ]
   },
   {
     "word_id": "verb-900",
-    "infinitive": "deuten"
+    "infinitive": "deuten",
+    "meanings": [
+      "indicare con un gesto"
+    ]
   },
   {
     "word_id": "verb-901",
-    "infinitive": "kratzen"
+    "infinitive": "kratzen",
+    "meanings": [
+      "irritare la pelle"
+    ]
   },
   {
     "word_id": "verb-902",
@@ -3609,7 +5435,11 @@
   },
   {
     "word_id": "verb-903",
-    "infinitive": "ausbrechen"
+    "infinitive": "ausbrechen",
+    "meanings": [
+      "scoppiare, detto di un incendio",
+      "scoppiare in una reazione"
+    ]
   },
   {
     "word_id": "verb-904",
@@ -3621,7 +5451,10 @@
   },
   {
     "word_id": "verb-906",
-    "infinitive": "lehnen"
+    "infinitive": "lehnen",
+    "meanings": [
+      "essere appoggiato"
+    ]
   },
   {
     "word_id": "verb-907",
@@ -3633,7 +5466,10 @@
   },
   {
     "word_id": "verb-909",
-    "infinitive": "kleben"
+    "infinitive": "kleben",
+    "meanings": [
+      "aderire"
+    ]
   },
   {
     "word_id": "verb-910",
@@ -3641,7 +5477,10 @@
   },
   {
     "word_id": "verb-911",
-    "infinitive": "quietschen"
+    "infinitive": "quietschen",
+    "meanings": [
+      "emettere uno stridio"
+    ]
   },
   {
     "word_id": "verb-912",
@@ -3649,7 +5488,11 @@
   },
   {
     "word_id": "verb-913",
-    "infinitive": "auflösen"
+    "infinitive": "auflösen",
+    "meanings": [
+      "dissolversi",
+      "sciogliere un'organizzazione"
+    ]
   },
   {
     "word_id": "verb-914",
@@ -3657,7 +5500,10 @@
   },
   {
     "word_id": "verb-915",
-    "infinitive": "erleichtern"
+    "infinitive": "erleichtern",
+    "meanings": [
+      "dare sollievo"
+    ]
   },
   {
     "word_id": "verb-916",
@@ -3665,11 +5511,17 @@
   },
   {
     "word_id": "verb-917",
-    "infinitive": "durchfahren"
+    "infinitive": "durchfahren",
+    "meanings": [
+      "percorrere improvvisamente"
+    ]
   },
   {
     "word_id": "verb-918",
-    "infinitive": "durchdrehen"
+    "infinitive": "durchdrehen",
+    "meanings": [
+      "girare senza far presa"
+    ]
   },
   {
     "word_id": "verb-919",
@@ -3681,11 +5533,17 @@
   },
   {
     "word_id": "verb-921",
-    "infinitive": "antreten"
+    "infinitive": "antreten",
+    "meanings": [
+      "presentarsi per partecipare"
+    ]
   },
   {
     "word_id": "verb-922",
-    "infinitive": "zünden"
+    "infinitive": "zünden",
+    "meanings": [
+      "fare effetto, detto di una battuta"
+    ]
   },
   {
     "word_id": "verb-923",
@@ -3697,7 +5555,10 @@
   },
   {
     "word_id": "verb-925",
-    "infinitive": "reinigen"
+    "infinitive": "reinigen",
+    "meanings": [
+      "purificare"
+    ]
   },
   {
     "word_id": "verb-926",
@@ -3717,7 +5578,10 @@
   },
   {
     "word_id": "verb-930",
-    "infinitive": "herziehen"
+    "infinitive": "herziehen",
+    "meanings": [
+      "tirare verso di sé"
+    ]
   },
   {
     "word_id": "verb-931",
@@ -3725,15 +5589,25 @@
   },
   {
     "word_id": "verb-932",
-    "infinitive": "aufhängen"
+    "infinitive": "aufhängen",
+    "meanings": [
+      "terminare una telefonata"
+    ]
   },
   {
     "word_id": "verb-933",
-    "infinitive": "schleppen"
+    "infinitive": "schleppen",
+    "meanings": [
+      "muoversi con fatica"
+    ]
   },
   {
     "word_id": "verb-934",
-    "infinitive": "darstellen"
+    "infinitive": "darstellen",
+    "meanings": [
+      "interpretare un personaggio",
+      "costituire"
+    ]
   },
   {
     "word_id": "verb-935",
@@ -3749,11 +5623,17 @@
   },
   {
     "word_id": "verb-938",
-    "infinitive": "ausliefern"
+    "infinitive": "ausliefern",
+    "meanings": [
+      "estradare"
+    ]
   },
   {
     "word_id": "verb-939",
-    "infinitive": "zuschlagen"
+    "infinitive": "zuschlagen",
+    "meanings": [
+      "cogliere al volo un'offerta"
+    ]
   },
   {
     "word_id": "verb-940",
@@ -3761,7 +5641,10 @@
   },
   {
     "word_id": "verb-941",
-    "infinitive": "verhören"
+    "infinitive": "verhören",
+    "meanings": [
+      "sentire o capire male"
+    ]
   },
   {
     "word_id": "verb-942",
@@ -3769,7 +5652,10 @@
   },
   {
     "word_id": "verb-943",
-    "infinitive": "ausschalten"
+    "infinitive": "ausschalten",
+    "meanings": [
+      "neutralizzare o rendere inoperativo"
+    ]
   },
   {
     "word_id": "verb-944",
@@ -3781,7 +5667,11 @@
   },
   {
     "word_id": "verb-946",
-    "infinitive": "einrichten"
+    "infinitive": "einrichten",
+    "meanings": [
+      "configurare",
+      "trovare il modo di rendere possibile"
+    ]
   },
   {
     "word_id": "verb-947",
@@ -3789,7 +5679,11 @@
   },
   {
     "word_id": "verb-948",
-    "infinitive": "beziehen"
+    "infinitive": "beziehen",
+    "meanings": [
+      "rivestire con un tessuto",
+      "riferirsi a qualcosa"
+    ]
   },
   {
     "word_id": "verb-949",
@@ -3809,7 +5703,11 @@
   },
   {
     "word_id": "verb-953",
-    "infinitive": "aufbringen"
+    "infinitive": "aufbringen",
+    "meanings": [
+      "trovare in sé una risorsa",
+      "far indignare"
+    ]
   },
   {
     "word_id": "verb-954",
@@ -3817,7 +5715,11 @@
   },
   {
     "word_id": "verb-955",
-    "infinitive": "aufziehen"
+    "infinitive": "aufziehen",
+    "meanings": [
+      "caricare un meccanismo",
+      "prendere in giro"
+    ]
   },
   {
     "word_id": "verb-956",
@@ -3825,7 +5727,10 @@
   },
   {
     "word_id": "verb-957",
-    "infinitive": "verleihen"
+    "infinitive": "verleihen",
+    "meanings": [
+      "conferire un premio"
+    ]
   },
   {
     "word_id": "verb-958",
@@ -3849,11 +5754,17 @@
   },
   {
     "word_id": "verb-963",
-    "infinitive": "schweben"
+    "infinitive": "schweben",
+    "meanings": [
+      "restare in sospeso"
+    ]
   },
   {
     "word_id": "verb-964",
-    "infinitive": "ausnutzen"
+    "infinitive": "ausnutzen",
+    "meanings": [
+      "sfruttare una risorsa"
+    ]
   },
   {
     "word_id": "verb-965",
@@ -3869,19 +5780,34 @@
   },
   {
     "word_id": "verb-968",
-    "infinitive": "ausfallen"
+    "infinitive": "ausfallen",
+    "meanings": [
+      "cadere, detto dei capelli",
+      "guastarsi",
+      "risultare di una certa misura"
+    ]
   },
   {
     "word_id": "verb-969",
-    "infinitive": "einschalten"
+    "infinitive": "einschalten",
+    "meanings": [
+      "far intervenire qualcuno"
+    ]
   },
   {
     "word_id": "verb-970",
-    "infinitive": "anmachen"
+    "infinitive": "anmachen",
+    "meanings": [
+      "condire",
+      "aggredire a parole, colloquiale"
+    ]
   },
   {
     "word_id": "verb-971",
-    "infinitive": "zurückhalten"
+    "infinitive": "zurückhalten",
+    "meanings": [
+      "reprimere una reazione"
+    ]
   },
   {
     "word_id": "verb-972",
@@ -3893,15 +5819,25 @@
   },
   {
     "word_id": "verb-974",
-    "infinitive": "ernähren"
+    "infinitive": "ernähren",
+    "meanings": [
+      "mantenere economicamente"
+    ]
   },
   {
     "word_id": "verb-975",
-    "infinitive": "einschlagen"
+    "infinitive": "einschlagen",
+    "meanings": [
+      "piantare a colpi",
+      "imboccare una strada"
+    ]
   },
   {
     "word_id": "verb-976",
-    "infinitive": "bumsen"
+    "infinitive": "bumsen",
+    "meanings": [
+      "urtare rumorosamente"
+    ]
   },
   {
     "word_id": "verb-977",
@@ -3913,7 +5849,10 @@
   },
   {
     "word_id": "verb-979",
-    "infinitive": "krachen"
+    "infinitive": "krachen",
+    "meanings": [
+      "scricchiolare rumorosamente"
+    ]
   },
   {
     "word_id": "verb-980",
@@ -3929,15 +5868,25 @@
   },
   {
     "word_id": "verb-983",
-    "infinitive": "bedecken"
+    "infinitive": "bedecken",
+    "meanings": [
+      "coprire una parte del corpo"
+    ]
   },
   {
     "word_id": "verb-984",
-    "infinitive": "untergehen"
+    "infinitive": "untergehen",
+    "meanings": [
+      "affondare",
+      "passare inosservato"
+    ]
   },
   {
     "word_id": "verb-985",
-    "infinitive": "wärmen"
+    "infinitive": "wärmen",
+    "meanings": [
+      "riscaldare il corpo"
+    ]
   },
   {
     "word_id": "verb-986",
@@ -3945,7 +5894,10 @@
   },
   {
     "word_id": "verb-987",
-    "infinitive": "fischen"
+    "infinitive": "fischen",
+    "meanings": [
+      "recuperare da un liquido"
+    ]
   },
   {
     "word_id": "verb-988",
@@ -3957,11 +5909,17 @@
   },
   {
     "word_id": "verb-990",
-    "infinitive": "überwinden"
+    "infinitive": "überwinden",
+    "meanings": [
+      "superare ostacoli"
+    ]
   },
   {
     "word_id": "verb-991",
-    "infinitive": "entwerfen"
+    "infinitive": "entwerfen",
+    "meanings": [
+      "redigere una bozza"
+    ]
   },
   {
     "word_id": "verb-992",
@@ -3973,7 +5931,10 @@
   },
   {
     "word_id": "verb-994",
-    "infinitive": "mitspielen"
+    "infinitive": "mitspielen",
+    "meanings": [
+      "recitare in uno spettacolo"
+    ]
   },
   {
     "word_id": "verb-995",
@@ -3981,23 +5942,39 @@
   },
   {
     "word_id": "verb-996",
-    "infinitive": "kürzen"
+    "infinitive": "kürzen",
+    "meanings": [
+      "ridurre una somma"
+    ]
   },
   {
     "word_id": "verb-997",
-    "infinitive": "aufklären"
+    "infinitive": "aufklären",
+    "meanings": [
+      "rasserenarsi",
+      "informare in modo esplicativo"
+    ]
   },
   {
     "word_id": "verb-998",
-    "infinitive": "anbringen"
+    "infinitive": "anbringen",
+    "meanings": [
+      "muovere una critica"
+    ]
   },
   {
     "word_id": "verb-999",
-    "infinitive": "bremsen"
+    "infinitive": "bremsen",
+    "meanings": [
+      "rallentare, in senso figurato"
+    ]
   },
   {
     "word_id": "verb-1000",
-    "infinitive": "eingreifen"
+    "infinitive": "eingreifen",
+    "meanings": [
+      "ingranare"
+    ]
   },
   {
     "word_id": "verb-1001",

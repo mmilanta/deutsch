@@ -58,6 +58,7 @@ def generate(output: Path, count: int, batch_size: int = 10, *, vocabulary: Path
                     "Each target must occur EXACTLY ONCE, with matching case. No markdown. "
                     "For separable verbs prefer a modal construction so the target infinitive is contiguous. "
                     "Avoid ambiguous translations where possible. The learner always answers with the German infinitive. "
+                    "Set accepted_infinitives to null; alternatives are curated separately. "
                     "The source includes rare verbs such as 'einen': respect their actual meaning, do not silently replace them."
                 )},
                 {"role": "user", "content": json.dumps(words, ensure_ascii=False)},
@@ -78,6 +79,8 @@ def generate(output: Path, count: int, batch_size: int = 10, *, vocabulary: Path
         for item in parsed.exercises:
             if item.meaning != requested_meanings[item.word_id]:
                 errors.append(f"The model changed the meaning label for {item.word_id}")
+            if item.accepted_infinitives is not None:
+                errors.append(f"The model supplied unreviewed alternatives for {item.sentence_id}")
         if errors:
             raise ValueError("; ".join(errors))
         by_id.update({item.sentence_id: item for item in parsed.exercises})

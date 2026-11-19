@@ -123,7 +123,9 @@ Practice, the default importer, the checker, and optional API generation now all
 
 A word can have one or several exercises. Reuse its `word_id` and `infinitive`, but give every sentence its own stable, globally unique `sentence_id`. An optional `meaning` field holds a short Italian label for the sense illustrated by that sentence. It appears only after revealing the answer, not as a hint before guessing.
 
-A single sentence is enough for a word with one meaning. Add variants only when useful, especially for distinct meanings. Supporting variants does not automatically create or generate them.
+A single sentence is enough for a word with one meaning. Add variants for distinct uses, not just to increase counts. The first 1,000 verbs have been reviewed for common senses and valid alternative answers; see [the content notes](data/CONTENT.md).
+
+A curated alternative infinitive counts as correct **only on the sentence that lists it**. For example, both `reichen` and `geben` are accepted for *Mi passi il sale, per favore?*, but `geben` is not accepted for the `reichen` sentence where it means *bastare*. The original German translation and the accepted alternatives are shown after completion or reveal. User flags still go to review and do not automatically change scoring; past guesses are not rescored.
 
 Random practice shuffles **words**, not individual sentences: each word appears once per round regardless of how many examples it has. On later visits, its sentences rotate in shuffled order, covering every variant before repeating. Guess history identifies both the word and the exact sentence, and includes the meaning label when present. Old content and logs remain compatible.
 
@@ -135,7 +137,7 @@ The canonical vocabulary is in `data/vocabulary.json`. Directly authored Italian
 uv run python scripts/import_authored.py data/authored*.tsv
 ```
 
-For new batches, use TSV columns `word_id`, `italian`, `german`, and optional `sentence_id`, `meaning`. The importer gets the canonical infinitive from the vocabulary list, validates every link, preserves existing exercises, and saves atomically. Sentence IDs default to `word_id-01`; supply a fresh ID for each additional sense. Legacy `rank` columns and `--verbs PATH.csv` are still supported, but not required for new words. Existing sentence IDs cannot be overwritten with different content. Draft batches under `data/drafts/` are not included by the command above. See `data/CONTENT.md` for coverage, provenance, and unresolved source entries. The earlier API generation job is stopped; generating more content is not automatic.
+For new batches, use TSV columns `word_id`, `italian`, `german`, and optional `sentence_id`, `meaning`, and `accepted_infinitives` (semicolon-separated German alternatives for that sentence). The importer gets the canonical infinitive from the vocabulary list, validates every link, preserves existing exercises, and saves atomically. Sentence IDs default to `word_id-01`; supply a fresh ID for each additional sense. Legacy `rank` columns and `--verbs PATH.csv` are still supported, but not required for new words. Existing sentence IDs cannot be overwritten with different content. Draft batches under `data/drafts/` are not included by the command above. See `data/CONTENT.md` for coverage, provenance, and unresolved source entries. The earlier API generation job is stopped; generating more content is not automatic.
 
 ## Optional API generation with gpt-6-luna
 

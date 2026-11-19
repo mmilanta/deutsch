@@ -78,6 +78,8 @@ class DeutschApp:
             self.console.print(Text(f"infinito: {exercise.infinitive}", style="dim"))
         if exercise.meaning is not None:
             self.console.print(Text(f"significato: {exercise.meaning}", style="dim"))
+        if exercise.accepted_infinitives:
+            self.console.print(Text(f"anche: {', '.join(exercise.accepted_infinitives)}", style="dim"))
         self.console.rule(characters="-", style="dim")
 
     def flag_previous_alternative(self) -> None:
