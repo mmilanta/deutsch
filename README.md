@@ -17,20 +17,19 @@ The cached exercises in `data/exercises.json` work offline. Generation is the on
 
 ```sh
 uv run deutsch web --open
-# Start in adaptive mode:
-uv run deutsch web --mode adaptive --open
 ```
 
 Open **http://127.0.0.1:8765** if you omit `--open`. Use `--port 8766` if that port is busy. The server only binds to `127.0.0.1`; it is not exposed to your network. Stop it with **Ctrl+C** in the terminal.
 
 The page uses a sparse visual style: bold lettering, a cream background, black rules, and red accents. All HTML, CSS, JavaScript, and the icon are bundled locally—no CDN, remote fonts, frontend build step, or new runtime dependencies.
 
-- The **Casuale / Adattivo** buttons select the same random/adaptive decks as the CLI. Switching mode starts a new session while keeping saved learning history.
-- Type an infinitive and press **Enter**. Empty Enter reveals the answer. Wrong/near-miss answers allow retries; correct answers reveal the translation and move on.
+- **Play** opens the mode picker. **Casuale** and **Adattivo** use the same random and adaptive decks as the CLI. **Riprendi partita** returns to the current session. Starting a new session keeps saved learning history.
+- **Rogue** presents one sentence per word with a known Zipf frequency at or below your chosen maximum. **Casualità dell’ordine** defaults to `0.1`. Words with similar popularity are more likely to swap places than words with a large gap. At zero, the order is strictly by decreasing popularity. Wrong and near-miss guesses allow unlimited retries. **Salta** or **Enter** on an empty answer reveals the answer and turns one heart gray. You lose at zero lives and complete the run if you reach the end with a life left.
+- Type an infinitive and press **Enter**. Correct answers reveal the translation and move on. Empty Enter reveals the answer in every mode.
 - Completed exercises remain below the active prompt, newest first, with highlighted sentence targets, guessed or revealed infinitives, and popularity numbers.
 - **Stats** starts with distinct words correctly guessed in the selected period (including successful retries) and the total canonical vocabulary size. It shows every vocabulary word as a horizontal bar stacked by wrong, almost correct, and correct first attempts. Reveals count as wrong; retries do not add observations, and unattempted prompts are unscored. Choose all time or a rolling 365-day, 30-day, or 24-hour window, and switch between shared absolute counts and percentages normalized to 100% for each nonempty bar. The period and scale controls sit above the large guessed/total word and correct/total attempt counters. Attempt totals include retries and exclude reveals; words default to descending attempts, with alphabetical ties. Click a word to sort alphabetically, a bar to sort by descending attempts, or a popularity value to sort by descending popularity (missing estimates last). The selected order persists across period and scale changes. Each row shows stored Zipf popularity (`—` if unavailable; `*` for a provisional fallback). Hover a row to show counts within its bar segments, or whole percentages in percentage mode; its tooltip also includes the total attempt count. Empty bars stay visible. Statistics read local history without changing it.
 - Click a wrong guess on the latest completed/revealed **sentence** to flag it as a possible synonym for that sentence. Click its flag to withdraw it. Flags are not scored guesses and do not approve synonyms automatically. The `/alt` and `/alternative` commands belong to the terminal UI.
-- `/q` ends the session. **Nuova sessione** starts again. Refreshing the page resumes the current session while the server is running; server restarts clear the browser session, not saved history. Closing a tab alone does not create a failure; stopping the server records remaining active prompts as abandoned.
+- `/q` ends the session. **Nuova sessione** returns to the mode picker. Refreshing the page resumes the current session while the server is running. Server restarts preserve saved history. Closing a tab alone does not create a failure. Stopping the server records remaining active prompts as abandoned.
 - Exact raw guesses, first-attempt scoring, `ß`/`ss` handling, presentation events, and review flags use the same core functions and log files as the CLI. The browser never receives the German answer before a reveal/correct answer.
 
 The same `--data`, `--vocabulary`, `--frequencies`, `--log`, `--events`, `--alternative-log`, `--threshold`, scheduler options, and adaptive `--explain`/`--seed` settings are available on `web`. Browser actions stay on localhost; the app makes no model calls or automatic Git pushes.

@@ -13,30 +13,61 @@
     <nav class="bar" aria-label="Sessione">
       <h1 lang="de">Deutsch</h1>
       <div class="modes" role="group" aria-label="Sezioni">
-        <button type="button" data-mode="random" aria-pressed="true">Casuale</button>
-        <button type="button" data-mode="adaptive" aria-pressed="false">Adattivo</button>
+        <button type="button" id="play-tab" aria-pressed="true">Play</button>
         <button type="button" id="stats-tab" aria-pressed="false">Stats</button>
       </div>
     </nav>
     <div id="error" class="notice error" role="alert" hidden></div>
     <div id="notice" class="notice info" role="status" hidden></div>
     <div id="warnings" class="notice warning" role="status" hidden></div>
-    <section id="exercise" aria-labelledby="prompt">
+    <section id="mode-picker" aria-label="Modalità di gioco" hidden>
+      <div class="play-options" role="group" aria-label="Modalità">
+        <button type="button" class="text-button" id="resume" hidden>Riprendi partita</button>
+        <button type="button" class="text-button" data-mode="random" disabled>Casuale</button>
+        <button type="button" class="text-button" data-mode="adaptive" disabled>Adattivo</button>
+        <button type="button" class="text-button" data-mode="rogue" aria-controls="rogue-settings" aria-expanded="false" disabled>Rogue</button>
+      </div>
+      <form id="rogue-settings" hidden>
+        <div class="rogue-fields">
+          <label>Popolarità massima (Zipf)
+            <input id="rogue-popularity" type="number" min="0" max="9" step="any" value="9" required>
+          </label>
+          <label>Vite
+            <input id="rogue-lives" type="number" min="1" max="9007199254740991" step="1" value="3" required>
+          </label>
+          <div class="rogue-randomness">
+            <label for="rogue-randomness">Casualità dell’ordine</label>
+            <div>
+              <input id="rogue-randomness" type="range" min="0" max="2" step="0.1" value="0.1">
+              <output for="rogue-randomness" id="rogue-randomness-value" aria-hidden="true">0.1</output>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="text-button" id="rogue-start">Inizia Rogue →</button>
+      </form>
+    </section>
+    <div id="rogue-hud" role="status" hidden>
+      <span id="rogue-progress"></span>
+      <span id="rogue-hearts" aria-hidden="true"></span>
+      <span id="rogue-life-status" class="visually-hidden"></span>
+    </div>
+    <section id="exercise" aria-labelledby="prompt" hidden>
       <span class="rail" id="exercise-number" aria-hidden="true"></span>
       <div class="main">
-      <p class="prompt" id="prompt" lang="it">Caricamento…</p>
+      <p class="prompt" id="prompt" lang="it"></p>
       <p id="explanation" class="explanation" hidden></p>
       <div id="attempts" class="attempts" aria-live="polite"></div>
       <form id="answer-form" autocomplete="off">
         <input id="answer" name="answer" type="text" lang="de" aria-label="L’infinito tedesco" placeholder="Infinito tedesco" maxlength="500" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="go" disabled>
         <button type="submit" id="submit-answer" hidden disabled>Verifica</button>
+        <button type="button" class="text-button" id="rogue-skip" hidden disabled>Salta</button>
       </form>
       </div>
     </section>
     <section id="session-end" hidden>
       <div class="main">
-        <p class="prompt">Sessione terminata.</p>
-        <p class="explanation">Le risposte sono salvate.</p>
+        <p class="prompt" id="end-title">Sessione terminata.</p>
+        <p class="explanation" id="end-summary">Le risposte sono salvate.</p>
         <button type="button" class="text-button" id="restart">Nuova sessione →</button>
       </div>
     </section>

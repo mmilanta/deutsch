@@ -38,7 +38,36 @@ button:disabled { cursor: default; }
 .notice { margin-top: 1rem; font-size: .875rem; font-weight: 700; overflow-wrap: anywhere; }
 .error { color: var(--accent); }
 
+#mode-picker { padding: clamp(1.5rem, 4vh, 2.5rem) 0; }
+.play-options, .rogue-fields { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem 1.5rem; }
+.play-options button { font-size: clamp(1.25rem, 2vw, 1.75rem); }
+.play-options button:disabled { opacity: .5; }
+.play-options button[aria-expanded="true"] { color: var(--accent); }
+#rogue-settings { margin-top: 2rem; font-size: .875rem; }
+#rogue-settings label { display: grid; gap: .35rem; }
+#rogue-settings input[type="number"] { width: 9rem; border-bottom: 1px solid var(--ink); padding: .25rem 0; }
+.rogue-randomness > div { display: flex; gap: .5rem; align-items: center; min-height: 1.75rem; }
+#rogue-randomness { width: 8rem; margin: 0; accent-color: var(--accent); }
+#rogue-randomness-value { min-width: 2.5ch; font-variant-numeric: tabular-nums; }
+#rogue-start { display: block; margin-top: 1.5rem; }
+#rogue-hud { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .85rem; margin-top: clamp(1.5rem, 4vh, 2.5rem); font-size: .875rem; font-weight: 700; }
+#rogue-hearts { display: inline-flex; flex-wrap: wrap; gap: .25rem; align-items: center; }
+.rogue-heart { color: var(--accent); font-size: 1.25rem; line-height: 1; }
+.rogue-heart.spent { color: #77736e; }
+.rogue-heart.just-spent { animation: spend-heart .4s ease-out; }
+@keyframes spend-heart {
+  0% { color: var(--accent); transform: scale(1); }
+  30% { color: var(--accent); transform: scale(1.45) rotate(-12deg); }
+  65% { transform: scale(.85) rotate(8deg); }
+  100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rogue-heart.just-spent { animation: none; }
+}
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
 #exercise, #session-end { padding: clamp(1.5rem, 4vh, 2.5rem) 0 clamp(4rem, 14vh, 10rem); }
+#rogue-hud:not([hidden]) ~ :is(#exercise, #session-end) { padding-top: .75rem; }
 /* The answer rule doubles as the top rule of the first history row. */
 #exercise { padding-bottom: 0; }
 #exercise:not([hidden]) ~ #trail .previous:first-child::before { display: none; }

@@ -11,7 +11,7 @@ from deutsch.core import Exercise
 from deutsch.frequencies import Frequency, FrequencyTable
 from deutsch.history import load_history
 from deutsch.vocabulary import VocabularyEntry
-from deutsch.web import BrowserSession, LocalServer, RequestError, WebConfig, practice_stats
+from deutsch.web import BrowserSession, LocalServer, RequestError, RogueOptions, WebConfig, practice_stats
 
 
 def sample():
@@ -304,8 +304,89 @@ def test_random_mode_does_not_require_frequencies_and_reveal_uses_unknown_label(
 def test_adaptive_excludes_flagged_entries_but_random_keeps_them(tmp_path):
     settings = config(tmp_path)
     settings.entries[0].review_note = "verify"
-    assert settings.modes == ["random"]
+    assert "adaptive" not in settings.modes
     assert BrowserSession(settings, "random").current is not None
+
+
+def test_rogue_ranks_unique_words_from_most_popular_at_or_below_cutoff(tmp_path):
+    at_cutoff = sample().model_copy(update={"word_id": "machen", "sentence_id": "machen-01", "infinitive": "machen"})
+    duplicate = sample().model_copy(update={"sentence_id": "gehen-02"})
+    frequent = sample().model_copy(update={"word_id": "sein", "sentence_id": "sein-01", "infinitive": "sein"})
+    missing = sample().model_copy(update={"word_id": "tun", "sentence_id": "tun-01", "infinitive": "tun"})
+    settings = config(tmp_path, exercises=[sample(), duplicate, at_cutoff, frequent, missing])
+    for word, score in {"gehen": 2.0, "machen": 3.0, "sein": 4.0}.items():
+        settings.frequencies.words[word].zipf = score
+    del settings.frequencies.words["tun"]
+    s = BrowserSession(settings, "rogue", RogueOptions(max_popularity=3, lives=2, randomness=0))
+    first = s.presentation_id
+    assert s.current.word_id == "machen"
+    assert "infinitive" not in s.state()["current"]
+    retry = submit(s, "laufen")["state"]
+    assert retry["current"]["presentation_id"] == first
+    assert retry["rogue"] == {"initial_lives": 2, "lives_left": 2, "total": 2, "result": None}
+    submit(s, "machen")
+    assert s.current.word_id == "gehen"
+    assert s.state()["rogue"]["lives_left"] == 2
+    end = submit(s, "")["state"]
+    assert end["ended"] and end["current"] is None and end["correct"] == 1
+    assert [entry["popularity"] for entry in end["trail"]] == [3.0, 2.0]
+    assert end["rogue"] == {"initial_lives": 2, "lives_left": 1, "total": 2, "result": "won"}
+    assert [e["event"] for e in records(settings.events_path)] == ["presented", "completed", "presented", "gave_up"]
+
+
+def test_rogue_last_skip_loses_even_on_final_word_and_can_flag_that_sentence(tmp_path):
+    s = BrowserSession(config(tmp_path), "rogue", RogueOptions(max_popularity=9, lives=1))
+    identifier = s.presentation_id
+    submit(s, "  laufen  ")
+    end = s.submit("", identifier, "skip")["state"]
+    assert end == s.submit("", identifier, "skip")["state"]
+    assert end["ended"] and end["current"] is None
+    assert end["rogue"] == {"initial_lives": 1, "lives_left": 0, "total": 1, "result": "lost"}
+    s.submit("", identifier, "flag", flag_attempt=1)
+    [record] = records(s.config.alternative_log)
+    assert record["sentence_id"] == sample().sentence_id and record["synonym_guess"] == "  laufen  "
+    s.close()
+    assert [e["event"] for e in records(s.config.events_path)] == ["presented", "gave_up"]
+
+
+def test_rogue_randomness_favors_more_popular_words_by_their_zipf_gap(tmp_path):
+    exercises = [sample().model_copy(update={"word_id": word, "sentence_id": f"{word}-01", "infinitive": word})
+                 for word in ("gehen", "machen", "tun", "sein")]
+    settings = config(tmp_path, exercises=exercises, seed=42)
+    for word, score in {"gehen": 4.0, "machen": 3.5, "tun": 2.0, "sein": 5.0}.items():
+        settings.frequencies.words[word].zipf = score
+    options = RogueOptions(max_popularity=4, lives=3, randomness=1)
+    seeded = settings.rogue_exercises(options)
+    assert settings.rogue_exercises(options) == seeded
+
+    close, far = 0, 0
+    for seed in range(1000):
+        settings.seed = seed
+        order = [exercise.word_id for exercise in settings.rogue_exercises(options)]
+        assert sorted(order) == ["gehen", "machen", "tun"]
+        close += order.index("gehen") < order.index("machen")
+        far += order.index("gehen") < order.index("tun")
+    # Logistic odds for Zipf gaps of 0.5 and 2 at randomness 1.
+    assert close / 1000 == pytest.approx(0.622, abs=0.05)
+    assert far / 1000 == pytest.approx(0.881, abs=0.05)
+
+
+def test_http_rogue_start_validates_options_and_replays_identical_request(tmp_path):
+    with running_server(config(tmp_path)) as server:
+        settings = {"mode": "rogue", "request_id": "rogue-1", "max_popularity": 9, "lives": 2}
+        assert "rogue" in request(server, "GET", "/api/config")[1]["modes"]
+        for invalid in [{"lives": 0}, {"lives": True}, {"max_popularity": -1}, {"max_popularity": 0},
+                        {"randomness": -0.1}, {"randomness": 2.1}, {"randomness": "1"}]:
+            assert request(server, "POST", "/api/start", settings | invalid)[0] == 400
+        assert list(tmp_path.iterdir()) == []
+        status, started, _ = request(server, "POST", "/api/start", settings)
+        assert status == 200
+        assert request(server, "POST", "/api/start", settings)[1] == started
+        assert request(server, "POST", "/api/start", settings | {"lives": 1})[0] == 409
+        assert request(server, "POST", "/api/start", settings | {"randomness": 0.1})[1] == started
+        assert request(server, "POST", "/api/start", settings | {"randomness": 0})[0] == 409
+        assert request(server, "POST", "/api/start", settings | {"randomness": 1})[0] == 409
+        assert len(records(server.config.events_path)) == 1
 
 
 @pytest.mark.parametrize("filename", ["guesses.jsonl", "guesses.events.jsonl"])

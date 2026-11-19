@@ -2,12 +2,13 @@
 from __future__ import annotations
 
 import json
+import math
 import re
 import random
 import secrets
 import threading
 import webbrowser
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -24,10 +25,28 @@ from deutsch.scheduler import AdaptiveDeck
 from deutsch.vocabulary import VocabularyEntry, audit_vocabulary
 
 
+DEFAULT_ROGUE_RANDOMNESS = 0.1
+
+
 class RequestError(ValueError):
     def __init__(self, message: str, status: int = 400):
         super().__init__(message)
         self.status = status
+
+
+@dataclass(frozen=True)
+class RogueOptions:
+    max_popularity: float
+    lives: int
+    randomness: float = DEFAULT_ROGUE_RANDOMNESS
+
+    def __post_init__(self):
+        if type(self.max_popularity) not in (int, float) or not 0 <= self.max_popularity <= 9:
+            raise RequestError("La soglia di popolarità deve essere tra 0 e 9.")
+        if type(self.lives) is not int or not 1 <= self.lives <= 2**53 - 1:
+            raise RequestError("Le vite devono essere un numero intero positivo.")
+        if type(self.randomness) not in (int, float) or not 0 <= self.randomness <= 2:
+            raise RequestError("La casualità deve essere tra 0 e 2.")
 
 
 @dataclass
@@ -69,7 +88,35 @@ class WebConfig:
 
     @property
     def modes(self):
-        return ["random", "adaptive"] if self.frequencies is not None and self.adaptive_exercises else ["random"]
+        if self.frequencies is None:
+            return ["random"]
+        modes = ["random"]
+        if self.adaptive_exercises:
+            modes.append("adaptive")
+        if any(self.frequencies.for_word(e.word_id, e.infinitive).method != "missing" for e in self.exercises):
+            modes.append("rogue")
+        return modes
+
+    def rogue_exercises(self, options: RogueOptions) -> list[Exercise]:
+        by_word = defaultdict(list)
+        for exercise in self.exercises:
+            by_word[exercise.word_id].append(exercise)
+        rng = random.Random(self.seed)
+        ranked = []
+        for word_id, exercises in by_word.items():
+            frequency = self.frequencies.for_word(word_id, exercises[0].infinitive)
+            if frequency.method != "missing" and frequency.zipf <= options.max_popularity:
+                ranked.append((frequency.zipf, word_id, rng.choice(exercises)))
+        def priority(item):
+            zipf, word_id, _ = item
+            if options.randomness:
+                # Independent Gumbel noise gives each pair logistic odds based on its Zipf gap.
+                uniform = max(rng.random(), 2**-53)
+                zipf -= options.randomness * math.log(-math.log(uniform))
+            return -zipf, word_id
+
+        ranked.sort(key=priority)
+        return [exercise for _, _, exercise in ranked]
 
 
 def practice_stats(config: WebConfig, period: str = "all", *, now: datetime | None = None) -> dict:
@@ -120,10 +167,14 @@ def practice_stats(config: WebConfig, period: str = "all", *, now: datetime | No
 class BrowserSession:
     """Browser state; uses the CLI's evaluator, decks, and append-only log writers."""
 
-    def __init__(self, config: WebConfig, mode: str):
+    def __init__(self, config: WebConfig, mode: str, rogue: RogueOptions | None = None):
         if mode not in config.modes:
             raise RequestError("Modalità non disponibile.")
+        if (mode == "rogue") != (rogue is not None):
+            raise RequestError("Impostazioni Rogue non valide.")
         self.config, self.mode = config, mode
+        self.rogue = rogue
+        self.rogue_result: str | None = None
         self.session_id = str(uuid4())
         self.history = load_history(config.log_path, config.events_path) if mode == "adaptive" else History()
         self.warnings = list(self.history.warnings)
@@ -137,6 +188,14 @@ class BrowserSession:
             stale = {e.word_id for e in config.adaptive_exercises if e.word_id not in config.frequencies.words or config.frequencies.words[e.word_id].infinitive != e.infinitive}
             if stale:
                 self.warnings.append(f"{len(stale)} stime di frequenza mancanti o obsolete; ricostruisci le frequenze per aggiornarle.")
+        elif rogue is not None:
+            exercises = config.rogue_exercises(rogue)
+            if not exercises:
+                raise RequestError("Nessuna parola disponibile con questa soglia di popolarità.")
+            self.rogue_deck = iter(exercises)
+            self.rogue_total = len(exercises)
+            self.lives_left = rogue.lives
+            self.deck = None
         else:
             self.deck = Deck(config.exercises)
         self.current: Exercise | None = None
@@ -154,7 +213,12 @@ class BrowserSession:
         self._next()
 
     def _next(self):
-        exercise, identifier = self.deck.next(), str(uuid4())
+        exercise = next(self.rogue_deck, None) if self.rogue is not None else self.deck.next()
+        if exercise is None:
+            self.ended = True
+            self.rogue_result = "won"
+            return
+        identifier = str(uuid4())
         append_event(self.config.events_path, exercise, self.session_id, identifier, "presented")
         self.current, self.presentation_id = exercise, identifier
         self.shown_at = datetime.now(timezone.utc)
@@ -175,11 +239,15 @@ class BrowserSession:
         }
 
     def state(self) -> dict:
-        return {
+        state = {
             "mode": self.mode, "current": self._prompt(), "trail": list(self.trail),
             "correct": self.correct, "guesses": self.guesses, "ended": self.ended,
             "warnings": self.warnings, "fatal_error": self.fatal_error,
         }
+        if self.rogue is not None:
+            state["rogue"] = {"initial_lives": self.rogue.lives, "lives_left": self.lives_left,
+                              "total": self.rogue_total, "result": self.rogue_result}
+        return state
 
     def _finish(self, event: str):
         try:
@@ -209,6 +277,12 @@ class BrowserSession:
         self.previous = (self.current, self.presentation_id)
         self.trail.append(completed)
         self.current, self.presentation_id = None, None
+        if self.rogue is not None and event == "gave_up":
+            self.lives_left -= 1
+            if self.lives_left == 0:
+                self.ended = True
+                self.rogue_result = "lost"
+                return
         try:
             self._next()
         except OSError:
@@ -266,7 +340,9 @@ class BrowserSession:
             if previous_signature != signature:
                 raise RequestError("Richiesta già usata con un contenuto diverso.", 409)
             return response
-        if self.ended or presentation_id != self.presentation_id:
+        final_flag = flag_attempt is not None and self.rogue_result is not None
+        expected_id = self.previous[1] if final_flag else self.presentation_id
+        if (self.ended and not final_flag) or presentation_id != expected_id:
             raise RequestError("Esercizio non più attivo. Aggiorna lo stato prima di rispondere.", 409)
         command = raw.strip().lower()
         message = None
@@ -303,7 +379,7 @@ class LocalServer(ThreadingHTTPServer):
     def __init__(self, config: WebConfig, port: int = 8765):
         self.config = config
         self.sessions: dict[str, BrowserSession] = {}
-        self.starts: dict[str, tuple[str, str]] = {}
+        self.starts: dict[str, tuple[str, RogueOptions | None, str]] = {}
         self.lock = threading.RLock()
         super().__init__(("127.0.0.1", port), Handler)
 
@@ -405,17 +481,21 @@ class Handler(BaseHTTPRequestHandler):
                         raise RequestError("Identificatore della richiesta non valido.")
                     if not isinstance(mode, str) or mode not in self.server.config.modes:
                         raise RequestError("Modalità non disponibile.")
+                    rogue = None
+                    if mode == "rogue":
+                        rogue = RogueOptions(payload.get("max_popularity"), payload.get("lives"),
+                                             payload.get("randomness", DEFAULT_ROGUE_RANDOMNESS))
                     if identifier in self.server.starts:
-                        previous_mode, token = self.server.starts[identifier]
-                        if previous_mode != mode:
+                        previous_mode, previous_rogue, token = self.server.starts[identifier]
+                        if (previous_mode, previous_rogue) != (mode, rogue):
                             raise RequestError("Richiesta già usata con un contenuto diverso.", 409)
                     else:
                         if len(self.server.sessions) >= 64:
                             raise RequestError("Troppe sessioni aperte. Riavvia il server locale.", 429)
-                        session = BrowserSession(self.server.config, mode)
+                        session = BrowserSession(self.server.config, mode, rogue)
                         token = secrets.token_urlsafe(32)
                         self.server.sessions[token] = session
-                        self.server.starts[identifier] = (mode, token)
+                        self.server.starts[identifier] = (mode, rogue, token)
                     self._json(200, {"token": token, "state": self.server.sessions[token].state()})
                 elif self.path == "/api/submit":
                     session = self._session()

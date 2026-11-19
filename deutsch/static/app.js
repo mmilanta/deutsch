@@ -12,7 +12,7 @@ let state = null;
 let token = sessionStorage.getItem("deutsch.session");
 let busy = false;
 let pending = null;
-let view = "practice";
+let view = "picker";
 localStorage.removeItem("deutsch.palette"); // left behind by the removed palette picker
 
 function element(tag, className, text) {
@@ -94,10 +94,12 @@ function notify(id, text) {
 
 function controls() {
   const active = state && !state.ended;
-  for (const id of ["answer", "submit-answer"]) {
+  for (const id of ["answer", "submit-answer", "rogue-skip"]) {
     $(id).disabled = busy || !active;
   }
-  $("restart").disabled = busy;
+  for (const id of ["restart", "resume", "rogue-start", "rogue-popularity", "rogue-lives", "rogue-randomness", "play-tab", "stats-tab"]) {
+    $(id).disabled = busy;
+  }
   for (const button of modeButtons) {
     button.disabled = busy || !config || !config.modes.includes(button.dataset.mode);
   }
@@ -106,14 +108,17 @@ function controls() {
 // The Stats tab replaces the practice view; the session keeps running.
 function show() {
   const stats = view === "stats";
-  for (const button of modeButtons) {
-    button.setAttribute("aria-pressed", String(!stats && button.dataset.mode === state?.mode));
-  }
+  const practice = view === "practice";
+  $("play-tab").setAttribute("aria-pressed", String(!stats));
   $("stats-tab").setAttribute("aria-pressed", String(stats));
   $("stats").hidden = !stats;
-  $("trail").hidden = stats;
-  $("exercise").hidden = stats || !state?.current || state.ended;
-  $("session-end").hidden = stats || !state?.ended;
+  $("mode-picker").hidden = view !== "picker";
+  $("resume").hidden = !state;
+  $("resume").textContent = state?.ended ? "Ultima partita" : "Riprendi partita";
+  $("trail").hidden = !practice;
+  $("rogue-hud").hidden = !practice || !state?.rogue || (state.ended && !state.rogue.result);
+  $("exercise").hidden = !practice || !state?.current || state.ended;
+  $("session-end").hidden = !practice || !state?.ended;
 }
 
 function figure(value, label) {
@@ -283,13 +288,40 @@ async function openStats() {
   await loadStats();
 }
 
-function closeStats() {
-  view = "practice";
+function showPicker() {
+  view = "picker";
+  notify("error", "");
+  notify("notice", "");
+  notify("warnings", "");
+  $("rogue-settings").hidden = true;
+  document.querySelector('[data-mode="rogue"]').setAttribute("aria-expanded", "false");
   show();
-  if (state && !state.ended) $("answer").focus({preventScroll: true});
+}
+
+function renderRogueHearts(rogue, lostLife) {
+  const hearts = $("rogue-hearts");
+  const spent = rogue.initial_lives - rogue.lives_left;
+  function heart(lost, animated) {
+    const icon = element("span", "rogue-heart", "♥\uFE0E");
+    icon.classList.toggle("spent", lost);
+    icon.classList.toggle("just-spent", animated);
+    return icon;
+  }
+  hearts.replaceChildren();
+  if (rogue.initial_lives <= 12) {
+    for (let i = 0; i < rogue.initial_lives; i++) {
+      hearts.append(heart(i >= rogue.lives_left, lostLife && i === rogue.lives_left));
+    }
+  } else {
+    // Keep unusually large life counts readable on small screens.
+    if (rogue.lives_left) hearts.append(heart(false, false), element("span", "", `×${rogue.lives_left}`));
+    if (spent) hearts.append(heart(true, lostLife), element("span", "", `×${spent}`));
+  }
+  $("rogue-life-status").textContent = `Vite rimaste: ${rogue.lives_left} su ${rogue.initial_lives}`;
 }
 
 function render(next, scroll = false) {
+  const previousLives = state?.rogue?.lives_left;
   state = next;
   notify("warnings", state.warnings.length ? state.warnings.join(" · ") : "");
 
@@ -309,13 +341,22 @@ function render(next, scroll = false) {
     row.append(sentences);
     const trials = element("div", "past-trials");
     const attempts = element("div", "attempts");
-    attempts.append(historyView(previous, position === 0 && !state.ended));
+    attempts.append(historyView(previous, position === 0 && (!state.ended || Boolean(state.rogue?.result))));
     trials.append(attempts);
     row.append(trials);
     trail.append(row);
   }
   $("trail").replaceChildren(trail);
   const current = state.current;
+  const rogue = state.rogue;
+  $("rogue-skip").hidden = !rogue;
+  if (rogue) {
+    $("rogue-progress").textContent = `Rogue · ${state.trail.length + Number(Boolean(current))}/${rogue.total}`;
+    renderRogueHearts(rogue, scroll && previousLives > rogue.lives_left);
+  }
+  $("end-title").textContent = rogue?.result === "won" ? "Rogue completato." :
+    rogue?.result === "lost" ? "Vite esaurite." : "Sessione terminata.";
+  $("end-summary").textContent = rogue ? `${state.correct}/${rogue.total} parole indovinate · ${state.trail.length - state.correct} saltate` : "Le risposte sono salvate.";
   show();
   if (current) {
     $("exercise-number").textContent = String(current.number).padStart(2, "0");
@@ -366,8 +407,8 @@ function setBusy(value) {
 }
 
 async function submit(raw, flagAttempt, unflag = false) {
-  if (busy || !state || state.ended) return;
-  const presentation = state.current.presentation_id;
+  if (busy || !state || (state.ended && (flagAttempt === undefined || !state.rogue?.result))) return;
+  const presentation = state.ended ? state.trail.at(-1).presentation_id : state.current.presentation_id;
   // Retrying after a lost response reuses the request ID. The server will not
   // log the same answer twice or apply it to the next exercise.
   if (!pending || pending.guess !== raw || pending.flag_attempt !== flagAttempt || Boolean(pending.unflag) !== unflag || pending.presentation_id !== presentation) {
@@ -382,7 +423,7 @@ async function submit(raw, flagAttempt, unflag = false) {
     const response = await api("/api/submit", pending);
     pending = null;
     $("answer").value = "";
-    const changed = response.state.current?.presentation_id !== presentation;
+    const changed = flagAttempt === undefined && response.state.current?.presentation_id !== presentation;
     render(response.state, changed);
     // A flag toggle is acknowledged by the flag itself, not by a notice.
     if (response.message && flagAttempt === undefined) notify("notice", response.message.text);
@@ -406,12 +447,21 @@ async function submit(raw, flagAttempt, unflag = false) {
   }
 }
 
-async function start(mode) {
+async function start(mode, options = {}) {
   if (busy) return;
   setBusy(true);
   notify("error", "");
   notify("notice", "");
   try {
+    // A rejected start leaves the current session available to resume.
+    let request = sessionStorage.getItem("deutsch.start");
+    request = request ? JSON.parse(request) : null;
+    if (!request || request.mode !== mode || request.max_popularity !== options.max_popularity ||
+        request.lives !== options.lives || request.randomness !== options.randomness) {
+      request = {mode, ...options, request_id: crypto.randomUUID()};
+    }
+    sessionStorage.setItem("deutsch.start", JSON.stringify(request));
+    const started = await api("/api/start", request, false);
     // The old session is ended without rendering it, so its "session ended"
     // screen does not flash before the new session appears.
     if (state && !state.ended) {
@@ -428,25 +478,19 @@ async function start(mode) {
         }
       }
     }
-    // Keep this ID after a network failure so clicking again doesn't open
-    // duplicate sessions if the response, rather than the request, was lost.
-    let request = sessionStorage.getItem("deutsch.start");
-    request = request ? JSON.parse(request) : null;
-    if (!request || request.mode !== mode) request = {mode, request_id: crypto.randomUUID()};
-    sessionStorage.setItem("deutsch.start", JSON.stringify(request));
-    const response = await api("/api/start", request, false);
-    token = response.token;
+    token = started.token;
     sessionStorage.setItem("deutsch.session", token);
     sessionStorage.removeItem("deutsch.start");
     pending = null;
     $("answer").value = "";
-    render(response.state);
+    view = "practice";
+    render(started.state);
   } catch (error) {
     if (state) render(state);
     notify("error", error.message);
   } finally {
     setBusy(false);
-    if (state && !state.ended) $("answer").focus({preventScroll: true});
+    if (view === "practice" && state && !state.ended) $("answer").focus({preventScroll: true});
   }
 }
 
@@ -454,18 +498,42 @@ $("answer-form").addEventListener("submit", (event) => {
   event.preventDefault();
   submit($("answer").value);
 });
+$("rogue-skip").addEventListener("click", () => submit(""));
 $("trail").addEventListener("click", (event) => {
   const button = event.target.closest("button[data-attempt]");
-  if (button && !busy && state && !state.ended) submit("", Number(button.dataset.attempt), button.dataset.unflag !== undefined);
+  if (button) submit("", Number(button.dataset.attempt), button.dataset.unflag !== undefined);
 });
-$("stats-tab").addEventListener("click", () => (view === "stats" ? closeStats() : openStats()));
-$("restart").addEventListener("click", () => start(state?.mode || config.default_mode));
+$("play-tab").addEventListener("click", showPicker);
+$("stats-tab").addEventListener("click", () => { if (view !== "stats") openStats(); });
+$("resume").addEventListener("click", () => {
+  view = "practice";
+  render(state);
+  if (!state.ended) $("answer").focus({preventScroll: true});
+});
+$("restart").addEventListener("click", showPicker);
 for (const button of modeButtons) {
   button.addEventListener("click", () => {
-    if (view === "stats") closeStats();
-    if (button.dataset.mode !== state?.mode || state?.ended) start(button.dataset.mode);
+    if (button.dataset.mode === "rogue") {
+      const settings = $("rogue-settings");
+      settings.hidden = !settings.hidden;
+      button.setAttribute("aria-expanded", String(!settings.hidden));
+      if (!settings.hidden) $("rogue-popularity").focus();
+    } else {
+      start(button.dataset.mode);
+    }
   });
 }
+$("rogue-randomness").addEventListener("input", (event) => {
+  $("rogue-randomness-value").value = String(event.target.valueAsNumber);
+});
+$("rogue-settings").addEventListener("submit", (event) => {
+  event.preventDefault();
+  start("rogue", {
+    max_popularity: $("rogue-popularity").valueAsNumber,
+    lives: $("rogue-lives").valueAsNumber,
+    randomness: $("rogue-randomness").valueAsNumber,
+  });
+});
 
 async function initialize() {
   try {
@@ -474,6 +542,7 @@ async function initialize() {
     if (token) {
       try {
         const response = await api("/api/state");
+        view = "practice";
         render(response.state);
         $("answer").focus({preventScroll: true});
         return;
@@ -483,7 +552,7 @@ async function initialize() {
         sessionStorage.removeItem("deutsch.session");
       }
     }
-    await start(config.default_mode);
+    show();
   } catch (error) {
     notify("error", error.message);
   }
