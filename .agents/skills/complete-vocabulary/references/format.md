@@ -47,9 +47,9 @@ A flat JSON array, preserving compatibility with the current application:
 - `italian`, `italian_target`: plain sentence and exact highlighted substring.
 - `german`, `german_target`: plain sentence and exact highlighted substring.
 - `meaning` (optional): the illustrated sense.
-- `accepted_infinitives` (optional): array of curated German alternatives. They count as correct on exact normalized match for this sentence ID only, and are shown only after completion or reveal.
+- `accepted_infinitives` (optional): array of curated German alternatives. An exact normalized match gets neutral feedback for this sentence ID only; the learner must still supply the canonical answer to complete it. The list is shown only after completion or reveal.
 
-Several entries can share `word_id`, but not `sentence_id`. The app visits each word once per shuffled round and rotates through its variants. It reveals the meaning label only after the guess/reveal, not as a hint.
+Several entries can share `word_id`, but not `sentence_id`. The game visits each sentence once per run, with unranked sentences after the difficulty-ranked ones. It reveals the meaning label only after completion or skip.
 
 Do not overwrite existing sentence IDs with different text or meaning. If a historical exercise needs correction, treat it as a separate, explicit maintenance task rather than silently repurposing an ID referenced in logs.
 

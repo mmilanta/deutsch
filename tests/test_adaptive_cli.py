@@ -6,7 +6,7 @@ import pytest
 from deutsch.cli import main
 from deutsch.core import Exercise
 from deutsch.frequencies import Frequency, FrequencyTable
-from deutsch.scheduler import AdaptiveDeck
+from deutsch.difficulty import GameOptions
 
 
 @pytest.fixture
@@ -82,7 +82,7 @@ def test_review_flag_excludes_word_from_adaptive_not_catalog(files, monkeypatch,
     assert len(json.loads(files["vocabulary"].read_text())) == 2
 
 
-def test_play_selects_adaptive_deck_only_when_requested(files, monkeypatch):
+def test_play_uses_difficulty_and_lives_without_frequencies(files, monkeypatch):
     captured = []
 
     class FakeApp:
@@ -93,21 +93,20 @@ def test_play_selects_adaptive_deck_only_when_requested(files, monkeypatch):
             pass
 
     monkeypatch.setattr("deutsch.tui.DeutschApp", FakeApp)
-    monkeypatch.setattr(sys, "argv", ["deutsch", "play", *arguments(files), "--mode", "adaptive", "--explain"])
-    main()
-    assert isinstance(captured[-1]["deck"], AdaptiveDeck)
-    assert captured[-1]["explain"] is True
-    assert captured[-1]["events_path"] == files["events"]
-    assert captured[-1]["frequencies"] is captured[-1]["deck"].frequencies
-    monkeypatch.setattr(sys, "argv", ["deutsch", "play", *arguments(files)])
-    main()
-    assert captured[-1]["deck"] is None
-    assert captured[-1]["frequencies"].words["gehen"].zipf == 5
     files["frequencies"].unlink()
-    monkeypatch.setattr(sys, "argv", ["deutsch", "play", *arguments(files)])
+    [exercise, _] = json.loads(files["data"].read_text())
+    ranking = files["data"].with_name("rank.tsv")
+    ranking.write_text("sentence_id\tdifficulty\tinfinitive\tmeaning\titalian\n"
+                       f"{exercise['sentence_id']}\t0.5\t{exercise['infinitive']}\t\t{exercise['italian']}\n")
+    monkeypatch.setattr(sys, "argv", ["deutsch", "play", *arguments(files), "--lives", "2", "--difficulty", str(ranking)])
     main()
-    assert captured[-1]["deck"] is None  # Random needs no frequency file.
-    assert captured[-1]["frequencies"] is None
+    assert captured[-1]["options"] == GameOptions(lives=2)
+    assert captured[-1]["events_path"] == files["events"]
+    assert captured[-1]["difficulty"] == {exercise["sentence_id"]: 0.5}
+    monkeypatch.setattr(sys, "argv", ["deutsch", "play", *arguments(files), "--mode", "adaptive"])
+    with pytest.raises(SystemExit) as error:
+        main()
+    assert error.value.code == 2
 
 
 def test_play_forwards_custom_alternative_review_log(files, monkeypatch):
@@ -136,17 +135,17 @@ def test_web_forwards_cli_settings_without_running_terminal_ui(files, monkeypatc
 
     monkeypatch.setattr("deutsch.web.serve", serve)
     path = files["log"].parent / "web-review.jsonl"
-    monkeypatch.setattr(sys, "argv", ["deutsch", "web", *arguments(files), "--mode", "adaptive", "--threshold", "0",
-                                      "--port", "0", "--open", "--cooldown", "7", "--alternative-log", str(path)])
+    monkeypatch.setattr(sys, "argv", ["deutsch", "web", *arguments(files), "--threshold", "0", "--seed", "7",
+                                      "--port", "0", "--open", "--alternative-log", str(path)])
     main()
     config, settings = captured[0]
-    assert config.default_mode == "adaptive" and config.threshold == 0 and config.cooldown == 7
+    assert config.threshold == 0 and config.seed == 7
     assert config.log_path == files["log"] and config.alternative_log == path
     assert settings == {"port": 0, "open_browser": True}
     assert not files["log"].exists() and not files["events"].exists() and not path.exists()
 
 
-def test_no_subcommand_preserves_random_default(files, monkeypatch):
+def test_no_subcommand_starts_the_game(files, monkeypatch):
     captured = []
 
     class FakeApp:
@@ -160,8 +159,7 @@ def test_no_subcommand_preserves_random_default(files, monkeypatch):
     monkeypatch.setattr("deutsch.tui.DeutschApp", FakeApp)
     monkeypatch.setattr(sys, "argv", ["deutsch"])
     main()
-    assert len(captured) == 1 and "deck" not in captured[0]
-    assert captured[0]["frequencies"].words["gehen"].zipf == 5
+    assert len(captured) == 1 and captured[0]["options"] == GameOptions()
     assert not files["events"].exists()
 
 

@@ -41,7 +41,7 @@ Optional columns:
 
 - `sentence_id`: a stable, globally unique ID. Defaults to `verb-RANK-01`; use a different ID for each additional sentence of the same word.
 - `meaning`: an Italian label for the particular sense, shown only after revealing the answer.
-- `accepted_infinitives`: semicolon-separated German answers that also fit this exact Italian prompt. Do not repeat the canonical answer. Use a German base form (including a reflexive pronoun where appropriate). These answers score as correct; review flags do not automatically add to this list.
+- `accepted_infinitives`: semicolon-separated German answers that also fit this exact Italian prompt. Do not repeat the canonical answer. Use a German base form (including a reflexive pronoun where appropriate). These answers get neutral feedback and leave the prompt open; only the canonical answer completes it. Review flags do not automatically add to this list.
 - `frame`: defaults to `full` for complete sentences. `can`, `want`, and `need` expand explicitly authored verb phrases into matching short Italian/German modal sentences. These frames do not generate or translate content.
 
 Multiple sentences share a word ID and infinitive. Existing one-sentence rows remain valid.

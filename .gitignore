@@ -4,6 +4,7 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 .cache/
+/_site/
 *.jsonl
 # Project logs are intentionally versioned in this private repo at the user's request.
 !data/**/*.jsonl

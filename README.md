@@ -23,27 +23,37 @@ Open **http://127.0.0.1:8765** if you omit `--open`. Use `--port 8766` if that p
 
 The page uses a sparse visual style: bold lettering, a cream background, black rules, and red accents. All HTML, CSS, JavaScript, and the icon are bundled locally—no CDN, remote fonts, frontend build step, or new runtime dependencies.
 
-- **Play** opens the mode picker. **Casuale** and **Adattivo** use the same random and adaptive decks as the CLI. **Riprendi partita** returns to the current session. Starting a new session keeps saved learning history.
-- **Rogue** presents one sentence per word with a known Zipf frequency at or below your chosen maximum. **Casualità dell’ordine** defaults to `0.1`. Words with similar popularity are more likely to swap places than words with a large gap. At zero, the order is strictly by decreasing popularity. Wrong and near-miss guesses allow unlimited retries. **Salta** or **Enter** on an empty answer reveals the answer and turns one heart gray. You lose at zero lives and complete the run if you reach the end with a life left.
-- Type an infinitive and press **Enter**. Correct answers reveal the translation and move on. Empty Enter reveals the answer in every mode.
-- Completed exercises remain below the active prompt, newest first, with highlighted sentence targets, guessed or revealed infinitives, and popularity numbers.
+- **Play** opens the game settings. The run starts with three lives by default and visits each sentence once, from easiest to hardest according to the [sentence ranking](docs/difficulty.md). Unranked sentences come last. **Casualità dell’ordine** defaults to zero; increasing it makes nearby sentences more likely to swap. **Riprendi partita** returns to the current run.
+- Type an infinitive and press **Enter**. The target verb reveals the translation and advances the run. Other guesses allow retries. **Salta** or **Enter** on an empty answer reveals the translation and costs one life. You lose at zero lives and complete the run if you reach the end with a life left.
+- Completed exercises remain below the active prompt, newest first, with highlighted targets, revealed infinitives, and difficulty scores.
 - **Stats** starts with distinct words correctly guessed in the selected period (including successful retries) and the total canonical vocabulary size. It shows every vocabulary word as a horizontal bar stacked by wrong, almost correct, and correct first attempts. Reveals count as wrong; retries do not add observations, and unattempted prompts are unscored. Choose all time or a rolling 365-day, 30-day, or 24-hour window, and switch between shared absolute counts and percentages normalized to 100% for each nonempty bar. The period and scale controls sit above the large guessed/total word and correct/total attempt counters. Attempt totals include retries and exclude reveals; words default to descending attempts, with alphabetical ties. Click a word to sort alphabetically, a bar to sort by descending attempts, or a popularity value to sort by descending popularity (missing estimates last). The selected order persists across period and scale changes. Each row shows stored Zipf popularity (`—` if unavailable; `*` for a provisional fallback). Hover a row to show counts within its bar segments, or whole percentages in percentage mode; its tooltip also includes the total attempt count. Empty bars stay visible. Statistics read local history without changing it.
 - Click a wrong guess on the latest completed/revealed **sentence** to flag it as a possible synonym for that sentence. Click its flag to withdraw it. Flags are not scored guesses and do not approve synonyms automatically. The `/alt` and `/alternative` commands belong to the terminal UI.
-- `/q` ends the session. **Nuova sessione** returns to the mode picker. Refreshing the page resumes the current session while the server is running. Server restarts preserve saved history. Closing a tab alone does not create a failure. Stopping the server records remaining active prompts as abandoned.
+- `/q` ends the session. **Nuova sessione** returns to the game settings. Refreshing the page resumes the current session while the server is running. Server restarts preserve saved history. Closing a tab alone does not create a failure. Stopping the server records remaining active prompts as abandoned.
 - Exact raw guesses, first-attempt scoring, `ß`/`ss` handling, presentation events, and review flags use the same core functions and log files as the CLI. The browser never receives the German answer before a reveal/correct answer.
 
-The same `--data`, `--vocabulary`, `--frequencies`, `--log`, `--events`, `--alternative-log`, `--threshold`, scheduler options, and adaptive `--explain`/`--seed` settings are available on `web`. Browser actions stay on localhost; the app makes no model calls or automatic Git pushes.
+Use `web --help` for custom deck, ranking, log, and frequency paths. Browser actions stay on localhost; the app makes no model calls or automatic Git pushes.
+
+### Static browser export
+
+```sh
+uv run --locked deutsch export-static --output _site
+uv run python -m http.server 8000 --bind 127.0.0.1 --directory _site
+```
+
+Open **http://127.0.0.1:8000** for a local preview. The export works on static HTTPS hosts, including under a project subpath. No backend, gameplay logs, Stats, synonym reporting, or browser storage are included. Reloading starts over. The answer files are publicly downloadable wherever you publish the export; during normal play it loads only the translation being revealed.
+
+The [Pages workflow](.github/workflows/pages.yml) publishes only the generated `_site` directory. In a repository eligible for GitHub Pages, choose **Settings → Pages → Source → GitHub Actions**, then run **Deploy static game to GitHub Pages** from the Actions tab. The current private repository's plan does not support Pages.
 
 ### Terminal controls
 
 - Type the German infinitive at `> ` and press **Enter** to submit.
-- Press **Enter on an empty line** to give up and reveal the full German sentence.
+- Press **Enter on an empty line** to skip, reveal the full German sentence, and spend one life.
 - Type **/q** to quit; Ctrl+C or end-of-input also exits cleanly.
 - Type **/alternative** (or **/alt**) to flag the **previous completed/revealed exercise in this session**, not the currently displayed prompt, for possible alternative translations. The current prompt stays open; the command is not a guess or scored attempt.
 
 After a correct answer or a reveal, the next exercise is printed below. Nothing is cleared or redrawn.
 
-Correct guesses automatically reveal the translation, with the German verb in **bold** and the expected infinitive underneath. Both modes show a muted **popularity number** beside the revealed translation: higher means more common, using the stored frequency estimate rather than your mastery score. `n/d` means no usable frequency estimate is available. This also appears when giving up, but not before revealing the answer. A one-edit near miss gets **Almost there**; near misses and wrong answers allow another attempt without revealing the answer. Insertion, deletion, and substitution each count as one edit; a transposition usually counts as two.
+Correct guesses automatically reveal the translation, with the German verb in **bold** and the expected infinitive underneath. The revealed translation includes its **difficulty score** (higher is harder; `n/d` means unranked). Set `--lives` or `--randomness` on `deutsch play` to change the run settings. A one-edit near miss gets **Almost there**; near misses and wrong answers allow another attempt without revealing the answer. Insertion, deletion, and substitution each count as one edit; a transposition usually counts as two.
 
 German content retains **standard German spelling**, including `ß` (`heißen`, `weiß`, `Straße`). Both `ss` and `ß` spellings are accepted as correct when checking answers (`heissen` and `heißen`); raw guesses are still logged unchanged.
 
@@ -56,25 +66,16 @@ NO_COLOR=1 uv run deutsch
 
 Use a terminal supporting bold and Unicode for the best experience. Output uses your normal terminal background and scrollback; feedback also has text labels for monochrome use.
 
-## Adaptive practice: common words you need to practise
+## Offline recommendations and frequency data
 
-The original random mode remains the default. Opt into adaptive selection with:
-
-```sh
-uv run deutsch play --mode adaptive
-uv run deutsch play --mode adaptive --explain
-```
-
-Adaptive mode combines **verb frequency × estimated need for practice**. It targets 80% review / 20% new words, introduces unseen words from a window of the 100 most common remaining candidates, and avoids the last five words when possible. Correct first attempts reduce priority; wrong answers, near misses, and giving up provide different evidence. A successful retry is not counted as successful first-attempt recall. Multiple sentence variants do not multiply a word's scheduling weight; labelled meanings have separate knowledge estimates.
-
-Preview recommendations without writing logs or starting practice:
+Adaptive recommendations are a read-only diagnostic, not a play mode. They combine verb frequency with estimated need for practice without changing the game's sentence order:
 
 ```sh
 uv run deutsch recommend --limit 20
 uv run deutsch recommend --simulate 1000 --seed 42 --json
 ```
 
-Both practice and recommendations are fully **offline**, using the included `data/frequencies.json`. Estimates primarily count verb/auxiliary **lemmas and parts of speech**, rather than trusting the old CSV ranking or raw infinitive frequency. Missing corpus evidence uses a conservative, explicitly provisional `wordfreq` fallback. Corpus coverage and automatic annotation are imperfect; these are rough teaching priorities, not a definitive popularity ranking or calibrated mastery probabilities. Words flagged with `review_note` are excluded from adaptive mode.
+Recommendations and local browser Stats use the included `data/frequencies.json` offline. Estimates primarily count verb/auxiliary **lemmas and parts of speech**, rather than trusting the old CSV ranking or raw infinitive frequency. Missing corpus evidence uses a conservative, explicitly provisional `wordfreq` fallback. Corpus coverage and automatic annotation are imperfect; these are rough teaching priorities, not a definitive popularity ranking or calibrated mastery probabilities. Words flagged with `review_note` are excluded from recommendations.
 
 Rebuilding frequency metadata is optional and explicit; it downloads public corpus files once (~22 MB), caches them locally, and requires an extra build dependency:
 
@@ -125,9 +126,9 @@ A word can have one or several exercises. Reuse its `word_id` and `infinitive`, 
 
 A single sentence is enough for a word with one meaning. Add variants for distinct uses, not just to increase counts. The first 1,000 verbs have been reviewed for common senses and valid alternative answers; see [the content notes](data/CONTENT.md).
 
-A curated alternative infinitive counts as correct **only on the sentence that lists it**. For example, both `reichen` and `geben` are accepted for *Mi passi il sale, per favore?*, but `geben` is not accepted for the `reichen` sentence where it means *bastare*. The original German translation and the accepted alternatives are shown after completion or reveal. User flags still go to review and do not automatically change scoring; past guesses are not rescored.
+Only the target infinitive completes the exercise. A curated synonym is recognized **only on the sentence that lists it** and is neither correct nor wrong for scoring: the prompt stays open, the guess does not affect statistics or mastery, and no life is lost. For *Mi passi il sale, per favore?*, `geben` gets «Traduzione valida, ma cerchiamo un altro verbo» and `reichen` advances the game. `geben` is not recognized for the `reichen` prompt meaning *bastare*. The original German translation and the recognized alternatives are shown after completion or reveal. User flags still go to review; past guesses are not rescored.
 
-Random practice shuffles **words**, not individual sentences: each word appears once per round regardless of how many examples it has. On later visits, its sentences rotate in shuffled order, covering every variant before repeating. Guess history identifies both the word and the exact sentence, and includes the meaning label when present. Old content and logs remain compatible.
+The [difficulty snapshot](docs/difficulty.md) ranks all 2,911 sentences in the judged deck. It is separate from verb popularity. The game keeps all sentence variants, and guess history still identifies both the word and the exact sentence. Old content and logs remain compatible.
 
 ## Directly authored content (offline)
 
@@ -162,7 +163,7 @@ uv run deutsch generate --count 50 --output data/new-exercises.json
 uv run deutsch play --data data/new-exercises.json
 ```
 
-Custom decks can supply `--vocabulary PATH.json` to `play`, `recommend`, `build-frequencies`, `check-vocabulary`, `generate`, and the importer. For adaptive practice, also build/pass a matching `--frequencies PATH.json`. Every imported sentence must refer to a word in its catalog; adding an entry with no sentences does not block practice on the already covered words.
+Custom decks can supply `--vocabulary PATH.json` to `play`, `recommend`, `build-frequencies`, `check-vocabulary`, `generate`, and the importer. Use `--difficulty PATH.tsv` on `play`, `web`, and `export-static` to supply a matching ranking. For recommendations, build/pass a matching `--frequencies PATH.json`. Every imported sentence must refer to a word in its catalog; adding an entry with no sentences does not block practice on the already covered words.
 
 The original [source ranking](https://gist.github.com/wanderingstan/7eaaf0e22461b505c749e268c0b72bc4#file-top-german-verbs-csv) has quirks: for example, the rare verb `einen` is ranked third. V0 preserves the supplied list rather than silently replacing entries. Synonyms are not accepted automatically; answers are checked against the specific target infinitive.
 
@@ -185,11 +186,11 @@ Every submitted guess, including repeated attempts and whitespace-only input, ap
 - Exact `guess`, `result` (`correct`, `almost_there`, `incorrect`)
 - Levenshtein distance, threshold, and attempt number for this presentation
 
-Giving up is not a guess and does not add a guess record. Both practice modes now append separate **presentation events** to `data/guesses.events.jsonl`: prompt shown, completed, gave up, or abandoned. Guess records and events share the presentation ID, so retries cannot inflate mastery. Quitting/interrupting without a guess is not scored as failure. Logging errors are visible; failure to save a presentation event stops the session rather than silently continuing with incomplete history.
+Giving up is not a guess and does not add a guess record. Both local interfaces append separate **presentation events** to `data/guesses.events.jsonl`: prompt shown, completed, gave up, or abandoned. Guess records and events share the presentation ID, so retries cannot inflate mastery. Quitting/interrupting without a guess is not scored as failure. Logging errors are visible; failure to save a presentation event stops the session rather than silently continuing with incomplete history.
 
 Keep the exercise file alongside the logs so IDs continue to identify the original prompts. History is append-only and never sent to OpenAI by practice or recommendations. **At the user's explicit request, project logs under `data/` are versioned in this private GitHub repository**, including guesses, presentation events, generation logs, and ambiguity flags when present. This is personal learning data, not anonymous content. Other JSONL files remain ignored by default; `.env` and credentials must never be committed. Practice itself does not upload or push anything. Use `--log PATH` to change the guess location; events default to `<log-stem>.events.jsonl` beside it, or set `--events PATH`. The paths must differ. Exported recommendation reports contain personal learning statistics too—keep them private.
 
-Existing schema-v1 guess logs need no migration or rewrite. Adaptive mode conservatively groups legacy retries using sessions, sentence IDs, and attempt resets. Old reveals were never recorded and cannot be recovered; a missing first attempt is not inferred from a later successful retry. Adaptive selection is a lightweight heuristic, not a full spaced-repetition system. The session footer still counts successful guesses and total attempts; it is not the adaptive mastery estimate or a bonus-points system.
+Existing schema-v1 guess logs need no migration or rewrite. History analysis conservatively groups legacy retries using sessions, sentence IDs, and attempt resets. Old reveals were never recorded and cannot be recovered; a missing first attempt is not inferred from a later successful retry. Adaptive selection is a lightweight heuristic, not a full spaced-repetition system. The session footer still counts successful guesses and total attempts; it is not the adaptive mastery estimate or a bonus-points system.
 
 ## Tests
 

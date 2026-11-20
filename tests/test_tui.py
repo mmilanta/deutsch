@@ -13,10 +13,12 @@ def sample():
                     german="Ich gehe nach Hause.", german_target="gehe")
 
 
-def run_app(tmp_path, answers, *, log_path=None):
+def run_app(tmp_path, answers, *, log_path=None, exercise=None):
     output = io.StringIO()
     lines = iter(answers)
-    app = DeutschApp([sample()], log_path if log_path is not None else tmp_path / "guesses.jsonl",
+    first = exercise or sample()
+    app = DeutschApp([first, first.model_copy(update={"sentence_id": "verb-8-02"})],
+                     log_path if log_path is not None else tmp_path / "guesses.jsonl",
                      console=Console(file=output, color_system=None, width=80),
                      read_line=lambda: next(lines))
     app.run()
@@ -32,7 +34,7 @@ def test_guess_reveal_and_logging(tmp_path):
     assert app.correct == 1
     assert app.guesses == 2
     assert output.count("Io vado a casa.") == 2  # Previous prompt stays in scrollback.
-    assert f"infinito: gehen\n{'-' * 80}\nIo vado a casa." in output
+    assert f"infinito: gehen\n{'-' * 80}\n2/2 · vite rimaste: 3\nIo vado a casa." in output
     records = [json.loads(line) for line in (tmp_path / "guesses.jsonl").read_text().splitlines()]
     assert [record["result"] for record in records] == ["almost_there", "correct"]
     assert records[0]["guess"] == "  gehn  "
@@ -41,11 +43,21 @@ def test_guess_reveal_and_logging(tmp_path):
     assert "\x1b[" not in output  # No colors or screen controls in plain output.
 
 
+def test_valid_synonym_does_not_reveal_or_count_as_a_mistake(tmp_path):
+    exercise = sample().model_copy(update={"accepted_infinitives": ("laufen",)})
+    app, output = run_app(tmp_path, ["laufen", "/q"], exercise=exercise)
+    assert "Traduzione valida, ma cerchiamo un altro verbo." in output
+    assert exercise.german not in output
+    assert app.guesses == app.correct == 0
+    record = json.loads((tmp_path / "guesses.jsonl").read_text())
+    assert record["result"] == "valid_alternative" and record["guess"] == "laufen"
+
+
 def test_reveal_and_quit_are_not_guesses(tmp_path):
     app, output = run_app(tmp_path, ["", "/q"])
     assert "Ich gehe nach Hause." in output
     separator = "-" * 80
-    assert f"infinito: gehen\n{separator}\nIo vado a casa." in output
+    assert f"infinito: gehen\n{separator}\n2/2 · vite rimaste: 2\nIo vado a casa." in output
     assert app.guesses == 0
     assert not (tmp_path / "guesses.jsonl").exists()
 

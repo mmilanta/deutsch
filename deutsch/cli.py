@@ -1,6 +1,5 @@
 import argparse
 import json
-import random
 import sys
 from pathlib import Path
 
@@ -64,16 +63,22 @@ def _show_warnings(warnings) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Deutsch · German vocabulary for Italian speakers")
     sub = parser.add_subparsers(dest="command")
-    play = sub.add_parser("play", help="Inline vocabulary practice (default; random mode)")
+    from deutsch.difficulty import DEFAULT_DIFFICULTY, GameOptions, load_difficulty
+    play = sub.add_parser("play", help="Play the lives-based game in the terminal (default)")
     web = sub.add_parser("web", help="Open the simple localhost browser UI")
     for practice in (play, web):
         _practice_files(practice)
-        _scheduler_options(practice)
-        practice.add_argument("--mode", choices=["random", "adaptive"], default="random")
+        practice.add_argument("--difficulty", type=Path, default=DEFAULT_DIFFICULTY)
         practice.add_argument("--threshold", type=int, default=1, help="Almost-there edit distance (default: 1)")
-        practice.add_argument("--explain", action="store_true", help="Explain adaptive choices without revealing the answer")
-        practice.add_argument("--seed", type=int, help="Reproducible adaptive selection")
+        practice.add_argument("--seed", type=int, help="Reproducible order randomization")
         practice.add_argument("--alternative-log", type=Path, help="Private review flags (default: next to --log, <stem>.alternatives.jsonl)")
+    play.add_argument("--lives", type=int, default=3)
+    play.add_argument("--randomness", type=float, default=0)
+    export = sub.add_parser("export-static", help="Export a static browser game without logs or statistics")
+    export.add_argument("--data", type=Path, default=Path("data/exercises.json"))
+    export.add_argument("--vocabulary", type=Path, default=Path("data/vocabulary.json"))
+    export.add_argument("--difficulty", type=Path, default=DEFAULT_DIFFICULTY)
+    export.add_argument("--output", type=Path, required=True, help="New destination directory")
     web.add_argument("--port", type=int, default=8765, help="Local port (default: 8765; 0 picks a free port)")
     web.add_argument("--open", action="store_true", help="Open the local page in your browser")
     recommend = sub.add_parser("recommend", help="Inspect adaptive recommendations offline (no writes)")
@@ -95,7 +100,8 @@ def main() -> None:
     check.add_argument("--vocabulary", type=Path, default=Path("data/vocabulary.json"))
     check.add_argument("--data", type=Path, default=Path("data/exercises.json"))
     check.add_argument("--json", action="store_true", help="Print the full machine-readable report")
-    args = parser.parse_args()
+    argv = sys.argv[1:]
+    args = parser.parse_args(argv or ["play"])
     try:
         if args.command == "check-vocabulary":
             from deutsch.vocabulary import check_vocabulary
@@ -131,66 +137,57 @@ def main() -> None:
             print(f"Saved {len(table.words)} frequency records to {args.output} ({table.corpus_tokens} corpus word tokens)")
             print(json.dumps(dict(Counter(item.method for item in table.words.values()))))
         else:
-            from deutsch.tui import DeutschApp
-            from deutsch.frequencies import load_frequencies
-            if args.command is None:
-                # No subcommand keeps the existing default random interaction.
-                exercises, _ = _load_practice(Path("data/exercises.json"), Path("data/vocabulary.json"))
-                frequency_path = Path("data/frequencies.json")
-                frequencies = load_frequencies(frequency_path) if frequency_path.exists() else None
-                DeutschApp(exercises, Path("data/guesses.jsonl"), frequencies=frequencies).run()
-                return
-            if args.events is not None and args.events.resolve() == args.log.resolve():
+            if args.command != "export-static" and args.events is not None and args.events.resolve() == args.log.resolve():
                 parser.error("--events and --log must use different paths")
-            if not 0 <= args.new_ratio <= 1 or args.cooldown < 0 or args.new_window < 1:
-                parser.error("--new-ratio must be between 0 and 1, --cooldown nonnegative, --new-window positive")
             if args.command in {"play", "web"} and args.threshold < 0:
                 parser.error("--threshold must be nonnegative")
-            if args.command in {"play", "web"} and args.explain and args.mode != "adaptive":
-                parser.error("--explain requires --mode adaptive")
-            if args.command == "recommend" and (args.limit < 1 or args.simulate < 0):
-                parser.error("--limit must be positive and --simulate nonnegative")
             if args.command == "web" and not 0 <= args.port <= 65535:
                 parser.error("--port must be between 0 and 65535")
+            if args.command == "recommend":
+                if args.limit < 1 or args.simulate < 0:
+                    parser.error("--limit must be positive and --simulate nonnegative")
+                if not 0 <= args.new_ratio <= 1 or args.cooldown < 0 or args.new_window < 1:
+                    parser.error("--new-ratio must be between 0 and 1, --cooldown nonnegative, --new-window positive")
+                from deutsch.scheduler import offline_report
+                exercises, entries = _load_practice(args.data, args.vocabulary)
+                exercises, frequencies, history, warnings, excluded = _adaptive_inputs(args, exercises, entries)
+                report = offline_report(exercises, frequencies, history, limit=args.limit, samples=args.simulate,
+                                        seed=args.seed, new_ratio=args.new_ratio, cooldown=args.cooldown,
+                                        new_window=args.new_window)
+                report["warnings"], report["excluded_review_words"] = warnings, excluded
+                report["frequency_built_at"] = frequencies.built_at
+                if args.json:
+                    print(json.dumps(report, ensure_ascii=False, indent=2))
+                else:
+                    _show_warnings(warnings)
+                    print(f"Adaptive preview · {report['seen_words']} seen / {report['eligible_words']} eligible words")
+                    print("Approximate mastery, not a calibrated probability. Legacy retries are grouped, not counted as new successes.")
+                    for row in report["recommendations"]:
+                        print(f"{row['infinitive']:20} {row['bucket']:6} next {row['next_probability']:6.2%} · mastery {row['mastery_estimate']:.0%} · Zipf {row['zipf']:.2f}")
+                        print(f"  {row['reason']}")
+                    if args.simulate:
+                        print(f"Frozen-history simulation ({args.simulate} selections): {report['simulation']['buckets']}")
+                        print(report['simulation']['note'])
+                return
             exercises, entries = _load_practice(args.data, args.vocabulary)
-            options = dict(new_ratio=args.new_ratio, cooldown=args.cooldown, new_window=args.new_window)
-            if args.command == "web":
+            difficulty = load_difficulty(args.difficulty, exercises) if args.difficulty.exists() else {}
+            if args.command == "export-static":
+                from deutsch.static_export import export_game
+                export_game(args.output, exercises, difficulty)
+                print(f"Static game exported to {args.output / 'index.html'}")
+            elif args.command == "web":
+                from deutsch.frequencies import load_frequencies
                 from deutsch.web import WebConfig, serve
                 frequencies = load_frequencies(args.frequencies) if args.frequencies.exists() else None
-                config = WebConfig(exercises, entries, args.log, frequencies=frequencies,
+                config = WebConfig(exercises, entries, args.log, frequencies=frequencies, difficulty=difficulty,
                                    events_path=args.events, alternative_log=args.alternative_log,
-                                   default_mode=args.mode, threshold=args.threshold, seed=args.seed,
-                                   explain=args.explain, **options)
+                                   threshold=args.threshold, seed=args.seed)
                 serve(config, port=args.port, open_browser=args.open)
-                return
-            if args.command == "recommend" or args.mode == "adaptive":
-                from deutsch.scheduler import AdaptiveDeck, offline_report
-                exercises, frequencies, history, warnings, excluded = _adaptive_inputs(args, exercises, entries)
-                if args.command == "recommend":
-                    report = offline_report(exercises, frequencies, history, limit=args.limit,
-                                            samples=args.simulate, seed=args.seed, **options)
-                    report["warnings"], report["excluded_review_words"] = warnings, excluded
-                    report["frequency_built_at"] = frequencies.built_at
-                    if args.json:
-                        print(json.dumps(report, ensure_ascii=False, indent=2))
-                    else:
-                        _show_warnings(warnings)
-                        print(f"Adaptive preview · {report['seen_words']} seen / {report['eligible_words']} eligible words")
-                        print("Approximate mastery, not a calibrated probability. Legacy retries are grouped, not counted as new successes.")
-                        for row in report["recommendations"]:
-                            print(f"{row['infinitive']:20} {row['bucket']:6} next {row['next_probability']:6.2%} · mastery {row['mastery_estimate']:.0%} · Zipf {row['zipf']:.2f}")
-                            print(f"  {row['reason']}")
-                        if args.simulate:
-                            print(f"Frozen-history simulation ({args.simulate} selections): {report['simulation']['buckets']}")
-                            print(report['simulation']['note'])
-                    return
-                _show_warnings(warnings)
-                deck = AdaptiveDeck(exercises, frequencies, history, rng=random.Random(args.seed), **options)
             else:
-                deck = None
-                frequencies = load_frequencies(args.frequencies) if args.frequencies.exists() else None
-            DeutschApp(exercises, args.log, args.threshold, deck=deck, frequencies=frequencies,
-                       events_path=args.events, explain=args.explain, alternative_log=args.alternative_log).run()
+                from deutsch.tui import DeutschApp
+                DeutschApp(exercises, args.log, args.threshold, difficulty=difficulty,
+                           options=GameOptions(args.lives, args.randomness), seed=args.seed,
+                           events_path=args.events, alternative_log=args.alternative_log).run()
     except (ValueError, OSError, OpenAIError) as error:
         parser.exit(2 if args.command == "check-vocabulary" else 1, f"Error: {error}\n")
     except KeyboardInterrupt:

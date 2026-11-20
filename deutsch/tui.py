@@ -8,10 +8,9 @@ from uuid import uuid4
 from rich.console import Console
 from rich.text import Text
 
-from deutsch.core import Deck, Exercise, append_guess
-from deutsch.frequencies import FrequencyTable
+from deutsch.core import Exercise, append_guess
+from deutsch.difficulty import GameOptions, ordered_exercises
 from deutsch.history import History, Observation, append_event, events_path_for
-from deutsch.scheduler import AdaptiveDeck
 from deutsch.review import alternative_log_for, append_alternative_flag
 
 # Enable normal line editing on terminals that provide readline.
@@ -40,20 +39,17 @@ class DeutschApp:
         *,
         console: Console | None = None,
         read_line: Callable[[], str] | None = None,
-        deck: Deck | AdaptiveDeck | None = None,
-        history: History | None = None,
+        difficulty: dict[str, float] | None = None,
+        options: GameOptions = GameOptions(),
+        seed: int | None = None,
         events_path: Path | None = None,
-        explain: bool = False,
-        frequencies: FrequencyTable | None = None,
         alternative_log: Path | None = None,
     ):
-        self.deck = deck if deck is not None else Deck(exercises)
-        self.frequencies = frequencies
-        if self.frequencies is None and isinstance(self.deck, AdaptiveDeck):
-            self.frequencies = self.deck.frequencies
-        self.history = self.deck.history if isinstance(self.deck, AdaptiveDeck) else history if history is not None else History()
+        self.difficulty = difficulty or {}
+        self.deck = ordered_exercises(exercises, self.difficulty, options, seed)
+        self.lives_left = options.lives
+        self.history = History()
         self.events_path = events_path if events_path is not None else events_path_for(log_path)
-        self.explain = explain
         self.log_path = log_path
         self.alternative_log = alternative_log if alternative_log is not None else alternative_log_for(log_path)
         paths = [self.log_path, self.events_path, self.alternative_log]
@@ -69,17 +65,17 @@ class DeutschApp:
         self.guesses = 0
 
     def reveal(self, exercise: Exercise) -> None:
-        frequency = self.frequencies.for_word(exercise.word_id, exercise.infinitive) if self.frequencies is not None else None
-        popularity = f"{frequency.zipf:.3f}" if frequency is not None and frequency.method != "missing" else "n/d"
+        score = self.difficulty.get(exercise.sentence_id)
+        difficulty = f"{score:.3f}" if score is not None else "n/d"
         translation = highlight(exercise.german, exercise.german_target)
-        translation.append(f"  · popolarità: {popularity}", style="dim")
+        translation.append(f"  · difficoltà: {difficulty}", style="dim")
         self.console.print(translation)
         if exercise.german_target != exercise.infinitive:
             self.console.print(Text(f"infinito: {exercise.infinitive}", style="dim"))
         if exercise.meaning is not None:
             self.console.print(Text(f"significato: {exercise.meaning}", style="dim"))
         if exercise.accepted_infinitives:
-            self.console.print(Text(f"anche: {', '.join(exercise.accepted_infinitives)}", style="dim"))
+            self.console.print(Text(f"altre traduzioni valide: {', '.join(exercise.accepted_infinitives)}", style="dim"))
         self.console.rule(characters="-", style="dim")
 
     def flag_previous_alternative(self) -> None:
@@ -101,7 +97,7 @@ class DeutschApp:
     def practice(self, exercise: Exercise) -> bool:
         presentation_id = str(uuid4())
         shown_at = datetime.now(timezone.utc)
-        attempt = 0
+        attempt = scored_attempts = 0
         first_result = None
         finished = False
         try:
@@ -122,7 +118,7 @@ class DeutschApp:
             ))
             try:
                 append_event(self.events_path, exercise, self.session_id, presentation_id,
-                             event, attempts=attempt, first_result=first_result)
+                             event, attempts=scored_attempts, first_result=first_result)
             except OSError as error:
                 self.console.print(Text(f"Evento non salvato: {error}. Sessione interrotta.", style="red"))
                 return False
@@ -130,9 +126,6 @@ class DeutschApp:
                 self.previous_exercise = (exercise, presentation_id)
             return True
 
-        if self.explain and isinstance(self.deck, AdaptiveDeck):
-            # The reason contains learning evidence, never the answer/meaning.
-            self.console.print(Text(self.deck.explain(exercise), style="dim"))
         self.console.print(highlight(exercise.italian, exercise.italian_target))
         try:
             while True:
@@ -151,6 +144,7 @@ class DeutschApp:
                 if raw == "":
                     saved = finish("gave_up")
                     self.reveal(exercise)
+                    self.lives_left -= 1
                     return saved
                 try:
                     result = append_guess(
@@ -161,6 +155,10 @@ class DeutschApp:
                     self.console.print(Text(f"Salvataggio non riuscito: {error}. Riprova.", style="red"))
                     continue
                 attempt += 1
+                if result == "valid_alternative":
+                    self.console.print("Traduzione valida, ma cerchiamo un altro verbo.", style="blue")
+                    continue
+                scored_attempts += 1
                 self.guesses += 1
                 if first_result is None:
                     first_result = result
@@ -179,12 +177,18 @@ class DeutschApp:
             raise
 
     def run(self) -> None:
-        mode = " · adattivo" if isinstance(self.deck, AdaptiveDeck) else ""
-        self.console.print(f"Deutsch{mode} · infinito tedesco · Invio: risposta · /q: esci · /alt: segnala precedente", style="dim")
+        self.console.print("Deutsch · infinito tedesco · Invio vuoto: salta · /q: esci · /alt: segnala precedente", style="dim")
         self.console.print()
         try:
-            while self.practice(self.deck.next()):
-                pass
+            for number, exercise in enumerate(self.deck, 1):
+                self.console.print(f"{number}/{len(self.deck)} · vite rimaste: {self.lives_left}", style="dim")
+                if not self.practice(exercise):
+                    break
+                if not self.lives_left:
+                    self.console.print("Vite esaurite.")
+                    break
+            else:
+                self.console.print("Partita completata.")
         except (EOFError, KeyboardInterrupt):
             self.console.print()
         self.console.print(Text(f"{self.correct} corrette · {self.guesses} tentativi", style="dim"))

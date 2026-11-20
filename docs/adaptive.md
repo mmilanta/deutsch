@@ -1,22 +1,16 @@
-# Adaptive practice
+# Offline adaptive recommendations
+
+The adaptive scheduler is an inspection tool, not a play mode. The game uses the separate [sentence difficulty ranking](difficulty.md).
 
 ## Commands
 
 ```sh
-# Existing random, word-balanced rounds remain the default.
-uv run deutsch
-uv run deutsch play --mode random
-
-# New, optional adaptive mode; normal inline UI and infinitive answers.
-uv run deutsch play --mode adaptive
-uv run deutsch play --mode adaptive --explain
-
 # Read-only inspection. Neither command writes history or accesses the network.
 uv run deutsch recommend --limit 20
 uv run deutsch recommend --simulate 1000 --seed 42 --json
 ```
 
-The explanation printed before an exercise never includes the answer or its meaning label. The preview report intentionally does name candidate words; it is an inspection tool, not an exercise.
+The preview report names candidate words and explains their recommendation weights.
 
 ## 1. Frequency
 
@@ -40,7 +34,7 @@ One scored observation per **presentation**, not per guess:
 | Explicit give-up/reveal | 0, with evidence weight ×1.25 |
 | No attempt, then quit/EOF/interrupt | Unscored |
 
-A later correct retry does not turn an initial miss into successful recall. Explicitly giving up overrides any near-miss credit. If the first guess is missing and no terminal event supplies it, later guesses cannot establish first-attempt performance.
+A recognized sentence-specific alternative is recorded but unscored; mastery and statistics use the first scored attempt. A later correct retry does not turn an initial miss into successful recall. Explicitly giving up overrides any near-miss credit. If the first guess is missing and no terminal event supplies it, later guesses cannot establish first-attempt performance.
 
 Use the latest 20 scored presentations per word/labelled meaning. For each, calculate:
 
@@ -71,12 +65,12 @@ Bounded, logarithmic frequency influence avoids raw occurrence counts letting `s
 - Introduce unseen words from the **100 most frequent remaining eligible words**, weighted by priority. This prevents thousands of rare unseen entries collectively crowding out a smaller set of common ones. The window advances as words are presented.
 - Avoid the **last five presented/selected word IDs**, including recent history from earlier sessions. If a small deck exhausts the choices, relax the oldest cooldown exclusions first. A one-word deck still works.
 - If either pool is unavailable, use the other. Cold starts therefore introduce new words; the nominal quota is not a promise for every small batch.
-- Exclude canonical entries with unresolved `review_note` from adaptive mode. Random mode is unchanged.
+- Exclude canonical entries with unresolved `review_note` from recommendations.
 
 Tune both `play` and `recommend` with:
 
 ```sh
-uv run deutsch play --mode adaptive --new-ratio 0.3 --cooldown 7 --new-window 100
+uv run deutsch recommend --new-ratio 0.3 --cooldown 7 --new-window 100
 ```
 
 `--new-ratio` is 0..1, `--cooldown` is nonnegative, and `--new-window` is positive. These are experimental teaching parameters. If review feels excessive or new words arrive too slowly, inspect the report and adjust the ratio rather than assuming the defaults are optimal. `play --seed N` gives reproducible choices against the same history and clock; report simulations default to seed 42.
@@ -110,7 +104,7 @@ Validation checks:
 - Cooldowns and pool fallback work for small decks.
 - Runtime use is offline and inspection/simulation never writes user history.
 
-Automated tests use temporary data only. No default-mode change is made on the strength of an offline preview; random and adaptive modes remain available for comparison.
+Automated tests use temporary data only. Offline previews never change the live game's order or practice history.
 
 ## Rebuilding / custom decks
 
@@ -120,7 +114,7 @@ The shipped frequency artifact makes runtime use dependency-light and offline. O
 uv run --extra frequency deutsch build-frequencies
 # Custom catalog and destination:
 uv run --extra frequency deutsch build-frequencies --vocabulary my-vocabulary.json --output my-frequencies.json
-uv run deutsch play --mode adaptive --vocabulary my-vocabulary.json --data my-exercises.json --frequencies my-frequencies.json --log my-guesses.jsonl
+uv run deutsch recommend --vocabulary my-vocabulary.json --data my-exercises.json --frequencies my-frequencies.json --log my-guesses.jsonl
 ```
 
 Corpus files are cached in ignored `.cache/deutsch-frequency/`; use `build-frequencies --cache PATH` to override it. Later rebuilds use that cache without downloading. Output is replaced atomically after successful parsing/scoring. Frequency construction only uses public corpus and canonical vocabulary data, never guesses or secrets, and makes no paid/model API calls. See [provenance and licensing](../data/FREQUENCIES.md).

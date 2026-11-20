@@ -1,0 +1,19 @@
+{
+  "seed": 6422911,
+  "deck_sha256": "308cf7b04ba3e8faad7e235d748249f2f45581e938a50bc1c05a48230b616a79",
+  "same_verb_pairs": 402,
+  "prompt": "An Italian speaker is learning German. In which exercise are they more likely to guess the target verb before giving up: A or B?\n\nThe learner sees only the Italian sentence and its highlighted expression, not the target, the German reference, or the synonym list. They can try again. A recognized synonym gets the feedback “Valid translation, but we are looking for another verb.” It is not marked wrong, but it does not finish the exercise. To guess correctly, the learner must supply the specific target infinitive. Judge success across retries, not just on the first guess. Do not assume a particular CEFR level.\n\nUse the full Italian sentence to judge how naturally it brings that specific German verb and sense to mind. If both bekommen and erhalten fit the sentence, guessing bekommen does not solve the exercise targeting erhalten. A familiar alternative can come to mind first without making the target itself easier to guess.\n\nChoose the exercise the learner is more likely to solve. If the difference is small, make your best guess. Return one letter only: A or B.\n",
+  "api": "standard",
+  "reasoning_effort": "none",
+  "max_output_tokens": 24,
+  "estimated_cost_usd": 0.54672,
+  "input_tokens": 5085121,
+  "output_tokens": 76415,
+  "model": "gpt-6-luna",
+  "primary_comparisons": 14555,
+  "reverse_checks": 728,
+  "reverse_agreement": 557,
+  "primary_a": 8476,
+  "fitted_first_position_log_odds": 0.47211794765440895,
+  "estimated_equal_pair_probability_a": 0.6158849235357371
+}

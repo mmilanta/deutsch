@@ -103,6 +103,7 @@ def load_history(guesses: Path, events: Path | None = None) -> History:
     """Never rewrite old data; no reveal is inferred from a missing old event."""
     history = History()
     groups: dict[str, Observation] = {}
+    neutral_prefixes: dict[str, int] = {}
     previous_legacy_key = None
     previous_attempt = 0
     legacy_id = ""
@@ -132,7 +133,8 @@ def load_history(guesses: Path, events: Path | None = None) -> History:
         try:
             if record.get("schema_version", 1) not in {1, 2}:
                 raise ValueError("unsupported guess schema")
-            if record.get("result") not in RESULTS:
+            result = record.get("result")
+            if result not in RESULTS and result != "valid_alternative":
                 raise ValueError("unknown guess result")
             timestamp = parse_time(record["timestamp"])
             attempt = record.get("attempt", 1)
@@ -151,12 +153,18 @@ def load_history(guesses: Path, events: Path | None = None) -> History:
                 if not isinstance(identifier, str) or not identifier:
                     raise ValueError("invalid presentation ID")
             group = get_group(record, identifier, timestamp, legacy=legacy)
+            next_scored_attempt = neutral_prefixes.get(identifier, 0) + 1
+            if result == "valid_alternative":
+                if attempt == next_scored_attempt:
+                    neutral_prefixes[identifier] = attempt
+                continue
             group.attempts += 1
-            group.correct_attempts += record["result"] == "correct"
-            # If attempt 1 is missing, a later success is not proof of recall.
-            if attempt == 1 and group.first_result is None:
-                group.first_result = record["result"]
-            if record["result"] == "correct":
+            group.correct_attempts += result == "correct"
+            # A later success is not first-attempt recall unless the preceding
+            # submissions are present and were all recognized alternatives.
+            if attempt == next_scored_attempt and group.first_result is None:
+                group.first_result = result
+            if result == "correct":
                 group.completed = True
         except (ValueError, KeyError, TypeError, AttributeError) as error:
             history.warnings.append(f"{guesses}:{number}: ignored invalid guess ({error})")

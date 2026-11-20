@@ -55,14 +55,15 @@ def test_accepted_infinitive_is_exact_and_sentence_specific(tmp_path):
                       accepted_infinitives=["heißen"])
     other = prompt.model_copy(update={"sentence_id": "bedeuten-02", "accepted_infinitives": None})
     path = tmp_path / "guesses.jsonl"
-    assert append_guess(path, prompt, "  HEISSEN  ", "session", 1, threshold=0) == "correct"
+    assert append_guess(path, prompt, "  HEISSEN  ", "session", 1, threshold=0) == "valid_alternative"
     assert append_guess(path, prompt, "heisen", "session", 1) == "incorrect"
     assert append_guess(path, other, "heissen", "session", 1) == "incorrect"
     first, *rest = map(json.loads, path.read_text().splitlines())
     assert first["guess"] == "  HEISSEN  "
     assert first["expected_infinitive"] == "bedeuten"
     assert first["matched_infinitive"] == "heißen"
-    assert first["levenshtein_distance"] == 0
+    assert first["result"] == "valid_alternative"
+    assert first["levenshtein_distance"] == levenshtein("heissen", "bedeuten")
     assert all("matched_infinitive" not in record for record in rest)
 
 

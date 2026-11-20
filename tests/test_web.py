@@ -8,10 +8,11 @@ from uuid import uuid4
 import pytest
 
 from deutsch.core import Exercise
+from deutsch.difficulty import GameOptions, ordered_exercises
 from deutsch.frequencies import Frequency, FrequencyTable
 from deutsch.history import load_history
 from deutsch.vocabulary import VocabularyEntry
-from deutsch.web import BrowserSession, LocalServer, RequestError, RogueOptions, WebConfig, practice_stats
+from deutsch.web import BrowserSession, LocalServer, RequestError, WebConfig, practice_stats
 
 
 def sample():
@@ -20,7 +21,8 @@ def sample():
 
 
 def config(tmp_path, *, exercises=None, **options):
-    exercises = exercises if exercises is not None else [sample()]
+    if exercises is None:
+        exercises = [sample().model_copy(update={"sentence_id": f"gehen-{i:02}"}) for i in range(1, 5)]
     entries = list({e.word_id: VocabularyEntry(word_id=e.word_id, infinitive=e.infinitive) for e in exercises}.values())
     frequencies = FrequencyTable(built_at="test", corpus_tokens=1000, sources=[], methodology="test",
                                  words={e.word_id: Frequency(infinitive=e.infinitive, zipf=5.81, method="lemma_pos", corpus_count=100) for e in exercises})
@@ -69,30 +71,44 @@ def request(server, method, path, payload=None, headers=None, body=None):
     return result
 
 
-def test_initial_prompt_does_not_expose_german_answer_meaning_or_frequency(tmp_path):
-    s = BrowserSession(config(tmp_path), "random")
+def test_initial_prompt_does_not_expose_german_answer_meaning_or_difficulty(tmp_path):
+    s = BrowserSession(config(tmp_path, difficulty={"gehen-01": -1.0}))
     current = s.state()["current"]
     assert current["italian"] == sample().italian
-    assert set(current) == {"presentation_id", "number", "italian", "italian_target", "attempts", "explanation"}
+    assert set(current) == {"presentation_id", "number", "italian", "italian_target", "attempts"}
     assert s.state()["trail"] == []
     assert not s.config.log_path.exists()
 
 
-def test_accepted_infinitive_completes_prompt_without_leaking_beforehand(tmp_path):
+def test_valid_synonym_is_neutral_and_target_alone_completes_prompt(tmp_path):
     exercise = sample().model_copy(update={"accepted_infinitives": ("laufen",)})
-    s = BrowserSession(config(tmp_path, exercises=[exercise]), "random")
+    s = BrowserSession(config(tmp_path, exercises=[exercise]), GameOptions(lives=1))
     assert "laufen" not in json.dumps(s.state())
+    presentation = s.presentation_id
     state = submit(s, " LAUFEN ")["state"]
-    assert state["correct"] == 1
+    assert state["correct"] == state["guesses"] == 0
+    assert state["current"]["presentation_id"] == presentation and state["trail"] == []
+    assert state["current"]["attempts"] == [{"guess": " LAUFEN ", "result": "valid_alternative"}]
+    assert "infinitive" not in state["current"]
+    assert state["game"]["lives_left"] == 1
+    observation = load_history(s.config.log_path).presentations[0]
+    assert observation.score is None and observation.attempts == 0
+    state = submit(s, "gehen")["state"]
+    assert state["correct"] == state["guesses"] == 1
     assert state["trail"][0]["infinitive"] == "gehen"
     assert state["trail"][0]["accepted_infinitives"] == ["laufen"]
     assert "laufen" not in json.dumps(state["current"])
-    assert load_history(s.config.log_path).presentations[0].score == 1
+    assert "non valido" in s.submit("", s.presentation_id or presentation, str(uuid4()), 1)["message"]["text"]
+    observation = load_history(s.config.log_path).presentations[0]
+    assert observation.score == 1 and observation.attempts == 1
+    stats = practice_stats(s.config)
+    assert stats["attempts"] == stats["correct_attempts"] == 1
+    assert state["game"]["result"] == "won"
+    assert state["game"]["lives_left"] == 1
 
 
-@pytest.mark.parametrize("mode", ["random", "adaptive"])
-def test_near_miss_retry_and_reveal_match_cli_and_preserve_raw_guesses(tmp_path, mode):
-    s = BrowserSession(config(tmp_path), mode)
+def test_near_miss_retry_and_reveal_match_cli_and_preserve_raw_guesses(tmp_path):
+    s = BrowserSession(config(tmp_path, difficulty={"gehen-01": -1.0}))
     original = s.presentation_id
     a = submit(s, "  GEHN  ")["state"]
     assert a["current"]["presentation_id"] == original
@@ -102,7 +118,7 @@ def test_near_miss_retry_and_reveal_match_cli_and_preserve_raw_guesses(tmp_path,
     assert b["current"]["presentation_id"] != original
     revealed = b["trail"][0]
     assert revealed["german"] == sample().german
-    assert revealed["popularity"] == 5.81 and revealed["infinitive"] == "gehen"
+    assert revealed["difficulty"] == -1.0 and revealed["infinitive"] == "gehen"
     assert [r["guess"] for r in records(s.config.log_path)] == ["  GEHN  ", " GEHEN "]
     assert [r["attempt"] for r in records(s.config.log_path)] == [1, 2]
     submit(s, "/q")
@@ -110,7 +126,7 @@ def test_near_miss_retry_and_reveal_match_cli_and_preserve_raw_guesses(tmp_path,
 
 
 def test_blank_reveals_but_whitespace_is_an_actual_guess(tmp_path):
-    s = BrowserSession(config(tmp_path), "random")
+    s = BrowserSession(config(tmp_path))
     submit(s, "   ")
     state = submit(s, "")["state"]
     assert state["guesses"] == 1 and state["correct"] == 0
@@ -122,7 +138,7 @@ def test_blank_reveals_but_whitespace_is_an_actual_guess(tmp_path):
 def test_swiss_ss_is_accepted_while_display_stays_standard_german(tmp_path):
     ex = Exercise(word_id="heissen", sentence_id="heissen-01", infinitive="heißen", italian="Mi chiamo Marco.",
                   italian_target="Mi chiamo", german="Ich heiße Marco.", german_target="heiße")
-    s = BrowserSession(config(tmp_path, exercises=[ex]), "random")
+    s = BrowserSession(config(tmp_path, exercises=[ex]))
     state = submit(s, "heissen")["state"]
     assert state["trail"][0]["german"] == "Ich heiße Marco."
     assert state["correct"] == 1
@@ -132,7 +148,7 @@ def test_swiss_ss_is_accepted_while_display_stays_standard_german(tmp_path):
 def test_flags_synonym_attempt_of_previous_sentence_not_current_even_for_same_word(tmp_path):
     other = sample().model_copy(update={"sentence_id": "gehen-02", "italian": "Questo va bene.",
                                       "italian_target": "va", "german": "Das geht gut.", "german_target": "geht", "meaning": "funzionare"})
-    s = BrowserSession(config(tmp_path, exercises=[sample(), other]), "random")
+    s = BrowserSession(config(tmp_path, exercises=[sample(), other]))
     previous = s.current
     first_id = s.presentation_id
     submit(s, "laufen")
@@ -154,7 +170,7 @@ def test_flags_synonym_attempt_of_previous_sentence_not_current_even_for_same_wo
 
 
 def test_unflag_appends_a_withdrawal_and_clears_the_flag(tmp_path):
-    s = BrowserSession(config(tmp_path), "random")
+    s = BrowserSession(config(tmp_path))
     first_id = s.presentation_id
     submit(s, "laufen")
     submit(s, "gehen")
@@ -179,7 +195,7 @@ def test_unflag_appends_a_withdrawal_and_clears_the_flag(tmp_path):
 def test_stats_count_answered_sentences_from_the_logs(tmp_path):
     settings = config(tmp_path)
     assert practice_stats(settings)["per_word"] == [{"word": "gehen", "attempts": 0, "wrong": 0, "almost": 0, "correct": 0, "popularity": 5.81, "provisional": False}]
-    s = BrowserSession(settings, "random")
+    s = BrowserSession(settings)
     submit(s, "gehen")   # first try
     submit(s, "laufen")
     submit(s, "gehen")   # second try
@@ -191,7 +207,7 @@ def test_stats_count_answered_sentences_from_the_logs(tmp_path):
 
 
 def test_typed_alt_is_no_longer_a_command(tmp_path):
-    s = BrowserSession(config(tmp_path), "random")
+    s = BrowserSession(config(tmp_path))
     submit(s, "gehen")
     submit(s, "/alt")
     assert not s.config.alternative_log.exists()
@@ -199,7 +215,7 @@ def test_typed_alt_is_no_longer_a_command(tmp_path):
 
 
 def test_invalid_or_missing_flag_targets_are_neutral(tmp_path):
-    s = BrowserSession(config(tmp_path), "random")
+    s = BrowserSession(config(tmp_path))
     assert "Nessun" in flag(s, 1)["message"]["text"]
     submit(s, "gehen")
     assert "non valido" in flag(s, 1)["message"]["text"]  # the correct attempt cannot be a synonym
@@ -210,7 +226,7 @@ def test_invalid_or_missing_flag_targets_are_neutral(tmp_path):
 
 
 def test_quit_and_server_close_do_not_invent_failure_or_double_log(tmp_path):
-    s = BrowserSession(config(tmp_path), "random")
+    s = BrowserSession(config(tmp_path))
     submit(s, "/quit")
     s.close()
     assert [e["event"] for e in records(s.config.events_path)] == ["presented", "abandoned"]
@@ -219,18 +235,8 @@ def test_quit_and_server_close_do_not_invent_failure_or_double_log(tmp_path):
         submit(s, "gehen")
 
 
-def test_adaptive_knowledge_updates_in_same_session(tmp_path):
-    s = BrowserSession(config(tmp_path), "adaptive")
-    before = s.deck.word_knowledge("gehen").mastery
-    submit(s, "kommen")
-    submit(s, "gehen")
-    assert s.deck.word_knowledge("gehen").mastery < before
-    assert s.history is s.deck.history
-    assert s.history.presentations[0].score == 0
-
-
 def test_flags_do_not_accept_synonyms_or_change_scoring(tmp_path):
-    s = BrowserSession(config(tmp_path), "random")
+    s = BrowserSession(config(tmp_path))
     submit(s, "kommen")
     submit(s, "gehen")
     flag(s, 1)
@@ -240,7 +246,7 @@ def test_flags_do_not_accept_synonyms_or_change_scoring(tmp_path):
 
 
 def test_duplicate_network_request_is_idempotent_and_stale_answer_is_rejected(tmp_path):
-    s = BrowserSession(config(tmp_path), "random")
+    s = BrowserSession(config(tmp_path))
     identifier = s.presentation_id
     first = s.submit("gehen", identifier, "request-1")
     assert s.submit("gehen", identifier, "request-1") == first
@@ -255,7 +261,7 @@ def test_duplicate_network_request_is_idempotent_and_stale_answer_is_rejected(tm
 
 @pytest.mark.parametrize("raw", [None, [], 3, "x" * 501])
 def test_bad_answer_payload_is_not_logged(tmp_path, raw):
-    s = BrowserSession(config(tmp_path), "random")
+    s = BrowserSession(config(tmp_path))
     with pytest.raises(RequestError):
         submit(s, raw)
     assert not s.config.log_path.exists()
@@ -263,7 +269,7 @@ def test_bad_answer_payload_is_not_logged(tmp_path, raw):
 
 def test_failed_guess_write_keeps_input_attempt_unscored_and_can_retry(tmp_path, monkeypatch):
     import deutsch.web as web
-    s = BrowserSession(config(tmp_path), "random")
+    s = BrowserSession(config(tmp_path))
     original = web.append_guess
     def fail(*args, **kwargs):
         raise OSError("test write failure")
@@ -277,7 +283,7 @@ def test_failed_guess_write_keeps_input_attempt_unscored_and_can_retry(tmp_path,
 
 def test_failed_terminal_event_stops_session_but_saved_guess_remains_recoverable(tmp_path, monkeypatch):
     import deutsch.web as web
-    s = BrowserSession(config(tmp_path), "random")
+    s = BrowserSession(config(tmp_path))
     original = web.append_event
     def fail(*args, **kwargs):
         if args[4] == "completed":
@@ -293,7 +299,7 @@ def test_failed_terminal_event_stops_session_but_saved_guess_remains_recoverable
 def test_failed_flag_write_is_retryable_without_extra_guesses(tmp_path):
     path = tmp_path / "blocked"
     path.mkdir()
-    s = BrowserSession(config(tmp_path, alternative_log=path), "random")
+    s = BrowserSession(config(tmp_path, alternative_log=path))
     submit(s, "laufen")
     submit(s, "gehen")
     with pytest.raises(OSError):
@@ -304,56 +310,38 @@ def test_failed_flag_write_is_retryable_without_extra_guesses(tmp_path):
     assert len(records(path)) == 1 and s.guesses == 2
 
 
-def test_random_mode_does_not_require_frequencies_and_reveal_uses_unknown_label(tmp_path):
-    settings = config(tmp_path, frequencies=None)
-    assert settings.modes == ["random"]
-    s = BrowserSession(settings, "random")
-    assert submit(s, "")["state"]["trail"][0]["popularity"] is None
-    with pytest.raises(RequestError):
-        BrowserSession(settings, "adaptive")
-
-
-def test_adaptive_excludes_flagged_entries_but_random_keeps_them(tmp_path):
-    settings = config(tmp_path)
-    settings.entries[0].review_note = "verify"
-    assert "adaptive" not in settings.modes
-    assert BrowserSession(settings, "random").current is not None
-
-
-def test_rogue_ranks_unique_words_from_most_popular_at_or_below_cutoff(tmp_path):
-    at_cutoff = sample().model_copy(update={"word_id": "machen", "sentence_id": "machen-01", "infinitive": "machen"})
-    duplicate = sample().model_copy(update={"sentence_id": "gehen-02"})
-    frequent = sample().model_copy(update={"word_id": "sein", "sentence_id": "sein-01", "infinitive": "sein"})
-    missing = sample().model_copy(update={"word_id": "tun", "sentence_id": "tun-01", "infinitive": "tun"})
-    settings = config(tmp_path, exercises=[sample(), duplicate, at_cutoff, frequent, missing])
-    for word, score in {"gehen": 2.0, "machen": 3.0, "sein": 4.0}.items():
-        settings.frequencies.words[word].zipf = score
-    del settings.frequencies.words["tun"]
-    s = BrowserSession(settings, "rogue", RogueOptions(max_popularity=3, lives=2, randomness=0))
+def test_game_orders_by_sentence_difficulty_and_keeps_all_senses(tmp_path):
+    hard = sample()
+    easy = hard.model_copy(update={"sentence_id": "gehen-02"})
+    unranked = hard.model_copy(update={"sentence_id": "gehen-03"})
+    settings = config(tmp_path, exercises=[hard, unranked, easy], frequencies=None,
+                      difficulty={hard.sentence_id: 1.0, easy.sentence_id: -1.0})
+    s = BrowserSession(settings, GameOptions(lives=2))
     first = s.presentation_id
-    assert s.current.word_id == "machen"
-    assert "infinitive" not in s.state()["current"]
+    assert s.current == easy
     retry = submit(s, "laufen")["state"]
     assert retry["current"]["presentation_id"] == first
-    assert retry["rogue"] == {"initial_lives": 2, "lives_left": 2, "total": 2, "result": None}
-    submit(s, "machen")
-    assert s.current.word_id == "gehen"
-    assert s.state()["rogue"]["lives_left"] == 2
-    end = submit(s, "")["state"]
-    assert end["ended"] and end["current"] is None and end["correct"] == 1
-    assert [entry["popularity"] for entry in end["trail"]] == [3.0, 2.0]
-    assert end["rogue"] == {"initial_lives": 2, "lives_left": 1, "total": 2, "result": "won"}
-    assert [e["event"] for e in records(settings.events_path)] == ["presented", "completed", "presented", "gave_up"]
+    assert retry["game"] == {"initial_lives": 2, "lives_left": 2, "total": 3, "result": None}
+    submit(s, "gehen")
+    assert s.current == hard
+    submit(s, "")
+    assert s.current == unranked
+    end = submit(s, "gehen")["state"]
+    assert end["ended"] and end["current"] is None and end["correct"] == 2
+    assert [entry["difficulty"] for entry in end["trail"]] == [-1.0, 1.0, None]
+    assert end["game"] == {"initial_lives": 2, "lives_left": 1, "total": 3, "result": "won"}
+    assert [e["event"] for e in records(settings.events_path)] == [
+        "presented", "completed", "presented", "gave_up", "presented", "completed"]
 
 
-def test_rogue_last_skip_loses_even_on_final_word_and_can_flag_that_sentence(tmp_path):
-    s = BrowserSession(config(tmp_path), "rogue", RogueOptions(max_popularity=9, lives=1))
+def test_last_skip_loses_even_on_final_sentence_and_can_flag_it(tmp_path):
+    s = BrowserSession(config(tmp_path, exercises=[sample()]), GameOptions(lives=1))
     identifier = s.presentation_id
     submit(s, "  laufen  ")
     end = s.submit("", identifier, "skip")["state"]
     assert end == s.submit("", identifier, "skip")["state"]
     assert end["ended"] and end["current"] is None
-    assert end["rogue"] == {"initial_lives": 1, "lives_left": 0, "total": 1, "result": "lost"}
+    assert end["game"] == {"initial_lives": 1, "lives_left": 0, "total": 1, "result": "lost"}
     s.submit("", identifier, "flag", flag_attempt=1)
     [record] = records(s.config.alternative_log)
     assert record["sentence_id"] == sample().sentence_id and record["synonym_guess"] == "  laufen  "
@@ -361,33 +349,27 @@ def test_rogue_last_skip_loses_even_on_final_word_and_can_flag_that_sentence(tmp
     assert [e["event"] for e in records(s.config.events_path)] == ["presented", "gave_up"]
 
 
-def test_rogue_randomness_favors_more_popular_words_by_their_zipf_gap(tmp_path):
-    exercises = [sample().model_copy(update={"word_id": word, "sentence_id": f"{word}-01", "infinitive": word})
-                 for word in ("gehen", "machen", "tun", "sein")]
-    settings = config(tmp_path, exercises=exercises, seed=42)
-    for word, score in {"gehen": 4.0, "machen": 3.5, "tun": 2.0, "sein": 5.0}.items():
-        settings.frequencies.words[word].zipf = score
-    options = RogueOptions(max_popularity=4, lives=3, randomness=1)
-    seeded = settings.rogue_exercises(options)
-    assert settings.rogue_exercises(options) == seeded
-
-    close, far = 0, 0
+def test_randomness_preserves_more_of_the_wide_difficulty_gaps():
+    exercises = [sample().model_copy(update={"sentence_id": word}) for word in ("easy", "close", "hard")]
+    difficulty = {"easy": 0, "close": 0.5, "hard": 2}
+    options = GameOptions(randomness=1)
+    seeded = ordered_exercises(exercises, difficulty, options, 42)
+    assert ordered_exercises(exercises, difficulty, options, 42) == seeded
+    close = far = 0
     for seed in range(1000):
-        settings.seed = seed
-        order = [exercise.word_id for exercise in settings.rogue_exercises(options)]
-        assert sorted(order) == ["gehen", "machen", "tun"]
-        close += order.index("gehen") < order.index("machen")
-        far += order.index("gehen") < order.index("tun")
-    # Logistic odds for Zipf gaps of 0.5 and 2 at randomness 1.
+        order = [e.sentence_id for e in ordered_exercises(exercises, difficulty, options, seed)]
+        assert sorted(order) == ["close", "easy", "hard"]
+        close += order.index("easy") < order.index("close")
+        far += order.index("easy") < order.index("hard")
     assert close / 1000 == pytest.approx(0.622, abs=0.05)
     assert far / 1000 == pytest.approx(0.881, abs=0.05)
 
 
-def test_http_rogue_start_validates_options_and_replays_identical_request(tmp_path):
+def test_http_start_validates_options_and_replays_identical_request(tmp_path):
     with running_server(config(tmp_path)) as server:
-        settings = {"mode": "rogue", "request_id": "rogue-1", "max_popularity": 9, "lives": 2}
-        assert "rogue" in request(server, "GET", "/api/config")[1]["modes"]
-        for invalid in [{"lives": 0}, {"lives": True}, {"max_popularity": -1}, {"max_popularity": 0},
+        settings = {"request_id": "game-1", "lives": 2}
+        assert request(server, "GET", "/api/config")[1] == {"sentence_count": 4}
+        for invalid in [{"lives": 0}, {"lives": True}, {"mode": "adaptive"}, {"mode": "random"},
                         {"randomness": -0.1}, {"randomness": 2.1}, {"randomness": "1"}]:
             assert request(server, "POST", "/api/start", settings | invalid)[0] == 400
         assert list(tmp_path.iterdir()) == []
@@ -395,8 +377,8 @@ def test_http_rogue_start_validates_options_and_replays_identical_request(tmp_pa
         assert status == 200
         assert request(server, "POST", "/api/start", settings)[1] == started
         assert request(server, "POST", "/api/start", settings | {"lives": 1})[0] == 409
-        assert request(server, "POST", "/api/start", settings | {"randomness": 0.1})[1] == started
-        assert request(server, "POST", "/api/start", settings | {"randomness": 0})[0] == 409
+        assert request(server, "POST", "/api/start", settings | {"randomness": 0})[1] == started
+        assert request(server, "POST", "/api/start", settings | {"randomness": 0.1})[0] == 409
         assert request(server, "POST", "/api/start", settings | {"randomness": 1})[0] == 409
         assert len(records(server.config.events_path)) == 1
 
@@ -423,9 +405,9 @@ def test_http_assets_do_not_start_practice_and_do_not_expose_files(tmp_path):
 
 def test_http_session_reload_and_submission_deduplication(tmp_path):
     with running_server(config(tmp_path)) as server:
-        status, started, _ = request(server, "POST", "/api/start", {"mode": "random", "request_id": "start-1"})
+        status, started, _ = request(server, "POST", "/api/start", {"request_id": "start-1"})
         assert status == 200
-        duplicate = request(server, "POST", "/api/start", {"mode": "random", "request_id": "start-1"})[1]
+        duplicate = request(server, "POST", "/api/start", {"request_id": "start-1"})[1]
         assert duplicate["token"] == started["token"]
         assert len(records(server.config.events_path)) == 1
         headers = {"X-Deutsch-Session": started["token"]}
@@ -498,7 +480,7 @@ def test_stats_include_unseen_catalog_words_missing_popularity_and_history_warni
 
 def test_stats_reveal_overrides_near_miss_and_ignores_unattempted_prompts(tmp_path):
     settings = config(tmp_path)
-    session = BrowserSession(settings, "random")
+    session = BrowserSession(settings)
     submit(session, "gehn")
     submit(session, "")
     session.close()
@@ -524,7 +506,7 @@ def test_stats_distinct_guessed_includes_retries_but_not_near_misses(tmp_path):
     settings = config(tmp_path)
     other = sample().model_copy(update=dict(word_id="laufen", sentence_id="laufen-01", infinitive="laufen"))
     settings.entries.append(VocabularyEntry(word_id="laufen", infinitive="laufen"))
-    session = BrowserSession(settings, "random")
+    session = BrowserSession(settings)
     submit(session, "gehn")
     submit(session, "gehen")
     submit(session, "gehen")

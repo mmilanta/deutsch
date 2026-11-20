@@ -77,7 +77,9 @@ def append_guess(path: Path, exercise: Exercise, guess: str, session_id: str, at
                  *, presentation_id: str | None = None) -> str:
     normalized = normalize(guess)
     matched = next((verb for verb in exercise.accepted_infinitives or () if normalize(verb) == normalized), None)
-    result, distance = ("correct", 0) if matched is not None else evaluate(guess, exercise.infinitive, threshold)
+    result, distance = evaluate(guess, exercise.infinitive, threshold)
+    if matched is not None:
+        result = "valid_alternative"
     record = {
         "schema_version": 2 if presentation_id is not None else 1,
         "timestamp": datetime.now(timezone.utc).isoformat(),

@@ -1,19 +1,19 @@
 "use strict";
 
 const $ = (id) => document.getElementById(id);
-const modeButtons = [...document.querySelectorAll("[data-mode]")];
+const staticGame = globalThis.DeutschStatic;
+const storage = staticGame ? null : sessionStorage;
 const labels = {
   correct: "Corretto.",
   almost_there: "Quasi.",
   incorrect: "Non ancora.",
+  valid_alternative: "Traduzione valida, ma cerchiamo un altro verbo.",
 };
-let config = null;
 let state = null;
-let token = sessionStorage.getItem("deutsch.session");
+let token = storage?.getItem("deutsch.session");
 let busy = false;
 let pending = null;
-let view = "picker";
-localStorage.removeItem("deutsch.palette"); // left behind by the removed palette picker
+let view = "setup";
 
 function element(tag, className, text) {
   const node = document.createElement(tag);
@@ -44,7 +44,7 @@ function attemptsView(attempts) {
   return fragment;
 }
 
-// A completed sentence: one row per wrong guess, then the solution, green
+// A completed sentence: one row per non-target guess, then the solution, green
 // if it was guessed and red if it was revealed. Pressing a wrong guess of
 // the latest sentence flags it as a possible synonym for that sentence only;
 // pressing the flag withdraws it.
@@ -52,7 +52,8 @@ function historyView(previous, flaggable) {
   const fragment = document.createDocumentFragment();
   for (const [index, attempt] of previous.attempts.entries()) {
     if (attempt.result === "correct") continue;
-    const canFlag = flaggable && !attempt.flagged;
+    const isAlternative = attempt.result === "valid_alternative";
+    const canFlag = flaggable && !attempt.flagged && !isAlternative;
     const row = element(canFlag ? "button" : "p", "attempt");
     if (canFlag) {
       row.type = "button";
@@ -60,6 +61,7 @@ function historyView(previous, flaggable) {
       row.title = "Segnala come sinonimo";
     }
     row.append(element("span", "typed", attempt.guess));
+    if (isAlternative) row.append(element("span", "feedback-valid_alternative", "Traduzione valida"));
     if (attempt.flagged) {
       // On the latest sentence the flag is a button that withdraws it.
       const mark = element(flaggable ? "button" : "span", "flag", "⚑");
@@ -77,15 +79,14 @@ function historyView(previous, flaggable) {
   const guessed = previous.outcome !== "gave_up";
   const solution = element("p", `attempt solution ${guessed ? "solution-guessed" : "solution-revealed"}`);
   solution.append(element("span", "typed", previous.infinitive));
-  // Popularity is the verb's Zipf frequency; absent without frequency data.
-  if (typeof previous.popularity === "number") {
-    const popularity = element("span", "popularity", previous.popularity.toFixed(2));
-    popularity.title = "Popolarità (frequenza Zipf)";
-    solution.append(popularity);
+  if (typeof previous.difficulty === "number") {
+    const difficulty = element("span", "popularity", previous.difficulty.toFixed(2));
+    difficulty.title = "Difficoltà stimata della frase";
+    solution.append(difficulty);
   }
   fragment.append(solution);
   if (previous.accepted_infinitives?.length) {
-    fragment.append(element("p", "attempt", `anche: ${previous.accepted_infinitives.join(", ")}`));
+    fragment.append(element("p", "attempt", `altre traduzioni valide: ${previous.accepted_infinitives.join(", ")}`));
   }
   return fragment;
 }
@@ -97,14 +98,11 @@ function notify(id, text) {
 
 function controls() {
   const active = state && !state.ended;
-  for (const id of ["answer", "submit-answer", "rogue-skip"]) {
+  for (const id of ["answer", "submit-answer", "game-skip"]) {
     $(id).disabled = busy || !active;
   }
-  for (const id of ["restart", "resume", "rogue-start", "rogue-popularity", "rogue-lives", "rogue-randomness", "play-tab", "stats-tab"]) {
-    $(id).disabled = busy;
-  }
-  for (const button of modeButtons) {
-    button.disabled = busy || !config || !config.modes.includes(button.dataset.mode);
+  for (const id of ["restart", "resume", "game-start", "game-lives", "game-randomness", "play-tab", "stats-tab"]) {
+    if ($(id)) $(id).disabled = busy;
   }
 }
 
@@ -113,13 +111,13 @@ function show() {
   const stats = view === "stats";
   const practice = view === "practice";
   $("play-tab").setAttribute("aria-pressed", String(!stats));
-  $("stats-tab").setAttribute("aria-pressed", String(stats));
-  $("stats").hidden = !stats;
-  $("mode-picker").hidden = view !== "picker";
+  $("stats-tab")?.setAttribute("aria-pressed", String(stats));
+  if ($("stats")) $("stats").hidden = !stats;
+  $("game-setup").hidden = view !== "setup";
   $("resume").hidden = !state;
   $("resume").textContent = state?.ended ? "Ultima partita" : "Riprendi partita";
   $("trail").hidden = !practice;
-  $("rogue-hud").hidden = !practice || !state?.rogue || (state.ended && !state.rogue.result);
+  $("game-hud").hidden = !practice || !state || (state.ended && !state.game.result);
   $("exercise").hidden = !practice || !state?.current || state.ended;
   $("session-end").hidden = !practice || !state?.ended;
 }
@@ -291,42 +289,38 @@ async function openStats() {
   await loadStats();
 }
 
-function showPicker() {
-  view = "picker";
+function showSetup() {
+  view = "setup";
   notify("error", "");
   notify("notice", "");
   notify("warnings", "");
-  $("rogue-settings").hidden = true;
-  document.querySelector('[data-mode="rogue"]').setAttribute("aria-expanded", "false");
   show();
 }
 
-function renderRogueHearts(rogue, lostLife) {
-  const hearts = $("rogue-hearts");
-  const spent = rogue.initial_lives - rogue.lives_left;
+function renderHearts(game, lostLife) {
+  const hearts = $("game-hearts");
+  const spent = game.initial_lives - game.lives_left;
   function heart(lost, animated) {
-    const icon = element("span", "rogue-heart", "♥\uFE0E");
+    const icon = element("span", "game-heart", "♥\uFE0E");
     icon.classList.toggle("spent", lost);
     icon.classList.toggle("just-spent", animated);
     return icon;
   }
   hearts.replaceChildren();
-  if (rogue.initial_lives <= 12) {
-    for (let i = 0; i < rogue.initial_lives; i++) {
-      hearts.append(heart(i >= rogue.lives_left, lostLife && i === rogue.lives_left));
+  if (game.initial_lives <= 12) {
+    for (let i = 0; i < game.initial_lives; i++) {
+      hearts.append(heart(i >= game.lives_left, lostLife && i === game.lives_left));
     }
   } else {
-    // Keep unusually large life counts readable on small screens.
-    if (rogue.lives_left) hearts.append(heart(false, false), element("span", "", `×${rogue.lives_left}`));
+    if (game.lives_left) hearts.append(heart(false, false), element("span", "", `×${game.lives_left}`));
     if (spent) hearts.append(heart(true, lostLife), element("span", "", `×${spent}`));
   }
-  $("rogue-life-status").textContent = `Vite rimaste: ${rogue.lives_left} su ${rogue.initial_lives}`;
+  $("game-life-status").textContent = `Vite rimaste: ${game.lives_left} su ${game.initial_lives}`;
 }
 
 function render(next, scroll = false) {
-  const previousLives = state?.rogue?.lives_left;
+  const previousLives = state?.game.lives_left;
   state = next;
-  notify("warnings", state.warnings.length ? state.warnings.join(" · ") : "");
 
   const trail = document.createDocumentFragment();
   for (const [position, previous] of [...state.trail].reverse().entries()) {
@@ -344,29 +338,24 @@ function render(next, scroll = false) {
     row.append(sentences);
     const trials = element("div", "past-trials");
     const attempts = element("div", "attempts");
-    attempts.append(historyView(previous, position === 0 && (!state.ended || Boolean(state.rogue?.result))));
+    attempts.append(historyView(previous, !staticGame && position === 0 && (!state.ended || Boolean(state.game.result))));
     trials.append(attempts);
     row.append(trials);
     trail.append(row);
   }
   $("trail").replaceChildren(trail);
   const current = state.current;
-  const rogue = state.rogue;
-  $("rogue-skip").hidden = !rogue;
-  if (rogue) {
-    $("rogue-progress").textContent = `Rogue · ${state.trail.length + Number(Boolean(current))}/${rogue.total}`;
-    renderRogueHearts(rogue, scroll && previousLives > rogue.lives_left);
-  }
-  $("end-title").textContent = rogue?.result === "won" ? "Rogue completato." :
-    rogue?.result === "lost" ? "Vite esaurite." : "Sessione terminata.";
-  $("end-summary").textContent = rogue ? `${state.correct}/${rogue.total} parole indovinate · ${state.trail.length - state.correct} saltate` : "Le risposte sono salvate.";
+  const game = state.game;
+  $("game-progress").textContent = `${state.trail.length + Number(Boolean(current) && !state.ended)}/${game.total}`;
+  renderHearts(game, scroll && previousLives > game.lives_left);
+  $("end-title").textContent = game.result === "won" ? "Partita completata." :
+    game.result === "lost" ? "Vite esaurite." : "Partita terminata.";
+  $("end-summary").textContent = `${state.correct}/${game.total} frasi risolte · ${state.trail.length - state.correct} saltate`;
   show();
   if (current) {
     $("exercise-number").textContent = String(current.number).padStart(2, "0");
     $("prompt").replaceChildren(highlighted(current.italian, current.italian_target));
     $("attempts").replaceChildren(attemptsView(current.attempts));
-    $("explanation").textContent = current.explanation || "";
-    $("explanation").hidden = !current.explanation;
   }
   if (state.fatal_error) notify("error", state.fatal_error);
   controls();
@@ -379,6 +368,7 @@ function render(next, scroll = false) {
 }
 
 async function api(path, payload, authenticate = true) {
+  if (staticGame) return staticGame.request(path, payload);
   const headers = {};
   if (authenticate && token) headers["X-Deutsch-Session"] = token;
   const options = {headers, cache: "no-store"};
@@ -410,7 +400,7 @@ function setBusy(value) {
 }
 
 async function submit(raw, flagAttempt, unflag = false) {
-  if (busy || !state || (state.ended && (flagAttempt === undefined || !state.rogue?.result))) return;
+  if (busy || !state || (state.ended && (flagAttempt === undefined || !state.game.result))) return;
   const presentation = state.ended ? state.trail.at(-1).presentation_id : state.current.presentation_id;
   // Retrying after a lost response reuses the request ID. The server will not
   // log the same answer twice or apply it to the next exercise.
@@ -450,24 +440,23 @@ async function submit(raw, flagAttempt, unflag = false) {
   }
 }
 
-async function start(mode, options = {}) {
+async function start(options) {
   if (busy) return;
   setBusy(true);
   notify("error", "");
   notify("notice", "");
   try {
     // A rejected start leaves the current session available to resume.
-    let request = sessionStorage.getItem("deutsch.start");
+    let request = storage?.getItem("deutsch.start");
     request = request ? JSON.parse(request) : null;
-    if (!request || request.mode !== mode || request.max_popularity !== options.max_popularity ||
-        request.lives !== options.lives || request.randomness !== options.randomness) {
-      request = {mode, ...options, request_id: crypto.randomUUID()};
+    if (!request || Object.hasOwn(request, "mode") || request.lives !== options.lives || request.randomness !== options.randomness) {
+      request = {...options, request_id: crypto.randomUUID()};
     }
-    sessionStorage.setItem("deutsch.start", JSON.stringify(request));
+    storage?.setItem("deutsch.start", JSON.stringify(request));
     const started = await api("/api/start", request, false);
     // The old session is ended without rendering it, so its "session ended"
     // screen does not flash before the new session appears.
-    if (state && !state.ended) {
+    if (!staticGame && state && !state.ended) {
       try {
         const response = await api("/api/submit", {guess: "/q", presentation_id: state.current.presentation_id, request_id: crypto.randomUUID()});
         state = response.state;
@@ -482,8 +471,8 @@ async function start(mode, options = {}) {
       }
     }
     token = started.token;
-    sessionStorage.setItem("deutsch.session", token);
-    sessionStorage.removeItem("deutsch.start");
+    storage?.setItem("deutsch.session", token);
+    storage?.removeItem("deutsch.start");
     pending = null;
     $("answer").value = "";
     view = "practice";
@@ -501,46 +490,32 @@ $("answer-form").addEventListener("submit", (event) => {
   event.preventDefault();
   submit($("answer").value);
 });
-$("rogue-skip").addEventListener("click", () => submit(""));
+$("game-skip").addEventListener("click", () => submit(""));
 $("trail").addEventListener("click", (event) => {
   const button = event.target.closest("button[data-attempt]");
   if (button) submit("", Number(button.dataset.attempt), button.dataset.unflag !== undefined);
 });
-$("play-tab").addEventListener("click", showPicker);
-$("stats-tab").addEventListener("click", () => { if (view !== "stats") openStats(); });
+$("play-tab").addEventListener("click", showSetup);
+$("stats-tab")?.addEventListener("click", () => { if (view !== "stats") openStats(); });
 $("resume").addEventListener("click", () => {
   view = "practice";
   render(state);
   if (!state.ended) $("answer").focus({preventScroll: true});
 });
-$("restart").addEventListener("click", showPicker);
-for (const button of modeButtons) {
-  button.addEventListener("click", () => {
-    if (button.dataset.mode === "rogue") {
-      const settings = $("rogue-settings");
-      settings.hidden = !settings.hidden;
-      button.setAttribute("aria-expanded", String(!settings.hidden));
-      if (!settings.hidden) $("rogue-popularity").focus();
-    } else {
-      start(button.dataset.mode);
-    }
-  });
-}
-$("rogue-randomness").addEventListener("input", (event) => {
-  $("rogue-randomness-value").value = String(event.target.valueAsNumber);
+$("restart").addEventListener("click", showSetup);
+$("game-randomness").addEventListener("input", (event) => {
+  $("game-randomness-value").value = String(event.target.valueAsNumber);
 });
-$("rogue-settings").addEventListener("submit", (event) => {
+$("game-settings").addEventListener("submit", (event) => {
   event.preventDefault();
-  start("rogue", {
-    max_popularity: $("rogue-popularity").valueAsNumber,
-    lives: $("rogue-lives").valueAsNumber,
-    randomness: $("rogue-randomness").valueAsNumber,
+  start({
+    lives: $("game-lives").valueAsNumber,
+    randomness: $("game-randomness").valueAsNumber,
   });
 });
 
 async function initialize() {
   try {
-    config = await api("/api/config", undefined, false);
     controls();
     if (token) {
       try {
@@ -552,7 +527,7 @@ async function initialize() {
       } catch (error) {
         if (error.status !== 404) throw error;
         token = null;
-        sessionStorage.removeItem("deutsch.session");
+        storage?.removeItem("deutsch.session");
       }
     }
     show();
