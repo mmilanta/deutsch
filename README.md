@@ -42,7 +42,7 @@ uv run python -m http.server 8000 --bind 127.0.0.1 --directory _site
 
 Open **http://127.0.0.1:8000** for a local preview. The export works on static HTTPS hosts, including under a project subpath. No backend, gameplay logs, Stats, synonym reporting, or browser storage are included. Reloading starts over. The answer files are publicly downloadable wherever you publish the export; during normal play it loads only the translation being revealed.
 
-The [Pages workflow](.github/workflows/pages.yml) publishes only the generated `_site` directory. In a repository eligible for GitHub Pages, choose **Settings → Pages → Source → GitHub Actions**, then run **Deploy static game to GitHub Pages** from the Actions tab. The current private repository's plan does not support Pages.
+Play online at **[mmilanta.github.io/deutsch](https://mmilanta.github.io/deutsch/)**. The [Pages workflow](.github/workflows/pages.yml) publishes only the generated `_site` directory. To redeploy, run **Deploy static game to GitHub Pages** from the Actions tab.
 
 ### Terminal controls
 
