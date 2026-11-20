@@ -289,7 +289,45 @@ async function openStats() {
   await loadStats();
 }
 
+// A match is addressable as {base}game/{lives}-{randomness}-{seed}, so the same
+// link replays the same sentence order locally and on the static site.
+const GAME_URL = /\/game\/(\d+)-(\d+(?:\.\d+)?)-(\d+)\/?$/;
+
+function appBase() {
+  return location.pathname.replace(/game\/[^/]*\/?$/, "").replace(/[^/]*$/, "");
+}
+
+function urlGame() {
+  const match = location.pathname.match(GAME_URL);
+  if (!match) return null;
+  const [lives, randomness, seed] = match.slice(1).map(Number);
+  if (!Number.isSafeInteger(lives) || lives < 1 || !(randomness <= 2) || !Number.isSafeInteger(seed) || seed > 0xFFFFFFFF) {
+    return undefined;
+  }
+  return {lives, randomness, seed};
+}
+
+function gameHref(game) {
+  return `${appBase()}game/${game.initial_lives}-${game.randomness}-${game.seed}`;
+}
+
+function sameGame(game, wanted) {
+  return Boolean(game) && game.initial_lives === wanted.lives && game.randomness === wanted.randomness &&
+    game.seed === wanted.seed;
+}
+
+function setUrl(href) {
+  if (location.pathname !== href) history.pushState(null, "", href);
+}
+
+function prefillSettings({lives, randomness}) {
+  $("game-lives").value = String(lives);
+  $("game-randomness").value = String(randomness);
+  showRandomness();
+}
+
 function showSetup() {
+  setUrl(appBase());
   view = "setup";
   notify("error", "");
   notify("notice", "");
@@ -297,11 +335,23 @@ function showSetup() {
   show();
 }
 
+const SVG_NS = "http://www.w3.org/2000/svg";
+const HEART_PATH = "M 65,29 C 59,19 49,12 37,12 20,12 7,25 7,42 7,75 25,80 65,118 105,80 123,75 123,42 123,25 110,12 93,12 81,12 71,19 65,29 z";
+
 function renderHearts(game, lostLife) {
   const hearts = $("game-hearts");
   const spent = game.initial_lives - game.lives_left;
   function heart(lost, animated) {
-    const icon = element("span", "game-heart", "♥\uFE0E");
+    // Heart shape from "Heart corazón.svg" by Fibonacci / derivative work by Pengo,
+    // Wikimedia Commons, CC BY-SA 3.0: https://commons.wikimedia.org/wiki/File:Heart_coraz%C3%B3n.svg
+    const svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("viewBox", "7 12 116 106");
+    svg.setAttribute("focusable", "false");
+    const path = document.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", HEART_PATH);
+    svg.append(path);
+    const icon = element("span", "game-heart");
+    icon.append(svg);
     icon.classList.toggle("spent", lost);
     icon.classList.toggle("just-spent", animated);
     return icon;
@@ -319,7 +369,7 @@ function renderHearts(game, lostLife) {
 }
 
 function render(next, scroll = false) {
-  const previousLives = state?.game.lives_left;
+  const previousLives = state?.game?.lives_left;
   state = next;
 
   const trail = document.createDocumentFragment();
@@ -449,7 +499,8 @@ async function start(options) {
     // A rejected start leaves the current session available to resume.
     let request = storage?.getItem("deutsch.start");
     request = request ? JSON.parse(request) : null;
-    if (!request || Object.hasOwn(request, "mode") || request.lives !== options.lives || request.randomness !== options.randomness) {
+    if (!request || Object.hasOwn(request, "mode") || request.lives !== options.lives ||
+        request.randomness !== options.randomness || request.seed !== options.seed) {
       request = {...options, request_id: crypto.randomUUID()};
     }
     storage?.setItem("deutsch.start", JSON.stringify(request));
@@ -477,6 +528,7 @@ async function start(options) {
     $("answer").value = "";
     view = "practice";
     render(started.state);
+    setUrl(gameHref(started.state.game));
   } catch (error) {
     if (state) render(state);
     notify("error", error.message);
@@ -500,12 +552,18 @@ $("stats-tab")?.addEventListener("click", () => { if (view !== "stats") openStat
 $("resume").addEventListener("click", () => {
   view = "practice";
   render(state);
+  setUrl(gameHref(state.game));
   if (!state.ended) $("answer").focus({preventScroll: true});
 });
 $("restart").addEventListener("click", showSetup);
-$("game-randomness").addEventListener("input", (event) => {
-  $("game-randomness-value").value = String(event.target.valueAsNumber);
-});
+function showRandomness() {
+  const slider = $("game-randomness");
+  const min = Number(slider.min), max = Number(slider.max);
+  slider.style.setProperty("--fill", `${((slider.valueAsNumber - min) / (max - min)) * 100}%`);
+  $("game-randomness-value").value = slider.valueAsNumber.toFixed(2);
+}
+$("game-randomness").addEventListener("input", showRandomness);
+showRandomness();
 $("game-settings").addEventListener("submit", (event) => {
   event.preventDefault();
   start({
@@ -514,14 +572,41 @@ $("game-settings").addEventListener("submit", (event) => {
   });
 });
 
+// Open the match named by the URL: resume it if it is the current one,
+// otherwise start it (ending any other active match first).
+async function openUrlGame(wanted) {
+  if (wanted === undefined) {
+    view = "setup";
+    show();
+    notify("error", "Link della partita non valido.");
+    return;
+  }
+  if (state && sameGame(state.game, wanted)) {
+    view = "practice";
+    render(state);
+    if (!state.ended) $("answer").focus({preventScroll: true});
+    return;
+  }
+  prefillSettings(wanted);
+  await start(wanted);
+  if (view !== "practice") show();
+}
+
 async function initialize() {
   try {
     controls();
+    const wanted = urlGame();
     if (token) {
       try {
         const response = await api("/api/state");
+        if (wanted !== null) {
+          state = response.state;
+          await openUrlGame(wanted);
+          return;
+        }
         view = "practice";
         render(response.state);
+        history.replaceState(null, "", gameHref(response.state.game));
         $("answer").focus({preventScroll: true});
         return;
       } catch (error) {
@@ -530,9 +615,26 @@ async function initialize() {
         storage?.removeItem("deutsch.session");
       }
     }
+    if (wanted !== null) {
+      await openUrlGame(wanted);
+      return;
+    }
     show();
   } catch (error) {
     notify("error", error.message);
   }
 }
+
+window.addEventListener("popstate", () => {
+  if (busy) return;
+  const wanted = urlGame();
+  if (wanted === null) {
+    view = "setup";
+    notify("error", "");
+    notify("notice", "");
+    show();
+  } else {
+    openUrlGame(wanted);
+  }
+});
 initialize();

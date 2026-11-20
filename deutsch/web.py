@@ -2,11 +2,12 @@
 from __future__ import annotations
 
 import json
+import re
 import secrets
 import threading
 import webbrowser
 from collections import OrderedDict
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from importlib.resources import files
@@ -15,11 +16,14 @@ from urllib.parse import parse_qs, urlsplit
 from uuid import uuid4
 
 from deutsch.core import Exercise, append_guess
-from deutsch.difficulty import GameOptions, ordered_exercises
+from deutsch.difficulty import MAX_SEED, GameOptions, ordered_exercises
 from deutsch.frequencies import FrequencyTable
 from deutsch.history import append_event, events_path_for, load_history
 from deutsch.review import alternative_log_for, append_alternative_flag
 from deutsch.vocabulary import VocabularyEntry, audit_vocabulary
+
+# /game/{lives}-{randomness}-{seed}: the app shell; app.js starts or resumes that match.
+GAME_PATH = re.compile(r"/game/\d{1,16}-\d{1,3}(?:\.\d{1,6})?-\d{1,10}")
 
 
 class RequestError(ValueError):
@@ -105,8 +109,11 @@ class BrowserSession:
 
     def __init__(self, config: WebConfig, options: GameOptions = GameOptions()):
         self.config = config
-        self.options = options
-        exercises = ordered_exercises(config.exercises, config.difficulty, options, config.seed)
+        # Pin a concrete seed so the state can name a shareable /game/ URL.
+        seed = options.seed if options.seed is not None else config.seed
+        seed = seed & MAX_SEED if seed is not None else secrets.randbelow(MAX_SEED + 1)
+        self.options = options = replace(options, seed=seed)
+        exercises = ordered_exercises(config.exercises, config.difficulty, options)
         self.deck = iter(exercises)
         self.total = len(exercises)
         self.lives_left = options.lives
@@ -155,7 +162,8 @@ class BrowserSession:
             "correct": self.correct, "guesses": self.guesses, "ended": self.ended,
             "fatal_error": self.fatal_error,
             "game": {"initial_lives": self.options.lives, "lives_left": self.lives_left,
-                     "total": self.total, "result": self.result},
+                     "total": self.total, "result": self.result,
+                     "randomness": self.options.randomness, "seed": self.options.seed},
         }
 
     def _finish(self, event: str):
@@ -342,8 +350,8 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
             self._trusted()
-            if self.path in self.assets:
-                filename, content_type = self.assets[self.path]
+            if self.path in self.assets or GAME_PATH.fullmatch(self.path):
+                filename, content_type = self.assets.get(self.path, self.assets["/"])
                 self._send(200, files("deutsch").joinpath("static", filename).read_bytes(), content_type)
             elif self.path == "/api/config":
                 self._json(200, {"sentence_count": len(self.server.config.exercises)})
@@ -384,10 +392,11 @@ class Handler(BaseHTTPRequestHandler):
                     identifier = payload.get("request_id")
                     if not isinstance(identifier, str) or not 1 <= len(identifier) <= 128:
                         raise RequestError("Identificatore della richiesta non valido.")
-                    if set(payload) - {"request_id", "lives", "randomness"}:
+                    if set(payload) - {"request_id", "lives", "randomness", "seed"}:
                         raise RequestError("Impostazioni di gioco non valide.")
                     try:
-                        options = GameOptions(lives=payload.get("lives", 3), randomness=payload.get("randomness", 0))
+                        options = GameOptions(lives=payload.get("lives", 3), randomness=payload.get("randomness", 0),
+                                              seed=payload.get("seed"))
                     except ValueError as error:
                         raise RequestError(str(error)) from error
                     if identifier in self.server.starts:

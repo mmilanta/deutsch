@@ -45,4 +45,10 @@ def export_game(output: Path, exercises: list[Exercise], difficulty: dict[str, f
     deck = json.dumps({"alphabet": alphabet, "cards": cards}, ensure_ascii=True, separators=(",", ":"))
     (output / "deck.js").write_text(f"globalThis.DeutschDeck = {deck};\n", encoding="utf-8")
     (output / "index.html").write_text(index, encoding="utf-8")
+    # GitHub Pages serves 404.html for unknown paths such as {site}/game/3-0.05-42.
+    # Re-root relative asset URLs at the site directory before any are resolved.
+    rebase = ('<script>(() => { const m = location.pathname.match(/^(.*\\/)game\\/[^/]*\\/?$/); '
+              'if (m) { const base = document.createElement("base"); base.href = m[1]; '
+              'document.head.append(base); } })();</script>\n')
+    (output / "404.html").write_text(index.replace("<head>\n", "<head>\n  " + rebase, 1), encoding="utf-8")
     (output / ".nojekyll").touch()

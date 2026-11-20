@@ -13,16 +13,38 @@ DEFAULT_DIFFICULTY = Path("data/difficulty/ranking.tsv")
 MAX_LIVES = 2**53 - 1
 
 
+MAX_SEED = 2**32 - 1
+_MASK = 0xFFFFFFFF
+
+
 @dataclass(frozen=True)
 class GameOptions:
     lives: int = 3
     randomness: float = 0.0
+    seed: int | None = None
 
     def __post_init__(self):
         if type(self.lives) is not int or not 1 <= self.lives <= MAX_LIVES:
             raise ValueError("Le vite devono essere un numero intero positivo.")
         if type(self.randomness) not in (int, float) or not 0 <= self.randomness <= 2:
             raise ValueError("La casualità deve essere tra 0 e 2.")
+        if self.seed is not None and (type(self.seed) is not int or not 0 <= self.seed <= MAX_SEED):
+            raise ValueError(f"Il seme deve essere un numero intero tra 0 e {MAX_SEED}.")
+
+
+def mulberry32(seed: int):
+    """Seeded uniform floats in [0, 1).
+
+    Bit-for-bit identical to ``mulberry32`` in ``static/static-game.js`` so a
+    shared /game/{lives}-{randomness}-{seed} link gives the same order locally
+    and on the static site.
+    """
+    state = seed & _MASK
+    while True:
+        state = (state + 0x6D2B79F5) & _MASK
+        t = ((state ^ (state >> 15)) * (state | 1)) & _MASK
+        t = ((t + (((t ^ (t >> 7)) * (t | 61)) & _MASK)) & _MASK) ^ t
+        yield ((t ^ (t >> 14)) & _MASK) / 4294967296
 
 
 def load_difficulty(path: Path, exercises: list[Exercise]) -> dict[str, float]:
@@ -51,8 +73,15 @@ def load_difficulty(path: Path, exercises: list[Exercise]) -> dict[str, float]:
 
 def ordered_exercises(exercises: list[Exercise], difficulty: dict[str, float], options: GameOptions,
                       seed: int | None = None) -> list[Exercise]:
-    """Easier known sentences first, then unranked sentences in input order."""
-    rng = random.Random(seed)
+    """Easier known sentences first, then unranked sentences in input order.
+
+    ``options.seed`` wins over ``seed``; with neither, a fresh seed is drawn.
+    """
+    if options.seed is not None:
+        seed = options.seed
+    elif seed is None:
+        seed = random.SystemRandom().randrange(MAX_SEED + 1)
+    rng = mulberry32(seed)
 
     def priority(exercise: Exercise):
         score = difficulty.get(exercise.sentence_id)
@@ -60,7 +89,7 @@ def ordered_exercises(exercises: list[Exercise], difficulty: dict[str, float], o
             return 1, 0.0
         if options.randomness:
             # Independent Gumbel noise favors smaller difficulty differences.
-            score += options.randomness * math.log(-math.log(max(rng.random(), 2**-53)))
+            score += options.randomness * math.log(-math.log(max(next(rng), 2**-53)))
         return 0, score
 
     return sorted(exercises, key=priority)

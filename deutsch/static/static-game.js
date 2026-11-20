@@ -8,6 +8,27 @@
   let game = null;
   let pendingReveal = null;
 
+  // Bit-for-bit identical to mulberry32 in deutsch/difficulty.py, so a shared
+  // /game/{lives}-{randomness}-{seed} link gives the same order everywhere.
+  function mulberry32(seed) {
+    let state = seed >>> 0;
+    return () => {
+      state = (state + 0x6D2B79F5) >>> 0;
+      let t = Math.imul(state ^ (state >>> 15), state | 1);
+      t = (t + Math.imul(t ^ (t >>> 7), t | 61)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  // Mirrors ordered_exercises in deutsch/difficulty.py: ranked cards by noisy
+  // difficulty, unranked ones last in deck order; noise only for ranked cards.
+  function orderedCards(cards, randomness, seed) {
+    const random = mulberry32(seed);
+    return cards.map((card) => ({card, priority: card.difficulty === null ? Infinity : card.difficulty +
+      (randomness ? randomness * Math.log(-Math.log(Math.max(random(), 2 ** -53))) : 0)}))
+      .sort((a, b) => a.priority - b.priority).map(({card}) => card);
+  }
+
   const normalize = (text) => text.trim().toLowerCase().normalize("NFC").replaceAll("ß", "ss");
 
   async function digest(key, guess) {
@@ -43,9 +64,9 @@
   }
 
   function state() {
-    const {current, trail, correct, guesses, ended, initial_lives, lives_left, total, result} = game;
+    const {current, trail, correct, guesses, ended, initial_lives, lives_left, total, result, randomness, seed} = game;
     return {current: current && {...current, attempts: [...current.attempts]}, trail: [...trail], correct, guesses, ended,
-      fatal_error: null, game: {initial_lives, lives_left, total, result}};
+      fatal_error: null, game: {initial_lives, lives_left, total, result, randomness, seed}};
   }
 
   function nextCard() {
@@ -60,15 +81,15 @@
       italian_target: card.italian_target, attempts: []};
   }
 
-  function start({lives, randomness}) {
-    if (!Number.isSafeInteger(lives) || lives < 1 || !(randomness >= 0 && randomness <= 2)) {
+  function start({lives, randomness = 0, seed}) {
+    if (seed === undefined || seed === null) seed = crypto.getRandomValues(new Uint32Array(1))[0];
+    if (!Number.isSafeInteger(lives) || lives < 1 || !(randomness >= 0 && randomness <= 2) ||
+        !Number.isInteger(seed) || seed < 0 || seed > 0xFFFFFFFF) {
       throw new Error("Impostazioni di gioco non valide.");
     }
-    const deck = cards.map((card) => ({card, priority: card.difficulty === null ? Infinity : card.difficulty +
-      (randomness ? randomness * Math.log(-Math.log(Math.max(Math.random(), Number.EPSILON))) : 0)}))
-      .sort((a, b) => a.priority - b.priority).map(({card}) => card);
+    const deck = orderedCards(cards, randomness, seed);
     game = {deck, total: deck.length, current: null, trail: [], correct: 0, guesses: 0, ended: false,
-      result: null, initial_lives: lives, lives_left: lives};
+      result: null, initial_lives: lives, lives_left: lives, randomness, seed};
     nextCard();
     return {state: state()};
   }

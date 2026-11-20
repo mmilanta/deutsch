@@ -12,12 +12,15 @@ def test_export_publishes_only_relative_game_assets(tmp_path):
     output = tmp_path / "site"
     export_game(output, [exercise], {exercise.sentence_id: -1.25})
     assert {str(path.relative_to(output)) for path in output.rglob("*") if path.is_file()} == {
-        ".nojekyll", "index.html", "app.css", "app.js", "favicon.svg", "static-game.js", "deck.js", "answers/0.js",
+        ".nojekyll", "index.html", "404.html", "app.css", "app.js", "favicon.svg", "static-game.js", "deck.js", "answers/0.js",
     }
     html = (output / "index.html").read_text()
     assert 'src="/' not in html and 'href="/' not in html
     assert 'id="stats-tab"' not in html and 'id="stats"' not in html
     assert html.index('src="deck.js"') < html.index('src="static-game.js"') < html.index('src="app.js"')
+    fallback = (output / "404.html").read_text()
+    assert fallback.index('createElement("base")') < fallback.index('href="favicon.svg"')
+    assert fallback.replace(fallback[fallback.index("  <script>"):fallback.index("</script>\n") + 10], "") == html
     deck = (output / "deck.js").read_text()
     [card] = json.loads(deck.split(" = ", 1)[1].removesuffix(";\n"))["cards"]
     assert card["italian"] == exercise.italian and card["difficulty"] == -1.25

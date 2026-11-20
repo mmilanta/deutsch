@@ -30,6 +30,11 @@ def config(tmp_path, *, exercises=None, **options):
     return WebConfig(**(defaults | options))
 
 
+def without_seed(game):
+    assert type(game["seed"]) is int
+    return {key: value for key, value in game.items() if key != "seed"}
+
+
 def records(path):
     return [json.loads(line) for line in path.read_text().splitlines()]
 
@@ -321,7 +326,7 @@ def test_game_orders_by_sentence_difficulty_and_keeps_all_senses(tmp_path):
     assert s.current == easy
     retry = submit(s, "laufen")["state"]
     assert retry["current"]["presentation_id"] == first
-    assert retry["game"] == {"initial_lives": 2, "lives_left": 2, "total": 3, "result": None}
+    assert without_seed(retry["game"]) == {"randomness": 0, "initial_lives": 2, "lives_left": 2, "total": 3, "result": None}
     submit(s, "gehen")
     assert s.current == hard
     submit(s, "")
@@ -329,7 +334,7 @@ def test_game_orders_by_sentence_difficulty_and_keeps_all_senses(tmp_path):
     end = submit(s, "gehen")["state"]
     assert end["ended"] and end["current"] is None and end["correct"] == 2
     assert [entry["difficulty"] for entry in end["trail"]] == [-1.0, 1.0, None]
-    assert end["game"] == {"initial_lives": 2, "lives_left": 1, "total": 3, "result": "won"}
+    assert without_seed(end["game"]) == {"randomness": 0, "initial_lives": 2, "lives_left": 1, "total": 3, "result": "won"}
     assert [e["event"] for e in records(settings.events_path)] == [
         "presented", "completed", "presented", "gave_up", "presented", "completed"]
 
@@ -341,7 +346,7 @@ def test_last_skip_loses_even_on_final_sentence_and_can_flag_it(tmp_path):
     end = s.submit("", identifier, "skip")["state"]
     assert end == s.submit("", identifier, "skip")["state"]
     assert end["ended"] and end["current"] is None
-    assert end["game"] == {"initial_lives": 1, "lives_left": 0, "total": 1, "result": "lost"}
+    assert without_seed(end["game"]) == {"randomness": 0, "initial_lives": 1, "lives_left": 0, "total": 1, "result": "lost"}
     s.submit("", identifier, "flag", flag_attempt=1)
     [record] = records(s.config.alternative_log)
     assert record["sentence_id"] == sample().sentence_id and record["synonym_guess"] == "  laufen  "
@@ -398,7 +403,9 @@ def test_http_assets_do_not_start_practice_and_do_not_expose_files(tmp_path):
             assert status == 200 and body
             assert "unsafe-inline" not in headers["Content-Security-Policy"]
             assert headers["Cache-Control"] == "no-store"
-        for path in ["/.env", "/data/guesses.jsonl", "/../pyproject.toml", "/%2e%2e/.env"]:
+        assert request(server, "GET", "/game/3-0.05-42")[1] == request(server, "GET", "/")[1]
+        for path in ["/.env", "/data/guesses.jsonl", "/../pyproject.toml", "/%2e%2e/.env",
+                     "/game/", "/game/3-0.05", "/game/3-x-42", "/game/3-0.05-42/../.env"]:
             assert request(server, "GET", path)[0] == 404
         assert list(tmp_path.iterdir()) == []
 
@@ -548,3 +555,50 @@ def test_stats_attempt_totals_include_retries_and_sort_most_attempted_first(tmp_
     # The stacked chart still measures first recall, separately from retry totals.
     assert stats["per_word"][0]["wrong"] == 1
     assert stats["per_word"][0]["correct"] == 0
+
+
+# Shared with tests/shared-order.test.mjs: both languages must produce these exact floats.
+MULBERRY32_REFERENCE = {
+    0: [0.26642920868471265, 0.0003297457005828619, 0.2232720274478197, 0.1462021479383111],
+    42: [0.6011037519201636, 0.44829055899754167, 0.8524657934904099, 0.6697340414393693],
+    4294967295: [0.8964226141106337, 0.189478256739676, 0.7156526781618595, 0.9440599093213677],
+}
+
+
+def test_mulberry32_matches_the_shared_reference_sequence():
+    from itertools import islice
+
+    from deutsch.difficulty import mulberry32
+    for seed, expected in MULBERRY32_REFERENCE.items():
+        assert list(islice(mulberry32(seed), 4)) == expected
+
+
+def test_seeded_options_fix_the_order_and_are_reported(tmp_path):
+    exercises = [sample().model_copy(update={"sentence_id": f"s{i}"}) for i in range(8)]
+    difficulty = {f"s{i}": i * 0.1 for i in range(7)}  # s7 is unranked and always last
+    options = GameOptions(lives=2, randomness=0.3, seed=7)
+    order = [e.sentence_id for e in ordered_exercises(exercises, difficulty, options)]
+    assert order == [e.sentence_id for e in ordered_exercises(exercises, difficulty, options, seed=99)]
+    assert order[-1] == "s7"
+    assert {tuple(e.sentence_id for e in ordered_exercises(exercises, difficulty, GameOptions(2, 0.3, seed)))
+            for seed in range(20)} != {tuple(order)}
+    session = BrowserSession(config(tmp_path), options)
+    assert session.state()["game"]["seed"] == 7 and session.state()["game"]["randomness"] == 0.3
+    session.close()
+    for invalid in (-1, 2**32, True, 1.5, "7"):
+        with pytest.raises(ValueError):
+            GameOptions(seed=invalid)
+
+
+def test_http_start_accepts_a_seed_for_shareable_links(tmp_path):
+    with running_server(config(tmp_path)) as server:
+        for invalid in [-1, 2**32, "42", 4.2]:
+            assert request(server, "POST", "/api/start", {"request_id": "bad", "seed": invalid})[0] == 400
+        settings = {"request_id": "seeded", "lives": 3, "randomness": 0.05, "seed": 42}
+        status, started, _ = request(server, "POST", "/api/start", settings)
+        assert status == 200
+        assert without_seed(started["state"]["game"])["randomness"] == 0.05
+        assert started["state"]["game"]["seed"] == 42
+        assert request(server, "POST", "/api/start", settings | {"seed": 43})[0] == 409
+        unseeded = request(server, "POST", "/api/start", {"request_id": "unseeded"})[1]
+        assert 0 <= unseeded["state"]["game"]["seed"] <= 2**32 - 1
